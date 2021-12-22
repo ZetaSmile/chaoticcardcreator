@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/main.css" />
+    </head>
+    <body>
+        <canvas id="canvas" width=250 height=350></canvas>
+        <p></p>
+        <input id="art" type="file" accept="image/*">
+        <p></p>
+        <label for="type">Card Type</label>
+        <select id="type" name="type">
+            <option disabled selected value style="display:none"></option>
+            <option value="creature">Creature</option>
+        </select>
+        <p></p>
+        <form id="form">
+            <div id="creature">
+                <label for="tribe">Tribe:</label>
+                <select id="tribe" name="tribe">
+                    <option disabled selected value style="display:none"></option>
+                    <option value="overworld">OverWorld</option>
+                    <option value="underworld">UnderWorld</option>
+                </select>
+            </div>
+        </form>
+        <p></p>
+        <button id="update" onclick="submit();">Update</button>
+        <p></p>
+        <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
+        <script type="module">
+            import {download, submit} from './js/index.js';
+            window.download_img = download;
+            window.submit = submit;
+        </script>
+    </body>
+</html>

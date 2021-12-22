@@ -1,0 +1,17 @@
+#download.isDisabled {
+    color: currentColor;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#download {
+    text-decoration: none;
+}
+
+form > div {
+    display: none;
+}
+
+form > div.form-show {
+    display: inherit;
+}
