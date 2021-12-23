@@ -79,9 +79,10 @@ export async function drawCard(ctx) {
     }
     if (config.name) {
         ctx.font = 'bold 18px Arial';
-        //ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(config.name, 90, 24); 
+        ctx.textAlign = 'center';
+        ctx.fillText(config.name, canvas.width/2 , 24)
+        //ctx.fillText(config.name, 90, 24); 
         //need to add a better way to center longer and shortr names, works good for 8 letter names//       
     }
 }
