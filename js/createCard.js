@@ -52,8 +52,8 @@ function gatherAssets() {
 
     if (config.type === "attack") {
         assets.push({card: "img/attack.png"});
-        if (config.bp) {
-        assets.push({bp: `img/BP_${config.bp}.png`})
+        if (config.BP) {
+        assets.push({BP: `img/BP_${config.BP}.png`})
         } 
     }
     return assets;
@@ -74,7 +74,7 @@ export async function drawCard(ctx) {
             0, 0, canvas.width, canvas.height);
     }
     if (assets.BP) {
-        ctx.drawImage(assets.BP, 0, 0, assets.BP.width, assets.BP.height,
+        ctx.drawImage(assets.BP, 0, 0, assets.bp.width, assets.BP.height,
             0, 0, canvas.width, canvas.height);
     }
 
