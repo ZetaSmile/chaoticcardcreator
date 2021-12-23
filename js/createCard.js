@@ -69,15 +69,14 @@ export async function drawCard(ctx) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
             10, 20, canvas.width - 10, canvas.height - 100);
     }
+    if (assets.BP) {
+    ctx.drawImage(assets.BP, 0, 0, assets.bp.width, assets.BP.height,
+        0, 0, canvas.width, canvas.height);
+    }
     if (assets.card) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (assets.BP) {
-        ctx.drawImage(assets.BP, 0, 0, assets.bp.width, assets.BP.height,
-            0, 0, canvas.width, canvas.height);
-    }
-
     if (config.title) {
         ctx.fillText(config.title);
     }
