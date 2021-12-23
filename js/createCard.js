@@ -20,7 +20,15 @@ function gatherAssets() {
         if (config.tribe) {
             assets.push({card: `img/${config.tribe}.png`})
         }
+
+            
     }
+    if (config.type === "battlegear") {
+    assets.push({card: "img/battlegear.png"});
+        }
+        if (config.type === "attack") {
+            assets.push({card: "img/attack.png"});
+        }
 
     return assets;
 }
