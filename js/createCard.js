@@ -77,8 +77,12 @@ export async function drawCard(ctx) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (config.title) {
-        ctx.fillText(config.title);
+    if (config.name) {
+        ctx.font = 'bold 18px Arial';
+        //ctx.textAlign = 'center';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(config.name, 90, 24); 
+        //need to add a better way to center longer and shortr names, sorks good for 8 letter names//       
     }
 }
 
