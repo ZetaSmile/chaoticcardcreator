@@ -53,10 +53,9 @@ function gatherAssets() {
     if (config.type === "attack") {
         assets.push({card: "img/attack.png"});
         if (config.bp) {
-            assets.push({bp: `img/bp_${config.bp}.png`})
-        }
+        assets.push({bp: `img/bp_${config.bp}.png`})
+        } 
     }
-
     return assets;
 }
 
@@ -80,3 +79,6 @@ export async function drawCard(ctx) {
         ctx.fillText(config.title);
     }
 }
+
+/*moved this from index.html attack temporarily. changed it from bp to base id. Gonna try something else for BP
+ -Austin  <input type="number" name="base" id="base"></input> */
