@@ -82,7 +82,7 @@ export async function drawCard(ctx) {
         //ctx.textAlign = 'center';
         ctx.fillStyle = '#ffffff';
         ctx.fillText(config.name, 90, 24); 
-        //need to add a better way to center longer and shortr names, sorks good for 8 letter names//       
+        //need to add a better way to center longer and shortr names, works good for 8 letter names//       
     }
 }
 
