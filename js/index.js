@@ -1,6 +1,4 @@
-import { updateConfig, drawCard } from "./createCard.js";
-
-const filename = "myImage.jpg";
+import { updateConfig, drawCard, getName } from "./createCard.js";
 
 const canvas = document.getElementById("canvas");
 
@@ -66,7 +64,7 @@ export function submit() {
 export function download (el) {
     if (!downloadbtn.classList.contains("isDisabled")) {
         const image = canvas.toDataURL("image/jpg");
-        el.download = filename;
+        el.download = getName();
         el.href = image;
     }
 }
