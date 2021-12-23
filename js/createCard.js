@@ -1,36 +1,16 @@
 let config = {};
 
+export function getName() {
+    console.log(config);
+    return config.name || "myImage.jpg";
+}
+
 export function resetConfig() {
   config = {};  
 }
 
 export function updateConfig(key, value) {
     config[key] = value;
-}
-
-/* This function maps what images need to be loaded based on the configuration */
-function gatherAssets() {
-    const assets = [];
-
-    if (config.art) {
-        assets.push({art: config.art});
-    }
-
-    if (config.type === "creature") {
-        if (config.tribe) {
-            assets.push({card: `img/${config.tribe}.png`})
-        }
-
-            
-    }
-    if (config.type === "battlegear") {
-    assets.push({card: "img/battlegear.png"});
-        }
-        if (config.type === "attack") {
-            assets.push({card: "img/attack.png"});
-        }
-
-    return assets;
 }
 
 /* This function ensures that all images have been loaded */
@@ -52,6 +32,34 @@ async function loadAssets() {
     return loaded;
 }
 
+/* This function maps what images need to be loaded based on the configuration */
+function gatherAssets() {
+    const assets = [];
+
+    if (config.art) {
+        assets.push({art: config.art});
+    }
+
+    if (config.type === "creature") {
+        if (config.tribe) {
+            assets.push({card: `img/${config.tribe}.png`})
+        }  
+    }
+
+    if (config.type === "battlegear") {
+        assets.push({card: "img/battlegear.png"});
+    }
+
+    if (config.type === "attack") {
+        assets.push({card: "img/attack.png"});
+        if (config.bp) {
+            assets.push({bp: `img/bp_${config.bp}.png`})
+        }
+    }
+
+    return assets;
+}
+
 /* After images are loaded, you can draw the card */
 export async function drawCard(ctx) {
     const assets = await loadAssets();
@@ -65,5 +73,10 @@ export async function drawCard(ctx) {
     if (assets.card) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
+    }
+
+
+    if (config.title) {
+        ctx.fillText(config.title);
     }
 }

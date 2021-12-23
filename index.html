@@ -10,12 +10,17 @@
         <label for="type">Card Type</label>
         <select id="type" name="type">
             <option disabled selected value style="display:none"></option>
-            <option value="creature">Creature</option>
-            <option value="battlegear">Battlegear</option>
             <option value="attack">Attack</option>
+            <option value="battlegear">Battlegear</option>
+            <option value="creature">Creature</option>
         </select> 
         <p></p>
         <form id="form">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text">
+            <div id="attack">
+                <input type="number" name="bp" id="bp">
+            </div>
             <div id="creature">
                 <label for="tribe">Tribe:</label>
                 <select id="tribe" name="tribe">
@@ -28,7 +33,6 @@
                     <option value="tribeless">Tribeless</option>
                 </select>
             </div>
-        
         </form>
         <p></p>
         <button id="update" onclick="submit();">Update</button>
