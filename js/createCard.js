@@ -1,19 +1,44 @@
-let config = {};
+let common_config = {};
+let type_config = {};
 
 export function getName() {
-    console.log(config);
-    return config.name || "myImage.jpg";
+    return common_config.name || "myImage.jpg";
 }
 
-export function resetConfig() {
-  config = {};  
+export function resetTypeConfig() {
+    type_config = {};  
 }
 
-export function updateConfig(key, value) {
-    config[key] = value;
+export function updateCommonConfig(key, value) {
+    common_config[key] = value;
 }
 
-/* This function ensures that all images have been loaded */
+// This function gathers the form data, loads the assets, and then draws the card
+export async function createCard(ctx) {
+    // Resets the canvas to prepare for redraw
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Gathers the form data and puts them into config
+    const common_data = new FormData(document.getElementById('common-form'));
+    for (const [key, value] of common_data.entries()) {
+        common_config[key] = value;
+    }
+
+    const type_data = new FormData(document.getElementById('type-form'));
+    for (const [key, value] of type_data.entries()) {
+        type_config[key] = value;
+    }
+
+    // Loads all the required images
+    const assets = await loadAssets();
+
+    // After images are loaded, you can draw the card 
+    drawCard(ctx, assets);
+
+    return Promise.resolve();
+}
+
+/* This function ensures that all images have been loaded before proceeding */
 async function loadAssets() {
     const loaded = {};
     const promises = gatherAssets().map((img) => {
@@ -32,37 +57,40 @@ async function loadAssets() {
     return loaded;
 }
 
+/**
+* The following two functions should be modified in accordance to the forms data
+*/
+
 /* This function maps what images need to be loaded based on the configuration */
 function gatherAssets() {
     const assets = [];
 
-    if (config.art) {
-        assets.push({art: config.art});
+    if (common_config.art) {
+        assets.push({art: common_config.art});
     }
 
-    if (config.type === "creature") {
-        if (config.tribe) {
-            assets.push({card: `img/${config.tribe}.png`})
+    if (common_config.type === "creature") {
+        if (type_config.tribe) {
+            assets.push({card: `img/${type_config.tribe}.png`});
         }  
     }
 
-    if (config.type === "battlegear") {
+    if (common_config.type === "battlegear") {
         assets.push({card: "img/battlegear.png"});
     }
 
-    if (config.type === "attack") {
+    if (common_config.type === "attack") {
         assets.push({card: "img/attack.png"});
         
-        /*if (config.bp) {
-            assets.push({card: `img/bp${config.bp}.png`})
-        } */
+        // if (type_config.bp) {
+        //     assets.push({card: `img/bp${type_config.bp}.png`})
+        // }
     }
     return assets;
 }
 
-/* After images are loaded, you can draw the card */
-export async function drawCard(ctx) {
-    const assets = await loadAssets();
+/* This function draws the card layer by layer, specify where images/text is drawn */
+function drawCard(ctx, assets) {
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
 
@@ -74,16 +102,16 @@ export async function drawCard(ctx) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (config.name) {
+    if (common_config.name) {
         ctx.font = 'bold 18px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText(config.name, canvas.width/2 , 24)
+        ctx.fillText(common_config.name, canvas.width/2 , 24)
     }
-    if (config.bp) {
+    if (type_config.bp) {
         ctx.font = 'bold 18px Arial';
         ctx.fillStyle = '#000000';
-        ctx.fillText(config.bp, 20, 25)
+        ctx.fillText(type_config.bp, 20, 25)
     }
 }
 

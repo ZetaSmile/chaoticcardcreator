@@ -7,18 +7,19 @@
         <p></p>
         <input id="art" type="file" accept="image/*">
         <p></p>
-        <label for="type">Card Type</label>
-        <select id="type" name="type">
-            <option disabled selected value style="display:none"></option>
-            <option value="attack">Attack</option>
-            <option value="battlegear">Battlegear</option>
-            <option value="creature">Creature</option>
-        </select> 
-        <p></p>
-        <form id="form">
+        <form id="common-form">
             <label for="name">Name</label>
             <input id="name" name="name" type="text">
-            
+            <p></p>
+            <label for="type">Card Type</label>
+            <select id="type" name="type">
+                <option disabled selected value style="display:none"></option>
+                <option value="attack">Attack</option>
+                <option value="battlegear">Battlegear</option>
+                <option value="creature">Creature</option>
+            </select> 
+        </form>
+        <form id="type-form">
             <div id="creature">
                 <label for="tribe">Tribe:</label>
                 <select id="tribe" name="tribe">

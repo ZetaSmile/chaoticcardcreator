@@ -1,16 +1,19 @@
-import { updateConfig, drawCard, getName, resetConfig } from "./createCard.js";
+import { resetTypeConfig, createCard, getName, updateCommonConfig } from "./createCard.js";
 
+// Creates the canvas
 const canvas = document.getElementById("canvas");
-
-// Make it visually fill the positioned parent
-// canvas.style.width  = '100%';
-// canvas.style.height = '100%';
-
 const ctx = canvas.getContext("2d");
 
-// Placeholder
-ctx.fillStyle = "#800";
-ctx.fillRect(0 , 0, canvas.width, canvas.height);
+// Placeholder card back to show that canvas has been drawn
+(() => {
+    const cardback = new Image();
+    cardback.onload = (() => {
+        ctx.drawImage(cardback, 0, 0, cardback.width, cardback.height,
+            0, 0, canvas.width, canvas.height);
+    });
+    cardback.src = "img/cardback.png";
+})();
+
 
 /* Event Listeners */
 // Disables the download button while image is not built
@@ -21,27 +24,33 @@ downloadbtn.addEventListener("click", function(event) {
     }
 });
 
+// Toggles between showing type specific inputs
+// Clears values not shared between types
 const changeType = document.getElementById("type");
 changeType.addEventListener("change", function() {
     const prevType = document.getElementsByClassName("form-show");
     if (prevType.length > 0) {
         prevType[0].classList.remove("form-show");
-        document.getElementById("form").reset();
+        document.getElementById("type-form").reset();
         downloadbtn.classList.add("isDisabled");
     }
-    resetConfig();
-    updateConfig("type", this.value);
+
+    resetTypeConfig();
+    updateCommonConfig("type", this.value);
     const type = document.getElementById(this.value);
-    type.classList.add("form-show");    
+    if (type) {
+        type.classList.add("form-show");
+    }
 });
 
+// Adds the uploaded art to the config
 const uploadArt = document.getElementById("art");
 uploadArt.addEventListener("change", function() {
-    const reader = new FileReader();
-    reader.onload = () => {
-        updateConfig("art", reader.result);
-    }
     if (this.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            updateCommonConfig("art", reader.result);
+        }
         reader.readAsDataURL(this.files[0]);
     }
 }, false)
@@ -49,14 +58,7 @@ uploadArt.addEventListener("change", function() {
 /* Exposed functions */
 
 export function submit() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const data = new FormData(document.getElementById('form'));
-    for (const [key, value] of data.entries()) {
-        updateConfig(key, value);
-    }
-
-    drawCard(ctx).then(() => {
+    createCard(ctx).then(() => {
         downloadbtn.classList.remove("isDisabled");
     })
 }
