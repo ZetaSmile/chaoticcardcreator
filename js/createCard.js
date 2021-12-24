@@ -16,6 +16,7 @@ export function updateCommonConfig(key, value) {
 // This function gathers the form data, loads the assets, and then draws the card
 export async function createCard(ctx) {
     // Resets the canvas to prepare for redraw
+    type_config=[] // empty array first to not persist between updates
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Gathers the form data and puts them into config
