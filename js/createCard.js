@@ -86,6 +86,23 @@ function gatherAssets() {
         //     assets.push({card: `img/bp${type_config.bp}.png`})
         // }
     }
+
+    if (type_config.fire) {
+        assets.push({fireattack: "img/fireattack.png"});
+    }
+
+    if (type_config.air) {
+        assets.push({airattack: "img/airattack.png"});
+    }
+
+    if (type_config.earth) {
+        assets.push({earthattack: "img/earthattack.png"});
+    }
+
+    if (type_config.water) {
+        assets.push({waterattack: "img/waterattack.png"});
+    }
+
     return assets;
 }
 
@@ -113,6 +130,27 @@ function drawCard(ctx, assets) {
         ctx.fillStyle = '#000000';
         ctx.fillText(type_config.bp, 20, 25)
     }
+    if (assets.fireattack) {
+        ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.airattack) {
+        ctx.drawImage(assets.airattack, 0, 0, assets.airattack.width, assets.airattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.earthattack) {
+        ctx.drawImage(assets.earthattack, 0, 0, assets.earthattack.width, assets.earthattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.waterattack) {
+        ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+
+    console.log(type_config.fire)
+    console.log(type_config.air)
+    console.log(type_config.earth)
+    console.log(type_config.water)
 }
 
 /*moved this from index.html attack temporarily. changed it from bp to base id. Gonna try something else for BP
