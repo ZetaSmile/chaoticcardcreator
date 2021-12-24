@@ -1,4 +1,4 @@
-import { updateConfig, drawCard, getName } from "./createCard.js";
+import { updateConfig, drawCard, getName, resetConfig } from "./createCard.js";
 
 const canvas = document.getElementById("canvas");
 
@@ -29,7 +29,7 @@ changeType.addEventListener("change", function() {
         document.getElementById("form").reset();
         downloadbtn.classList.add("isDisabled");
     }
-
+    resetConfig();
     updateConfig("type", this.value);
     const type = document.getElementById(this.value);
     type.classList.add("form-show");    
