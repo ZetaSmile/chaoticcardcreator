@@ -52,9 +52,10 @@ function gatherAssets() {
 
     if (config.type === "attack") {
         assets.push({card: "img/attack.png"});
-        if (config.BP) {
-        assets.push({BP: `img/BP_${config.BP}.png`})
-        } 
+        
+        /*if (config.bp) {
+            assets.push({card: `img/bp${config.bp}.png`})
+        } */
     }
     return assets;
 }
@@ -69,10 +70,6 @@ export async function drawCard(ctx) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
             10, 20, canvas.width - 10, canvas.height - 100);
     }
-    if (assets.BP) {
-    ctx.drawImage(assets.BP, 0, 0, assets.bp.width, assets.BP.height,
-        0, 0, canvas.width, canvas.height);
-    }
     if (assets.card) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
@@ -82,8 +79,11 @@ export async function drawCard(ctx) {
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.fillText(config.name, canvas.width/2 , 24)
-        //ctx.fillText(config.name, 90, 24); 
-        //need to add a better way to center longer and shortr names, works good for 8 letter names//       
+    }
+    if (config.bp) {
+        ctx.font = 'bold 18px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.fillText(config.bp, 20, 25)
     }
 }
 
