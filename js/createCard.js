@@ -65,7 +65,7 @@ async function loadAssets() {
 /* This function maps what images need to be loaded based on the configuration */
 function gatherAssets() {
     const assets = [];
-    console.log(common_config.type)
+    //console.log(common_config.type)
 
     if (common_config.art) {
         assets.push({art: common_config.art});
@@ -178,12 +178,34 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
             0, 0, canvas.width, canvas.height);
     }
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'right';
+    if (type_config.courage) {
+        ctx.fillText(type_config.courage, 33, 232)
+        console.log(type_config.courage)
+    }   
+    if (type_config.power) {
+        ctx.fillText(type_config.power, 33, 257)
+        console.log(type_config.power)
+    }
+    if (type_config.wisdom) {
+        ctx.fillText(type_config.wisdom, 33, 281)
+        console.log(type_config.wisdom)
+    }    
+    if (type_config.speed) {
+        ctx.fillText(type_config.speed, 33, 305)
+        console.log(type_config.speed)
+    }
+}
 
-    console.log(type_config.fire)
+    /*console.log(type_config.fire)
     console.log(type_config.air)
     console.log(type_config.earth)
     console.log(type_config.water)
-}
+    */
+
+
 
 /*moved this from index.html attack temporarily. changed it from bp to base id. Gonna try something else for BP
  -Austin  <input type="number" name="base" id="base"></input> */
