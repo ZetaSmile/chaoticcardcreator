@@ -184,6 +184,18 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
             0, 0, canvas.width, canvas.height);
     }
+    if (type_config.mugic) {
+        ctx.font = 'bold 21px eurostile black condensed';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+        ctx.fillText(type_config.mugic, 19, 334)
+    }
+    if (type_config.energy) {
+        ctx.font = 'bold 22px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+        ctx.fillText(type_config.energy, 203, 337)
+    }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'right';
