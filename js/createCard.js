@@ -74,6 +74,21 @@ function gatherAssets() {
         if (type_config.tribe) {
             assets.push({card: `img/${type_config.tribe}.png`});
         }  
+        if (type_config.fire) {
+            assets.push({firecreature: "img/firecreature.png"});
+        }
+    
+        if (type_config.air) {
+            assets.push({aircreature: "img/aircreature.png"});
+        }
+    
+        if (type_config.earth) {
+            assets.push({earthcreature: "img/earthcreature.png"});
+        }
+    
+        if (type_config.water) {
+            assets.push({watercreature: "img/watercreature.png"});
+        }
     }
 
     if (common_config.type === "battlegear") {
@@ -145,6 +160,22 @@ function drawCard(ctx, assets) {
     }
     if (assets.waterattack) {
         ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.fireattack) {
+        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.aircreature) {
+        ctx.drawImage(assets.airattack, 0, 0, assets.aircreature.width, assets.aircreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.earthcreature) {
+        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.waterattack) {
+        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
             0, 0, canvas.width, canvas.height);
     }
 
