@@ -146,6 +146,12 @@ function drawCard(ctx, assets) {
         ctx.fillStyle = '#000000';
         ctx.fillText(type_config.bp, 20, 25)
     }
+    if (type_config.subtype) {
+        ctx.font = 'italic 8px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        ctx.fillText(type_config.subtype, 87, 220)
+    }
     if (assets.fireattack) {
         ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
             0, 0, canvas.width, canvas.height);

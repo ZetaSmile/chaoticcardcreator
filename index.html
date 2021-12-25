@@ -3,7 +3,7 @@
         <link rel="stylesheet" href="./css/main.css" />
     </head>
     <body>
-        <div style="margin: 0 auto; width:15%; background-color: rgb(114, 109, 109);">
+        <div style="margin: 0 auto; width:250px; background-color: rgb(114, 109, 109);">
             <canvas id="canvas" width=250 height=350></canvas>
             <p></p>
             <input id="art" type="file" accept="image/*">
@@ -32,24 +32,28 @@
                         <option value="m'arrillian">M'arrillian</option>
                         <option value="tribeless">Tribeless</option>
                     </select> <br>
+                    <label for="subtype">Subtype</label>
+                        <input id="subtype" name="subtype" type="text"><br>
                     <label for="elements">Elements:</label><br>
-                    <input type="checkbox" id="fire" name="fire" value="true">
-                    <label for="fire"> Fire</label><br>
-                    <input type="checkbox" id="air" name="air" value="true">
-                    <label for="air"> Air</label><br>
-                    <input type="checkbox" id="earth" name="earth" value="true">
-                    <label for="earth"> Earth</label><br>
-                    <input type="checkbox" id="water" name="water" value="true">
-                    <label for="water"> Water</label><br>
+                    <table>
+                        <tr><td><input type="checkbox" id="fire" name="fire" value="true">
+                        <label for="fire"> Fire</label><br></td>
+                        <td><input type="checkbox" id="air" name="air" value="true">
+                        <label for="air"> Air</label></td>
+                        <td><input type="checkbox" id="earth" name="earth" value="true">
+                        <label for="earth"> Earth</label></td>
+                        <td><input type="checkbox" id="water" name="water" value="true">
+                        <label for="water"> Water</label></td></tr>
+                    </table>
                     <table>
                         <tr><td><label for="courage">Courage</label></td>
-                        <td><input id="courage" name="courage" type="number"></td></tr> 
-                        <tr><td><label for="power">Power</label></td>
-                        <td><input id="power" name="power" type="number"></td></tr> 
+                        <td><input id="courage" name="courage" type="text" maxlength="5" size="4"></td> 
+                        <td><label for="power">Power</label></td>
+                        <td><input id="power" name="power" type="text" maxlength="5" size="4"></td></tr> 
                         <tr><td><label for="wisdom">Wisdom</label></td>
-                        <td><input id="wisdom" name="wisdom" type="number"></td></tr> 
-                        <tr><td><label for="speed">Speed</label></td>
-                        <td><input id="speed" name="speed" type="number"></td></tr> 
+                        <td><input id="wisdom" name="wisdom" type="text" maxlength="5" size="4"></td> 
+                        <td><label for="speed">Speed</label></td>
+                        <td><input id="speed" name="speed" type="text" maxlength="5" size="4"></td></tr> 
                     </table>
                 </div>
                 <div id="attack">
@@ -69,14 +73,16 @@
                         <option>9</option>
                     </select><br>
                     <label for="elements">Elements:</label><br>
-                        <input type="checkbox" id="fire" name="fire" value="true">
-                        <label for="fire"> Fire</label><br>
-                        <input type="checkbox" id="air" name="air" value="true">
-                        <label for="air"> Air</label><br>
-                        <input type="checkbox" id="earth" name="earth" value="true">
-                        <label for="earth"> Earth</label><br>
-                        <input type="checkbox" id="water" name="water" value="true">
-                        <label for="water"> Water</label><br>
+                    <table>
+                        <tr><td><input type="checkbox" id="fire" name="fire" value="true">
+                        <label for="fire"> Fire</label><br></td>
+                        <td><input type="checkbox" id="air" name="air" value="true">
+                        <label for="air"> Air</label></td>
+                        <td><input type="checkbox" id="earth" name="earth>" value="true">
+                        <label for="earth"> Earth</label></td>
+                        <td><input type="checkbox" id="water" name="water" value="true">
+                        <label for="water"> Water</label></td></tr>
+                    </table>
                 </div>
 
 
