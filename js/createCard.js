@@ -65,6 +65,7 @@ async function loadAssets() {
 /* This function maps what images need to be loaded based on the configuration */
 function gatherAssets() {
     const assets = [];
+    console.log(common_config.type)
 
     if (common_config.art) {
         assets.push({art: common_config.art});
@@ -77,7 +78,7 @@ function gatherAssets() {
         if (type_config.fire) {
             assets.push({firecreature: "img/firecreature.png"});
         }
-    
+
         if (type_config.air) {
             assets.push({aircreature: "img/aircreature.png"});
         }
@@ -97,26 +98,25 @@ function gatherAssets() {
 
     if (common_config.type === "attack") {
         assets.push({card: "img/attack.png"});
-        
+
+        if (type_config.fire) {
+            assets.push({fireattack: "img/fireattack.png"});
+        }
+    
+        if (type_config.air) {
+            assets.push({airattack: "img/airattack.png"});
+        }
+    
+        if (type_config.earth) {
+            assets.push({earthattack: "img/earthattack.png"});
+        }
+    
+        if (type_config.water) {
+            assets.push({waterattack: "img/waterattack.png"});
+        } 
         // if (type_config.bp) {
         //     assets.push({card: `img/bp${type_config.bp}.png`})
         // }
-    }
-
-    if (type_config.fire) {
-        assets.push({fireattack: "img/fireattack.png"});
-    }
-
-    if (type_config.air) {
-        assets.push({airattack: "img/airattack.png"});
-    }
-
-    if (type_config.earth) {
-        assets.push({earthattack: "img/earthattack.png"});
-    }
-
-    if (type_config.water) {
-        assets.push({waterattack: "img/waterattack.png"});
     }
 
     return assets;
@@ -162,19 +162,19 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (assets.fireattack) {
+    if (assets.firecreature) {
         ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
             0, 0, canvas.width, canvas.height);
     }
     if (assets.aircreature) {
-        ctx.drawImage(assets.airattack, 0, 0, assets.aircreature.width, assets.aircreature.height,
+        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
             0, 0, canvas.width, canvas.height);
     }
     if (assets.earthcreature) {
         ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (assets.waterattack) {
+    if (assets.watercreature) {
         ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
             0, 0, canvas.width, canvas.height);
     }
