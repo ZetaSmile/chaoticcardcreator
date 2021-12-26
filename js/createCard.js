@@ -272,7 +272,7 @@ function drawCard(ctx, assets) {
     ctx.font = 'italic 8px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
-    ctx.shadowBlur = 2;
+    ctx.shadowBlur = 1.5;
     ctx.shadowOffsetX = 1;
     ctx.shadowOffsetY = 1;
     ctx.shadowColor = "black";
@@ -290,7 +290,7 @@ function drawCard(ctx, assets) {
             ctx.fillText('Battlegear - ' + common_config.subtype, 87, 220)
             console.log(common_config.subtype)
         } else {
-            ctx.fillText('Battlegear', 87, 220)
+            ctx.fillText('Battlegear', 77, 220)
             console.log(common_config.subtype)
         }
     }
@@ -299,7 +299,7 @@ function drawCard(ctx, assets) {
             ctx.fillText('Attack -' + common_config.subtype, 87, 220)
             console.log(common_config.subtype)
         } else {
-            ctx.fillText('Attack', 87, 220)
+            ctx.fillText('Attack', 19, 220)
             console.log(common_config.subtype)
         }
     }
