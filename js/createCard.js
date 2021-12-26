@@ -273,7 +273,7 @@ function drawCard(ctx, assets) {
         ctx.font = 'italic 8px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'left';
-        ctx.shadowBlur = 1;
+        ctx.shadowBlur = 2;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black";
