@@ -130,7 +130,6 @@ function gatherAssets() {
 function drawCard(ctx, assets) {
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
-
     if (assets.art) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
             10, 20, canvas.width - 10, canvas.height - 100);
@@ -162,11 +161,11 @@ function drawCard(ctx, assets) {
         ctx.fillStyle = '#000000';
         ctx.fillText(type_config.bp, 20, 25)
     }
-    if (type_config.subtype) {
+    if (common_config.subtype) {
         ctx.font = 'italic 8px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.subtype, 87, 220)
+        ctx.fillText(common_config.subtype, 87, 220)
     }
     if (assets.fireattack) {
         ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
@@ -201,16 +200,16 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 21px eurostile black condensed';
+        ctx.font = 'bold 20px eurostile black condensed';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
         ctx.fillText(type_config.mugic, 19, 334)
     }
     if (type_config.energy) {
-        ctx.font = 'bold 22px Arial';
+        ctx.font = 'bold 19px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.energy, 203, 336)
+        ctx.fillText(type_config.energy, 205, 336)
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
@@ -255,6 +254,12 @@ function drawCard(ctx, assets) {
     }
     if (type_config.waterdamage) {
         ctx.fillText(type_config.waterdamage, 217, 242)
+    }
+    if (common_config.artist) {
+        ctx.font = 'bold 8px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';  
+        ctx.fillText('Art: ' + common_config.artist, 60, 332)
     }
 }
 
