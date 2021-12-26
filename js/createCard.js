@@ -70,6 +70,10 @@ function gatherAssets() {
     if (common_config.art) {
         assets.push({art: common_config.art});
     }
+    
+    if (common_config.set) {
+        assets.push({symbol: `img/set/${common_config.set}${common_config.rarity}.png`});
+    }
 
     if (common_config.type === "creature") {
         if (type_config.tribe) {
@@ -99,19 +103,19 @@ function gatherAssets() {
     if (common_config.type === "attack") {
         assets.push({card: "img/attack.png"});
 
-        if (type_config.fire) {
+        if (type_config.firedamage) {
             assets.push({fireattack: "img/fireattack.png"});
         }
     
-        if (type_config.air) {
+        if (type_config.airdamage) {
             assets.push({airattack: "img/airattack.png"});
         }
     
-        if (type_config.earth) {
+        if (type_config.earthdamage) {
             assets.push({earthattack: "img/earthattack.png"});
         }
     
-        if (type_config.water) {
+        if (type_config.waterdamage) {
             assets.push({waterattack: "img/waterattack.png"});
         } 
         // if (type_config.bp) {
@@ -135,14 +139,19 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
             0, 0, canvas.width, canvas.height);
     }
+    if (assets.symbol) {
+        ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
+            0, 0, canvas.width, canvas.height);
+    }
     if (common_config.name) {
         ctx.font = 'bold 18px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.fillText(common_config.name, canvas.width/2 , 24)
     }
-    if (type_config.bp) {
+    if (common_config.type === "attack" && type_config.bp) {
         ctx.font = 'bold 18px Arial';
+        ctx.textAlign = 'center';
         ctx.fillStyle = '#000000';
         ctx.fillText(type_config.bp, 20, 25)
     }
@@ -218,10 +227,12 @@ function drawCard(ctx, assets) {
     ctx.font = 'bold 26px eurostile black extended';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
-    if (type_config.basedamage) {
+
+    if (common_config.type === "attack" && type_config.basedamage) {
         ctx.fillText(type_config.basedamage, 39, 247)
         console.log(type_config.basedamage)
     }
+
     ctx.font = 'bold 14px eurostile black';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';  
