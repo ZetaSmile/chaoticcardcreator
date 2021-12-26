@@ -195,8 +195,8 @@ function drawCard(ctx, assets) {
     if (type_config.energy) {
         ctx.font = 'bold 19px Arial';
         ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';
-        ctx.fillText(type_config.energy, 205, 336)
+        ctx.textAlign = 'center';
+        ctx.fillText(type_config.energy, 215, 336)
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
@@ -242,11 +242,19 @@ function drawCard(ctx, assets) {
     if (type_config.waterdamage) {
         ctx.fillText(type_config.waterdamage, 217, 242)
     }
+    ctx.font = 'bold 8px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';  
     if (common_config.artist) {
-        ctx.font = 'bold 8px Arial';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';  
-        ctx.fillText('Art: ' + common_config.artist, 60, 332)
+        if (common_config.type == "battlegear") {
+            ctx.fillText('Art:' + common_config.artist, 60, 333)
+        } 
+        else if (common_config.type == "attack") {
+            ctx.fillText('Art:' + common_config.artist, 60, 333)
+        } 
+        else if (common_config.type == "creature") {
+            ctx.fillText('Art:' + common_config.artist, 47, 332)
+        }
     }
     if (common_config.name && common_config.subname) {  // has name and subname
         ctx.font = 'bold 16px eurostile';
@@ -287,16 +295,16 @@ function drawCard(ctx, assets) {
     }
     if (common_config.type == "battlegear") {
         if (common_config.subtype) {
-            ctx.fillText('Battlegear - ' + common_config.subtype, 87, 220)
+            ctx.fillText('Battlegear - ' + common_config.subtype, 19, 220)
             console.log(common_config.subtype)
         } else {
-            ctx.fillText('Battlegear', 77, 220)
+            ctx.fillText('Battlegear', 19, 220)
             console.log(common_config.subtype)
         }
     }
     if (common_config.type == "attack") {
         if (common_config.subtype) {
-            ctx.fillText('Attack -' + common_config.subtype, 87, 220)
+            ctx.fillText('Attack -' + common_config.subtype, 19, 220)
             console.log(common_config.subtype)
         } else {
             ctx.fillText('Attack', 19, 220)
