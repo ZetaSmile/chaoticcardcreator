@@ -130,6 +130,10 @@ function gatherAssets() {
 function drawCard(ctx, assets) {
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowColor = "black"
     if (assets.art) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
             10, 20, canvas.width - 10, canvas.height - 100);
@@ -248,10 +252,10 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 16px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        //ctx.shadowBlur = 2;
-        //ctx.shadowOffsetX = 2;
-        //ctx.shadowOffsetY = 2;
-        //ctx.shadowColor = "green"
+        ctx.shadowBlur = 1;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 19)
         ctx.font = 'bold 11px eurostile';
         ctx.fillText(common_config.subname, canvas.width/2 , 28)
@@ -259,19 +263,22 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 18px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        //ctx.shadowBlur = 2;
-        //ctx.shadowOffsetX = 2;
-        //ctx.shadowOffsetY = 2;
-        //ctx.shadowColor = "green"
+        ctx.shadowBlur = 1;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 24)
     }
     if (common_config.subtype) {
         ctx.font = 'italic 8px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'left';
-        //ctx.shadowBlur = 2;
-        //ctx.shadowColor = "orange";
+        ctx.shadowBlur = 1;
+        ctx.shadowOffsetX = 1;
+        ctx.shadowOffsetY = 1;
+        ctx.shadowColor = "black";
         ctx.fillText(common_config.subtype, 87, 220)
+        console.log(common_config.subtype)
     }
 }
 
