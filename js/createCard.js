@@ -257,32 +257,32 @@ function drawCard(ctx, assets) {
         }
     }
     if (common_config.name && common_config.subname) {  // has name and subname
-        ctx.font = 'bold 16px eurostile';
+        ctx.font = 'bold 12px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowBlur = 1;
+        ctx.shadowBlur = .7;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 19)
-        ctx.font = 'bold 11px eurostile';
+        ctx.font = 'bold 8px eurostile';
         ctx.fillText(common_config.subname, canvas.width/2 , 28)
     } else if (common_config.name) {  // just name
-        ctx.font = 'bold 18px eurostile';
+        ctx.font = 'bold 12px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowBlur = 1;
+        ctx.shadowBlur = .7;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 24)
     }
-    ctx.font = 'italic 8px Arial';
+    ctx.font = 'italic 7px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
-    ctx.shadowBlur = 1.5;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
+    ctx.shadowBlur = .5;
+    ctx.shadowOffsetX = .5;
+    ctx.shadowOffsetY = .5;
     ctx.shadowColor = "black";
     if (common_config.type == "creature") {
         if (common_config.subtype) {
