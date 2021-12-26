@@ -136,7 +136,7 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (common_config.name) {
-        ctx.font = 'bold 18px Arial';
+        ctx.font = 'bold 18px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.fillText(common_config.name, canvas.width/2 , 24)
@@ -194,7 +194,7 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 22px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.energy, 203, 337)
+        ctx.fillText(type_config.energy, 203, 336)
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
@@ -214,6 +214,29 @@ function drawCard(ctx, assets) {
     if (type_config.speed) {
         ctx.fillText(type_config.speed, 33, 305)
         console.log(type_config.speed)
+    }
+    ctx.font = 'bold 26px eurostile black extended';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'center';
+    if (type_config.basedamage) {
+        ctx.fillText(type_config.basedamage, 39, 247)
+        console.log(type_config.basedamage)
+    }
+    ctx.font = 'bold 14px eurostile black';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';  
+    if (type_config.firedamage) {
+        ctx.fillText(type_config.firedamage, 91, 242)
+    }
+    if (type_config.airdamage) {
+        ctx.fillText(type_config.airdamage, 133, 242)
+        console.log(type_config.airdamage)
+    }    
+    if (type_config.earthdamage) {
+        ctx.fillText(type_config.earthdamage, 175, 242)
+    }
+    if (type_config.waterdamage) {
+        ctx.fillText(type_config.waterdamage, 217, 242)
     }
 }
 
