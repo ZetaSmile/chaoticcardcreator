@@ -142,31 +142,14 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (common_config.name && common_config.subname) {  // has name and subname
-        ctx.font = 'bold 16px eurostile';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText(common_config.name, canvas.width/2 , 19)
-        ctx.font = 'bold 11px eurostile';
-        ctx.fillText(common_config.subname, canvas.width/2 , 28)
-    } else if (common_config.name) {  // just name
-        ctx.font = 'bold 18px eurostile';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.fillText(common_config.name, canvas.width/2 , 24)
-    }
+
     if (common_config.type === "attack" && type_config.bp) {
         ctx.font = 'bold 18px Arial';
         ctx.textAlign = 'center';
         ctx.fillStyle = '#000000';
         ctx.fillText(type_config.bp, 20, 25)
     }
-    if (common_config.subtype) {
-        ctx.font = 'italic 8px Arial';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'left';
-        ctx.fillText(common_config.subtype, 87, 220)
-    }
+
     if (assets.fireattack) {
         ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
             0, 0, canvas.width, canvas.height);
@@ -200,7 +183,7 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 20px eurostile black condensed';
+        ctx.font = 'bold 19px eurostile black condensed';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
         ctx.fillText(type_config.mugic, 19, 334)
@@ -260,6 +243,35 @@ function drawCard(ctx, assets) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';  
         ctx.fillText('Art: ' + common_config.artist, 60, 332)
+    }
+    if (common_config.name && common_config.subname) {  // has name and subname
+        ctx.font = 'bold 16px eurostile';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        //ctx.shadowBlur = 2;
+        //ctx.shadowOffsetX = 2;
+        //ctx.shadowOffsetY = 2;
+        //ctx.shadowColor = "green"
+        ctx.fillText(common_config.name, canvas.width/2 , 19)
+        ctx.font = 'bold 11px eurostile';
+        ctx.fillText(common_config.subname, canvas.width/2 , 28)
+    } else if (common_config.name) {  // just name
+        ctx.font = 'bold 18px eurostile';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        //ctx.shadowBlur = 2;
+        //ctx.shadowOffsetX = 2;
+        //ctx.shadowOffsetY = 2;
+        //ctx.shadowColor = "green"
+        ctx.fillText(common_config.name, canvas.width/2 , 24)
+    }
+    if (common_config.subtype) {
+        ctx.font = 'italic 8px Arial';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        //ctx.shadowBlur = 2;
+        //ctx.shadowColor = "orange";
+        ctx.fillText(common_config.subtype, 87, 220)
     }
 }
 
