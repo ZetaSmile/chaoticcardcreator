@@ -9,8 +9,10 @@
             <input id="art" type="file" accept="image/*">
             <p></p>
             <form id="common-form"> 
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text">
+                <table><tr><td><label for="name">Name</label></td>
+                <td><input id="name" name="name" type="text"></td></tr>
+                <tr><td><label for="name">Subname</label></td>
+                <td><input id="subname" name="subname" type="text"></td></tr>
                 <p></p>
                 <table><tr><td><label for="type">Card Type</label></td>
                 <td><select id="type" name="type">
@@ -41,13 +43,13 @@
                 <div id="creature">
                     <label for="tribe">Tribe:</label>
                     <select id="tribe" name="tribe">
-                        <option disabled selected value style="display:none"></option>
+                        <option disabled value style="display:none"></option>
+                        <option selected value="tribeless">Tribeless</option>
                         <option value="overworld">OverWorld</option>
                         <option value="underworld">UnderWorld</option>
                         <option value="mipedian">Mipedian</option>
                         <option value="danian">Danian</option>
                         <option value="m'arrillian">M'arrillian</option>
-                        <option value="tribeless">Tribeless</option>
                     </select> <br>
                     <label for="subtype">Subtype</label>
                         <input id="subtype" name="subtype" type="text"><br>

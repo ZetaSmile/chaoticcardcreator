@@ -143,7 +143,14 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (common_config.name) {
+    if (common_config.name && common_config.subname) {  // has name and subname
+        ctx.font = 'bold 16px eurostile';
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+        ctx.fillText(common_config.name, canvas.width/2 , 19)
+        ctx.font = 'bold 11px eurostile';
+        ctx.fillText(common_config.subname, canvas.width/2 , 28)
+    } else if (common_config.name) {  // just name
         ctx.font = 'bold 18px eurostile';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
