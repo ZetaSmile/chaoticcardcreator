@@ -269,16 +269,39 @@ function drawCard(ctx, assets) {
         ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 24)
     }
-    if (common_config.subtype) {
-        ctx.font = 'italic 8px Arial';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'left';
-        ctx.shadowBlur = 2;
-        ctx.shadowOffsetX = 1;
-        ctx.shadowOffsetY = 1;
-        ctx.shadowColor = "black";
-        ctx.fillText(common_config.subtype, 87, 220)
-        console.log(common_config.subtype)
+    ctx.font = 'italic 8px Arial';
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.shadowBlur = 2;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    ctx.shadowColor = "black";
+    if (common_config.type == "creature") {
+        if (common_config.subtype) {
+            ctx.fillText('Creature - ' + common_config.subtype, 48, 219)
+            console.log(common_config.subtype)
+        } else {
+            ctx.fillText('Creature', 48, 219)
+            console.log(common_config.subtype)
+        }
+    }
+    if (common_config.type == "battlegear") {
+        if (common_config.subtype) {
+            ctx.fillText('Battlegear - ' + common_config.subtype, 87, 220)
+            console.log(common_config.subtype)
+        } else {
+            ctx.fillText('Battlegear', 87, 220)
+            console.log(common_config.subtype)
+        }
+    }
+    if (common_config.type == "attack") {
+        if (common_config.subtype) {
+            ctx.fillText('Attack -' + common_config.subtype, 87, 220)
+            console.log(common_config.subtype)
+        } else {
+            ctx.fillText('Attack', 87, 220)
+            console.log(common_config.subtype)
+        }
     }
 }
 
