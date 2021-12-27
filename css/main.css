@@ -3,6 +3,8 @@ body {
 }
 
 .background {
+    height: 100%;
+    width: 100%;
     background-position: center 0;
     background-repeat: no-repeat;
     background-image: url(../img/background.jpg);
