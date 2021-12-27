@@ -114,9 +114,6 @@ function gatherAssets() {
         if (type_config.waterdamage) {
             assets.push({waterattack: "img/waterattack.png"});
         } 
-        // if (type_config.bp) {
-        //     assets.push({card: `img/bp${type_config.bp}.png`})
-        // }
     }
 
     return assets;
@@ -315,14 +312,3 @@ function drawCard(ctx, assets) {
         }
     }
 }
-
-    /*console.log(type_config.fire)
-    console.log(type_config.air)
-    console.log(type_config.earth)
-    console.log(type_config.water)
-    */
-
-
-
-/*moved this from index.html attack temporarily. changed it from bp to base id. Gonna try something else for BP
- -Austin  <input type="number" name="base" id="base"></input> */
