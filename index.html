@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="./css/main.css" />
-        <link rel="stylesheet" href="./css/Fonts.css" />
+        <link rel="stylesheet" href="./font/fonts.css" />
     </head>
     <body>
         <div style="margin: 0 auto; width:250px; background-color: rgb(114, 109, 109);">
@@ -105,6 +105,10 @@
             <button id="update" onclick="submit();">Update</button>
             <p></p>
             <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
+            <!-- Due to font loading missing the timing on first render, we load all of the fonts into empty elements-->
+            <span style="font-family: Eurostile;"></span>
+            <span style="font-family: Eurostile-Normal"></span>
+            <span style="font-family: Eurostile-Bold"></span>
             <span style="font-family: Eurostile-BoldExtendedTwo;"></span>
         </div>
         <script type="module">

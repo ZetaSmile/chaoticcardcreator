@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Eurostile';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Eurostile'), url('eurostile.woff') format('woff');
+}
+  
+@font-face {
+  font-family: 'Eurostile-Normal';
+  font-style: normal;
+  font-weight: normal;
+  src: local('EuroStyle Normal'), url('EuroStyle Normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Eurostile-Bold';
+  font-weight: bold;
+  src: local('Eurostile Bold'), url('EUROSTIB.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Eurostile-BoldExtendedTwo';
+  font-weight: bold;
+  src: url('Eurostile-BoldExtendedTwo.otf') format('opentype');
+  src: url('Eurostile-BoldExtendedTwo.woff') format('woff');
+}

@@ -1,20 +1,5 @@
 import { createCard, getName, updateCommonConfig } from "./createCard.js";
 
-// Creates the canvas
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
-
-// Placeholder card back to show that canvas has been drawn
-(() => {
-    const cardback = new Image();
-    cardback.onload = (() => {
-        ctx.drawImage(cardback, 0, 0, cardback.width, cardback.height,
-            0, 0, canvas.width, canvas.height);
-    });
-    cardback.src = "img/cardback.png";
-})();
-
-
 /* Event Listeners */
 // Disables the download button while image is not built
 const downloadbtn = document.getElementById("download");
@@ -57,7 +42,7 @@ uploadArt.addEventListener("change", function() {
 /* Exposed functions */
 
 export function submit() {
-    createCard(ctx).then(() => {
+    createCard().then(() => {
         downloadbtn.classList.remove("isDisabled");
     })
 }
