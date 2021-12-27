@@ -265,7 +265,7 @@ function drawCard(ctx, assets) {
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 19)
-        ctx.font = '4px Eurostile-BoldExtendedTwo';
+        ctx.font = '8px Eurostile-BoldExtendedTwo';
         ctx.fillText(common_config.subname, canvas.width/2 , 28)
     } else if (common_config.name) {  // just name
         ctx.font = '12px Eurostile-BoldExtendedTwo';
