@@ -146,7 +146,13 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
             0, 0, canvas.width, canvas.height);
     }
-
+    if (common_config.ability) {
+        ctx.font = 'bold 10px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'right';
+        ctx.fillText(common_config.ability, 58, 254)
+        console.log(common_config.ability)
+    }   
     if (common_config.type === "attack" && type_config.bp) {
         ctx.font = 'bold 18px Arial';
         ctx.textAlign = 'center';
