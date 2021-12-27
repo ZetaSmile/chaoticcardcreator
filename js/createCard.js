@@ -260,7 +260,7 @@ function drawCard(ctx, assets) {
         ctx.font = '12px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowBlur = .7;
+        ctx.shadowBlur = .8;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
@@ -271,7 +271,7 @@ function drawCard(ctx, assets) {
         ctx.font = '12px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowBlur = .7;
+        ctx.shadowBlur = .8;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
