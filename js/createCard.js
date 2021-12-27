@@ -18,6 +18,7 @@ const ctx = canvas.getContext("2d");
 
 const formatTextWrap = (text, maxLineLength) => {
     // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
+    console.log('in: ' + text)
     const words = text.split(' ');
     let lineLength = 0;
     
@@ -233,16 +234,16 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 15px Eurostile-BoldExtendedTwo';
+        ctx.font = 'bold 14px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.mugic, 16, 333);
+        ctx.fillText(type_config.mugic, 17, 333);
     }
     if (type_config.energy) {
         ctx.font = '19px Arial black';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
-        ctx.fillText(type_config.energy, 222, 336);
+        ctx.fillText(type_config.energy, 216, 336);
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
