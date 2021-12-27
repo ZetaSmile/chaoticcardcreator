@@ -16,6 +16,23 @@ const ctx = canvas.getContext("2d");
     cardback.src = "img/cardback.png";
 })();
 
+const formatTextWrap = (text, maxLineLength) => {
+    // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
+    const words = text.split(' ');
+    let lineLength = 0;
+    
+    // use functional reduce, instead of for loop 
+    return words.reduce((result, word) => {
+      if (lineLength + word.length >= maxLineLength) {
+        lineLength = word.length;
+        return result + `\n${word}`; // don't add spaces upfront
+      } else {
+        lineLength += word.length + (result ? 1 : 0);
+        return result ? result + ` ${word}` : `${word}`; // add space only when needed
+      }
+    }, '');
+}
+
 // Access the name for download
 export function getName() {
     return common_config.name || "myImage.jpg";
@@ -165,8 +182,16 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 10px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(common_config.ability, 45, 234)
-        console.log(common_config.ability)
+        let abilityWrapped = formatTextWrap(common_config.ability,34).split("\n")
+        if (abilityWrapped.length > 7) {
+            abilityWrapped.length = 7;
+        }
+        for (var idx = 0; idx < abilityWrapped.length; idx++) {
+            ctx.fillText(abilityWrapped[idx], 45, 234+idx*12); 
+        }
+
+        console.log(common_config.ability);
+        console.log(abilityWrapped);
     }   
     if (common_config.type === "attack" && type_config.bp) {
         ctx.font = 'bold 18px Arial';
@@ -208,16 +233,16 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 19px Eurostile-BoldExtendedTwo';
+        ctx.font = 'bold 15px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.mugic, 19, 334);
+        ctx.fillText(type_config.mugic, 16, 333);
     }
     if (type_config.energy) {
         ctx.font = '19px Arial black';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
-        ctx.fillText(type_config.energy, 215, 336);
+        ctx.fillText(type_config.energy, 222, 336);
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
