@@ -1,109 +1,113 @@
 <html>
     <head>
         <link rel="stylesheet" href="./css/main.css" />
+        <link rel="stylesheet" href="./css/Font.css" />
     </head>
     <body>
-        <div style="margin: 0 auto; width:250px; background-color: rgb(114, 109, 109);">
-            <canvas id="canvas" width=250 height=350></canvas>
-            <p></p>
-            <input id="art" type="file" accept="image/*">
-            <p></p>
-            <form id="common-form"> 
-                <table><tr><td><label for="name">Name</label></td>
-                    <td><input id="name" name="name" type="text"></td></tr>
-                    <tr><td><label for="name">Subname</label></td>
-                    <td><input id="subname" name="subname" type="text"></td></tr>
-                    <p></p>
-                    <table><tr><td><label for="type">Card Type</label></td>
-                    <td><select id="type" name="type">
-                        <option disabled selected value style="display:none"></option>
-                        <option value="creature">Creature</option>
-                        <option value="attack">Attack</option>
-                        <option value="battlegear">Battlegear</option>
-                    </select></td></tr>
-                    <tr><td><label for="subtype">Subtype</td>
-                    <td><input id="subtype" name="subtype" type="text"></td></tr> 
-                    <tr><td><label for="set">Set</label></td>
-                    <td><select id="set" name="set">
-                        <option disabled selected value style="display:none"></option>
-                        <option value="DOP">Dawn Of Perim</option>
-                        <option value="AU">Alliances Unraveled</option>
-                        <option value="F&S">Fire & Stone</option>
-                    </select></td></tr>
-                    <tr><td><label for="rarity">Rarity</label></td>
-                    <td><select id="rarity" name="rarity">
-                        <option disabled selected value style="display:none"></option>
-                        <option selected value="common">Common</option>
-                        <option value="uncommon">Uncommon</option>
-                        <option value="rare">Rare</option>
-                        <option value="super">Super Rare</option>
-                        <option value="ultra">Ultra Rare</option>
-                    </select></td></tr>
-                    <tr><td><label for="name">Artist</label></td>
-                    <td><input id="artist" name="artist" type="text"></td></tr>
-                    <tr><td><label for="ability">Ability</label></td>
-                    <td><textarea id="ability" name="ability" rows="4" cols="22"></textarea></td></tr>
-                </table>
-            </form>
-            <form id="type-form">
-                <div id="creature">
-                    <label for="tribe">Tribe:</label>
-                    <select id="tribe" name="tribe">
-                        <option disabled value style="display:none"></option>
-                        <option selected value="tribeless">Tribeless</option>
-                        <option value="overworld">OverWorld</option>
-                        <option value="underworld">UnderWorld</option>
-                        <option value="mipedian">Mipedian</option>
-                        <option value="danian">Danian</option>
-                        <option value="m'arrillian">M'arrillian</option>
-                    </select> <br>
-                    <label for="elements">Elements:</label><br>
-                    <table>
-                        <tr><td><input type="checkbox" id="fire" name="fire" value="true">
-                        <label for="fire"> Fire</label><br></td>
-                        <td><input type="checkbox" id="air" name="air" value="true">
-                        <label for="air"> Air</label></td>
-                        <td><input type="checkbox" id="earth" name="earth" value="true">
-                        <label for="earth"> Earth</label></td>
-                        <td><input type="checkbox" id="water" name="water" value="true">
-                        <label for="water"> Water</label></td></tr>
+        <div class="background">
+            <div style="margin: 0 auto; width:250px; background-color: rgb(114, 109, 109);">
+                <canvas id="canvas" width=250 height=350></canvas>
+                <p></p>
+                <input id="art" type="file" accept="image/*">
+                <p></p>
+                <form id="common-form"> 
+                    <table><tr><td><label for="name">Name</label></td>
+                        <td><input id="name" name="name" type="text"></td></tr>
+                        <tr><td><label for="name">Subname</label></td>
+                        <td><input id="subname" name="subname" type="text"></td></tr>
+                        <p></p>
+                        <table><tr><td><label for="type">Card Type</label></td>
+                        <td><select id="type" name="type">
+                            <option disabled selected value style="display:none"></option>
+                            <option value="creature">Creature</option>
+                            <option value="attack">Attack</option>
+                            <option value="battlegear">Battlegear</option>
+                        </select></td></tr>
+                        <tr><td><label for="subtype">Subtype</td>
+                        <td><input id="subtype" name="subtype" type="text"></td></tr> 
+                        <tr><td><label for="set">Set</label></td>
+                        <td><select id="set" name="set">
+                            <option disabled selected value style="display:none"></option>
+                            <option value="DOP">Dawn Of Perim</option>
+                            <option value="AU">Alliances Unraveled</option>
+                            <option value="F&S">Fire & Stone</option>
+                        </select></td></tr>
+                        <tr><td><label for="rarity">Rarity</label></td>
+                        <td><select id="rarity" name="rarity">
+                            <option disabled selected value style="display:none"></option>
+                            <option selected value="common">Common</option>
+                            <option value="uncommon">Uncommon</option>
+                            <option value="rare">Rare</option>
+                            <option value="super">Super Rare</option>
+                            <option value="ultra">Ultra Rare</option>
+                        </select></td></tr>
+                        <tr><td><label for="name">Artist</label></td>
+                        <td><input id="artist" name="artist" type="text"></td></tr>
+                        <tr><td><label for="ability">Ability</label></td>
+                        <td><textarea id="ability" name="ability" rows="4" cols="22"></textarea></td></tr>
                     </table>
-                    <table>
-                        <tr><td><label for="courage">Courage</label></td>
-                        <td><input id="courage" name="courage" type="text" maxlength="5" size="4"></td> 
-                        <td><label for="power">Power</label></td>
-                        <td><input id="power" name="power" type="text" maxlength="4" size="4"></td></tr> 
-                        <tr><td><label for="wisdom">Wisdom</label></td>
-                        <td><input id="wisdom" name="wisdom" type="text" maxlength="4" size="4"></td> 
-                        <td><label for="speed">Speed</label></td>
-                        <td><input id="speed" name="speed" type="text" maxlength="4" size="4"></td></tr>
-                        <tr><td><label for="mugic">Mugic</label></td>
-                        <td><input id="mugic" name="mugic" type="text" maxlength="1" size="4"></td> 
-                        <td><label for="energy">Energy</label></td>
-                        <td><input id="energy" name="energy" type="text" maxlength="4" size="4"></td></tr> 
-                    </table>
-                </div>
-                <div id="attack">
-                    <table>
-                        <tr><td><label for="basedamage">Base</label></td>
-                        <td><input id="basedamage" name="basedamage" type="text" maxlength="4" size="4" value="0"></td>
-                        <td><label for="bp">B.P.</label></td>
-                        <td><input id="bp" name="bp" type="text" maxlength="4" size="4" value="0"></td></tr> 
-                        <tr><td><label for="firedamage">Fire</label></td>
-                        <td><input id="firedamage" name="firedamage" type="text" maxlength="4" size="4"></td> 
-                        <td><label for="airdamage">Air</label></td>
-                        <td><input id="airdamage" name="airdamage" type="text" maxlength="4" size="4"></td></tr> 
-                        <tr><td><label for="earthdamage">Earth</label></td>
-                        <td><input id="earthdamage" name="earthdamage" type="text" maxlength="4" size="4"></td> 
-                        <td><label for="waterdamage">Water</label></td>
-                        <td><input id="waterdamage" name="waterdamage" type="text" maxlength="4" size="4"></td></tr>
+                </form>
+                <form id="type-form">
+                    <div id="creature">
+                        <label for="tribe">Tribe:</label>
+                        <select id="tribe" name="tribe">
+                            <option disabled value style="display:none"></option>
+                            <option selected value="tribeless">Tribeless</option>
+                            <option value="overworld">OverWorld</option>
+                            <option value="underworld">UnderWorld</option>
+                            <option value="mipedian">Mipedian</option>
+                            <option value="danian">Danian</option>
+                            <option value="m'arrillian">M'arrillian</option>
+                        </select> <br>
+                        <label for="elements">Elements:</label><br>
+                        <table>
+                            <tr><td><input type="checkbox" id="fire" name="fire" value="true">
+                            <label for="fire"> Fire</label><br></td>
+                            <td><input type="checkbox" id="air" name="air" value="true">
+                            <label for="air"> Air</label></td>
+                            <td><input type="checkbox" id="earth" name="earth" value="true">
+                            <label for="earth"> Earth</label></td>
+                            <td><input type="checkbox" id="water" name="water" value="true">
+                            <label for="water"> Water</label></td></tr>
                         </table>
-                </div>
-            </form>
-            <p></p>
-            <button id="update" onclick="submit();">Update</button>
-            <p></p>
-            <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
+                        <table>
+                            <tr><td><label for="courage">Courage</label></td>
+                            <td><input id="courage" name="courage" type="text" maxlength="5" size="4"></td> 
+                            <td><label for="power">Power</label></td>
+                            <td><input id="power" name="power" type="text" maxlength="4" size="4"></td></tr> 
+                            <tr><td><label for="wisdom">Wisdom</label></td>
+                            <td><input id="wisdom" name="wisdom" type="text" maxlength="4" size="4"></td> 
+                            <td><label for="speed">Speed</label></td>
+                            <td><input id="speed" name="speed" type="text" maxlength="4" size="4"></td></tr>
+                            <tr><td><label for="mugic">Mugic</label></td>
+                            <td><input id="mugic" name="mugic" type="text" maxlength="1" size="4"></td> 
+                            <td><label for="energy">Energy</label></td>
+                            <td><input id="energy" name="energy" type="text" maxlength="4" size="4"></td></tr> 
+                        </table>
+                    </div>
+                    <div id="attack">
+                        <table>
+                            <tr><td><label for="basedamage">Base</label></td>
+                            <td><input id="basedamage" name="basedamage" type="text" maxlength="4" size="4" value="0"></td>
+                            <td><label for="bp">B.P.</label></td>
+                            <td><input id="bp" name="bp" type="text" maxlength="4" size="4" value="0"></td></tr> 
+                            <tr><td><label for="firedamage">Fire</label></td>
+                            <td><input id="firedamage" name="firedamage" type="text" maxlength="4" size="4"></td> 
+                            <td><label for="airdamage">Air</label></td>
+                            <td><input id="airdamage" name="airdamage" type="text" maxlength="4" size="4"></td></tr> 
+                            <tr><td><label for="earthdamage">Earth</label></td>
+                            <td><input id="earthdamage" name="earthdamage" type="text" maxlength="4" size="4"></td> 
+                            <td><label for="waterdamage">Water</label></td>
+                            <td><input id="waterdamage" name="waterdamage" type="text" maxlength="4" size="4"></td></tr>
+                            </table>
+                    </div>
+                </form>
+                <p></p>
+                <button id="update" onclick="submit();">Update</button>
+                <p></p>
+                <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
+                <span style="font-family: Eurostile-BoldExtendedTwo;"></span>
+            </div>
         </div>
         <script type="module">
             import {download, submit} from './js/index.js';

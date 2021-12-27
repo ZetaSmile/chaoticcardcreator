@@ -1,4 +1,4 @@
-import { resetTypeConfig, createCard, getName, updateCommonConfig } from "./createCard.js";
+import { createCard, getName, updateCommonConfig } from "./createCard.js";
 
 // Creates the canvas
 const canvas = document.getElementById("canvas");
@@ -35,7 +35,6 @@ changeType.addEventListener("change", function() {
         downloadbtn.classList.add("isDisabled");
     }
 
-    resetTypeConfig();
     updateCommonConfig("type", this.value);
     const type = document.getElementById(this.value);
     if (type) {

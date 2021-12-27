@@ -5,10 +5,6 @@ export function getName() {
     return common_config.name || "myImage.jpg";
 }
 
-export function resetTypeConfig() {
-    type_config = {};  
-}
-
 export function updateCommonConfig(key, value) {
     common_config[key] = value;
 }
@@ -16,7 +12,7 @@ export function updateCommonConfig(key, value) {
 // This function gathers the form data, loads the assets, and then draws the card
 export async function createCard(ctx) {
     // Resets the canvas to prepare for redraw
-    type_config=[] // empty array first to not persist between updates
+    type_config= {}; // empty object first to not persist between updates
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Gathers the form data and puts them into config
@@ -130,13 +126,14 @@ function gatherAssets() {
 function drawCard(ctx, assets) {
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-        ctx.shadowColor = "black"
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    ctx.shadowColor = "black";
+
     if (assets.art) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
-            10, 20, canvas.width - 10, canvas.height - 100);
+            10.26, 25.3, 228.94, 299.4);
     }
     if (assets.card) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
@@ -157,7 +154,7 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 18px Arial';
         ctx.textAlign = 'center';
         ctx.fillStyle = '#000000';
-        ctx.fillText(type_config.bp, 20, 25)
+        ctx.fillText(type_config.bp, 20, 25);
     }
 
     if (assets.fireattack) {
@@ -196,31 +193,31 @@ function drawCard(ctx, assets) {
         ctx.font = 'bold 19px eurostile black condensed';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
-        ctx.fillText(type_config.mugic, 19, 334)
+        ctx.fillText(type_config.mugic, 19, 334);
     }
     if (type_config.energy) {
         ctx.font = 'bold 19px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
-        ctx.fillText(type_config.energy, 215, 336)
+        ctx.fillText(type_config.energy, 215, 336);
     }
     ctx.font = 'bold 10px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'right';
     if (type_config.courage) {
-        ctx.fillText(type_config.courage, 33, 232)
+        ctx.fillText(type_config.courage, 33, 232);
         console.log(type_config.courage)
     }   
     if (type_config.power) {
-        ctx.fillText(type_config.power, 33, 257)
+        ctx.fillText(type_config.power, 33, 257);
         console.log(type_config.power)
     }
     if (type_config.wisdom) {
-        ctx.fillText(type_config.wisdom, 33, 281)
+        ctx.fillText(type_config.wisdom, 33, 281);
         console.log(type_config.wisdom)
     }    
     if (type_config.speed) {
-        ctx.fillText(type_config.speed, 33, 305)
+        ctx.fillText(type_config.speed, 33, 305);
         console.log(type_config.speed)
     }
     ctx.font = 'bold 26px eurostile black extended';
