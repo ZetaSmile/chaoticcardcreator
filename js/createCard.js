@@ -149,8 +149,8 @@ function drawCard(ctx, assets) {
     if (common_config.ability) {
         ctx.font = 'bold 10px Arial';
         ctx.fillStyle = '#000000';
-        ctx.textAlign = 'right';
-        ctx.fillText(common_config.ability, 58, 254)
+        ctx.textAlign = 'left';
+        ctx.fillText(common_config.ability, 45, 234)
         console.log(common_config.ability)
     }   
     if (common_config.type === "attack" && type_config.bp) {
