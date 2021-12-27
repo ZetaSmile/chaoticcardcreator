@@ -1,18 +1,35 @@
 let common_config = {};
 let type_config = {};
 
+// Creates the canvas
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+// Placeholder cardback to show that canvas has been drawn
+// This function runs when page is initially loaded
+(() => {
+    const cardback = new Image();
+    cardback.onload = (() => {
+        ctx.drawImage(cardback, 0, 0, cardback.width, cardback.height,
+            0, 0, canvas.width, canvas.height);
+    });
+    cardback.src = "img/cardback.png";
+})();
+
+// Access the name for download
 export function getName() {
     return common_config.name || "myImage.jpg";
 }
 
+// Allows external functions to update common config
 export function updateCommonConfig(key, value) {
     common_config[key] = value;
 }
 
 // This function gathers the form data, loads the assets, and then draws the card
-export async function createCard(ctx) {
+export async function createCard() {
+
     // Resets the canvas to prepare for redraw
-    type_config= {}; // empty object first to not persist between updates
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Gathers the form data and puts them into config
@@ -20,6 +37,10 @@ export async function createCard(ctx) {
     for (const [key, value] of common_data.entries()) {
         common_config[key] = value;
     }
+
+    // Resets card type specific properties between redraws
+    // to prevent old data from persisting after form changes
+    type_config= {};
 
     const type_data = new FormData(document.getElementById('type-form'));
     for (const [key, value] of type_data.entries()) {
@@ -187,7 +208,7 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 19px eurostile black condensed';
+        ctx.font = 'bold 19px Eurostile black condensed';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
         ctx.fillText(type_config.mugic, 19, 334);
@@ -217,7 +238,7 @@ function drawCard(ctx, assets) {
         ctx.fillText(type_config.speed, 33, 305);
         console.log(type_config.speed)
     }
-    ctx.font = 'bold 26px eurostile black extended';
+    ctx.font = 'bold 26px Eurostile black extended';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
@@ -226,7 +247,7 @@ function drawCard(ctx, assets) {
         console.log(type_config.basedamage)
     }
 
-    ctx.font = 'bold 14px eurostile black';
+    ctx.font = 'bold 14px Eurostile black';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';  
     if (type_config.firedamage) {
