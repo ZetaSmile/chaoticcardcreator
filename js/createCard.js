@@ -130,7 +130,7 @@ function drawCard(ctx, assets) {
 
     if (assets.art) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
-            10.26, 25.3, 228.94, 299.4);
+            10.26, 25.3, 228.94, 191.9);
     }
     if (assets.card) {
         ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
