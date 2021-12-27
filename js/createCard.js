@@ -142,6 +142,7 @@ function gatherAssets() {
 
 const formatTextWrap = (text, maxLineLength) => {
     // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
+    console.log('in: ' + text)
     const words = text.split(' ');
     let lineLength = 0;
     
@@ -228,19 +229,14 @@ function drawCard(assets) {
         console.log(abilityWrapped);
     }   
 
-    if (common_config.type == "Attack") {
-        drawAttack();
-        artistLine(60, 333);
-        typeLine(19, 220);
+    if (common_config.type == "attack") {
+        drawAttack(assets);
     } 
-    else if (common_config.type == "Battlegear") {
-        artistLine(60, 333);
-        typeLine(19, 220);
+    else if (common_config.type == "battlegear") {
+        drawBattlegear(assets);
     }
-    else if (common_config.type == "Creature") {
-        drawCreature();
-        artistLine(47, 332);
-        typeLine(40, 219);
+    else if (common_config.type == "creature") {
+        drawCreature(assets);
     }
 
 }
@@ -258,7 +254,7 @@ function artistLine(offsetX, offsetY) {
 }
 
 /* Type Line */
-function typeLine(offsetX, offsetY) {
+function typeLine(type, offsetX, offsetY) {
     ctx.font = 'italic 7px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
@@ -266,71 +262,35 @@ function typeLine(offsetX, offsetY) {
     ctx.shadowOffsetX = .5;
     ctx.shadowOffsetY = .5;
     ctx.shadowColor = "black";
-    
+
+    if (common_config.past || common_config.subtype || type_config.tribe) {
+        type += " -";
+    }
+    if (common_config.past) {
+        type += " Past";
+    }
+    if (type_config.tribe) {
+        type += (() => {
+            switch (type_config.tribe.toLowerCase()) {
+                case "danian": return " Danian";
+                case "overworld": return " OverWorld";
+                case "mipedian": return " Mipedian";
+                case "underworld": return "UnderWorld";
+                case "m'arrillian": return "M'arrillian";
+                default: return "";
+            }
+        })();
+    }
     if (common_config.subtype) {
-        ctx.fillText(`${common_config.type} - ${common_config.subtype}`, offsetX, offsetY);
-    } else {
-        ctx.fillText(`${common_config.type}`, offsetX, offsetY);
+        type += ` ${common_config.subtype}`
     }
+
+    console.log(type);
+    
+    ctx.fillText(type, offsetX, offsetY);
 }
 
-function drawCreature() {
-    resetDropShadow();
-
-    if (assets.firecreature) {
-        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.aircreature) {
-        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.earthcreature) {
-        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.watercreature) {
-        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-
-    /* Mugic Ability */
-    ctx.font = 'bold 15px Eurostile-BoldExtendedTwo';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';
-    if (type_config.mugic) {
-        ctx.fillText(type_config.mugic, 16, 333);
-    }
-
-    /* Energy */
-    ctx.font = '19px Arial black';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'center';
-
-    if (type_config.energy) {
-        ctx.fillText(type_config.energy, 222, 336);
-    }
-
-    /* Disciplines */
-    ctx.font = 'bold 10px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'right';
-
-    if (type_config.courage) {
-        ctx.fillText(type_config.courage, 33, 232);
-    }   
-    if (type_config.power) {
-        ctx.fillText(type_config.power, 33, 257);
-    }
-    if (type_config.wisdom) {
-        ctx.fillText(type_config.wisdom, 33, 281);
-    }
-    if (type_config.speed) {
-        ctx.fillText(type_config.speed, 33, 305);
-    }
-}
-
-function drawAttack() {
+function drawAttack(assets) {
     resetDropShadow();
 
     if (assets.fireattack) {
@@ -350,6 +310,7 @@ function drawAttack() {
             0, 0, canvas.width, canvas.height);
     }
 
+    
     /* Build Points */
     ctx.font = 'bold 18px Arial';
     ctx.textAlign = 'center';
@@ -385,9 +346,78 @@ function drawAttack() {
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
-    console.log(type_config)
-
     if (type_config.basedamage) {
         ctx.fillText(type_config.basedamage, 39, 247)
     }
+
+    artistLine(60, 333);
+
+    typeLine("Attack", 19, 220);
+}
+
+function drawBattlegear(assets) {
+    artistLine(60, 333);
+
+    typeLine("Battlegear", 19, 220);
+}
+
+function drawCreature(assets) {
+    resetDropShadow();
+
+    if (assets.firecreature) {
+        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.aircreature) {
+        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.earthcreature) {
+        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.watercreature) {
+        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+
+    /* Mugic Ability */
+    ctx.font = 'bold 14px Eurostile-BoldExtendedTwo';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';
+
+    if (type_config.mugic) {
+        ctx.fillText(type_config.mugic, 16, 333);
+    }
+
+    /* Energy */
+    ctx.font = '19px Arial black';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'center';
+    
+    if (type_config.energy) {
+        ctx.fillText(type_config.energy, 216, 336);
+    }
+
+    /* Disciplines */
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'right';
+
+    if (type_config.courage) {
+        ctx.fillText(type_config.courage, 33, 232);
+    }   
+    if (type_config.power) {
+        ctx.fillText(type_config.power, 33, 257);
+    }
+    if (type_config.wisdom) {
+        ctx.fillText(type_config.wisdom, 33, 281);
+    }
+    if (type_config.speed) {
+        ctx.fillText(type_config.speed, 33, 305);
+    }
+
+    artistLine(47, 332);
+
+    typeLine("Creature", 40, 219);
 }
