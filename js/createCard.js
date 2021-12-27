@@ -208,7 +208,7 @@ function drawCard(ctx, assets) {
             0, 0, canvas.width, canvas.height);
     }
     if (type_config.mugic) {
-        ctx.font = 'bold 19px Eurostile black condensed';
+        ctx.font = 'bold 19px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
         ctx.fillText(type_config.mugic, 19, 334);
