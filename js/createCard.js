@@ -193,7 +193,7 @@ function drawCard(ctx, assets) {
         ctx.fillText(type_config.mugic, 19, 334);
     }
     if (type_config.energy) {
-        ctx.font = 'bold 19px Arial';
+        ctx.font = '19px Arial black';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
         ctx.fillText(type_config.energy, 215, 336);
