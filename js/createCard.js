@@ -16,23 +16,6 @@ const ctx = canvas.getContext("2d");
     cardback.src = "img/cardback.png";
 })();
 
-const formatTextWrap = (text, maxLineLength) => {
-    // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
-    const words = text.split(' ');
-    let lineLength = 0;
-    
-    // use functional reduce, instead of for loop 
-    return words.reduce((result, word) => {
-      if (lineLength + word.length >= maxLineLength) {
-        lineLength = word.length;
-        return result + `\n${word}`; // don't add spaces upfront
-      } else {
-        lineLength += word.length + (result ? 1 : 0);
-        return result ? result + ` ${word}` : `${word}`; // add space only when needed
-      }
-    }, '');
-}
-
 // Access the name for download
 export function getName() {
     return common_config.name || "myImage.jpg";
@@ -68,7 +51,7 @@ export async function createCard() {
     const assets = await loadAssets();
 
     // After images are loaded, you can draw the card 
-    drawCard(ctx, assets);
+    drawCard(assets);
 
     return Promise.resolve();
 }
@@ -157,14 +140,38 @@ function gatherAssets() {
     return assets;
 }
 
-/* This function draws the card layer by layer, specify where images/text is drawn */
-function drawCard(ctx, assets) {
+const formatTextWrap = (text, maxLineLength) => {
+    // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
+    const words = text.split(' ');
+    let lineLength = 0;
+    
+    // use functional reduce, instead of for loop 
+    return words.reduce((result, word) => {
+      if (lineLength + word.length >= maxLineLength) {
+        lineLength = word.length;
+        return result + `\n${word}`; // don't add spaces upfront
+      } else {
+        lineLength += word.length + (result ? 1 : 0);
+        return result ? result + ` ${word}` : `${word}`; // add space only when needed
+      }
+    }, '');
+}
 
-    // Eventually we'll need to differentiate between location orientation, but save that for later
+function resetDropShadow() {
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
     ctx.shadowColor = "black";
+}
+
+/* This function draws the card layer by layer, specify where images/text is drawn */
+function drawCard(assets) {
+    resetDropShadow();
+
+    // Eventually we'll need to differentiate between location orientation, but save that for later
+    // Because it requires changing the canvas dimensions among other things
+
+    /* Draws the parts of the cards that are common between everything besides locations */
 
     if (assets.art) {
         ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
@@ -178,131 +185,9 @@ function drawCard(ctx, assets) {
         ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
             0, 0, canvas.width, canvas.height);
     }
-    if (common_config.ability) {
-        ctx.font = 'bold 10px Arial';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';
-        let abilityWrapped = formatTextWrap(common_config.ability,34).split("\n")
-        if (abilityWrapped.length > 7) {
-            abilityWrapped.length = 7;
-        }
-        for (var idx = 0; idx < abilityWrapped.length; idx++) {
-            ctx.fillText(abilityWrapped[idx], 45, 234+idx*12); 
-        }
 
-        console.log(common_config.ability);
-        console.log(abilityWrapped);
-    }   
-    if (common_config.type === "attack" && type_config.bp) {
-        ctx.font = 'bold 18px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#000000';
-        ctx.fillText(type_config.bp, 20, 25);
-    }
-
-    if (assets.fireattack) {
-        ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.airattack) {
-        ctx.drawImage(assets.airattack, 0, 0, assets.airattack.width, assets.airattack.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.earthattack) {
-        ctx.drawImage(assets.earthattack, 0, 0, assets.earthattack.width, assets.earthattack.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.waterattack) {
-        ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.firecreature) {
-        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.aircreature) {
-        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.earthcreature) {
-        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (assets.watercreature) {
-        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
-            0, 0, canvas.width, canvas.height);
-    }
-    if (type_config.mugic) {
-        ctx.font = 'bold 15px Eurostile-BoldExtendedTwo';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';
-        ctx.fillText(type_config.mugic, 16, 333);
-    }
-    if (type_config.energy) {
-        ctx.font = '19px Arial black';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'center';
-        ctx.fillText(type_config.energy, 222, 336);
-    }
-    ctx.font = 'bold 10px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'right';
-    if (type_config.courage) {
-        ctx.fillText(type_config.courage, 33, 232);
-        console.log(type_config.courage)
-    }   
-    if (type_config.power) {
-        ctx.fillText(type_config.power, 33, 257);
-        console.log(type_config.power)
-    }
-    if (type_config.wisdom) {
-        ctx.fillText(type_config.wisdom, 33, 281);
-        console.log(type_config.wisdom)
-    }    
-    if (type_config.speed) {
-        ctx.fillText(type_config.speed, 33, 305);
-        console.log(type_config.speed)
-    }
-    ctx.font = 'bold 26px Eurostile black extended';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'center';
-
-    if (common_config.type === "attack" && type_config.basedamage) {
-        ctx.fillText(type_config.basedamage, 39, 247)
-        console.log(type_config.basedamage)
-    }
-
-    ctx.font = 'bold 14px Eurostile black';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';  
-    if (type_config.firedamage) {
-        ctx.fillText(type_config.firedamage, 91, 242)
-    }
-    if (type_config.airdamage) {
-        ctx.fillText(type_config.airdamage, 133, 242)
-        console.log(type_config.airdamage)
-    }    
-    if (type_config.earthdamage) {
-        ctx.fillText(type_config.earthdamage, 175, 242)
-    }
-    if (type_config.waterdamage) {
-        ctx.fillText(type_config.waterdamage, 217, 242)
-    }
-    ctx.font = 'bold 8px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';  
-    if (common_config.artist) {
-        if (common_config.type == "battlegear") {
-            ctx.fillText('Art:' + common_config.artist, 60, 333)
-        } 
-        else if (common_config.type == "attack") {
-            ctx.fillText('Art:' + common_config.artist, 60, 333)
-        } 
-        else if (common_config.type == "creature") {
-            ctx.fillText('Art:' + common_config.artist, 47, 332)
-        }
-    }
-    if (common_config.name && common_config.subname) {  // has name and subname
+    // Name and subname
+    if (common_config.name && common_config.subname) { 
         ctx.font = '11px Eurostile-BoldExtendedTwo';
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
@@ -323,6 +208,57 @@ function drawCard(ctx, assets) {
         ctx.shadowColor = "black"
         ctx.fillText(common_config.name, canvas.width/2 , 23)
     }
+
+    /* Ability */
+    if (common_config.ability) {
+        resetDropShadow();
+        
+        ctx.font = 'bold 10px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+        let abilityWrapped = formatTextWrap(common_config.ability,34).split("\n")
+        if (abilityWrapped.length > 7) {
+            abilityWrapped.length = 7;
+        }
+        for (var idx = 0; idx < abilityWrapped.length; idx++) {
+            ctx.fillText(abilityWrapped[idx], 45, 234+idx*12); 
+        }
+
+        console.log(common_config.ability);
+        console.log(abilityWrapped);
+    }   
+
+    if (common_config.type == "Attack") {
+        drawAttack();
+        artistLine(60, 333);
+        typeLine(19, 220);
+    } 
+    else if (common_config.type == "Battlegear") {
+        artistLine(60, 333);
+        typeLine(19, 220);
+    }
+    else if (common_config.type == "Creature") {
+        drawCreature();
+        artistLine(47, 332);
+        typeLine(40, 219);
+    }
+
+}
+
+/* Artist */
+function artistLine(offsetX, offsetY) {
+    resetDropShadow();
+    ctx.font = 'bold 8px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';  
+
+    if (common_config.artist) {
+        ctx.fillText('Art:' + common_config.artist, offsetX, offsetY);
+    }
+}
+
+/* Type Line */
+function typeLine(offsetX, offsetY) {
     ctx.font = 'italic 7px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
@@ -330,31 +266,128 @@ function drawCard(ctx, assets) {
     ctx.shadowOffsetX = .5;
     ctx.shadowOffsetY = .5;
     ctx.shadowColor = "black";
-    if (common_config.type == "creature") {
-        if (common_config.subtype) {
-            ctx.fillText('Creature - ' + common_config.subtype, 48, 219)
-            console.log(common_config.subtype)
-        } else {
-            ctx.fillText('Creature', 48, 219)
-            console.log(common_config.subtype)
-        }
+    
+    if (common_config.subtype) {
+        ctx.fillText(`${common_config.type} - ${common_config.subtype}`, offsetX, offsetY);
+    } else {
+        ctx.fillText(`${common_config.type}`, offsetX, offsetY);
     }
-    if (common_config.type == "battlegear") {
-        if (common_config.subtype) {
-            ctx.fillText('Battlegear - ' + common_config.subtype, 19, 220)
-            console.log(common_config.subtype)
-        } else {
-            ctx.fillText('Battlegear', 19, 220)
-            console.log(common_config.subtype)
-        }
+}
+
+function drawCreature() {
+    resetDropShadow();
+
+    if (assets.firecreature) {
+        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
+            0, 0, canvas.width, canvas.height);
     }
-    if (common_config.type == "attack") {
-        if (common_config.subtype) {
-            ctx.fillText('Attack -' + common_config.subtype, 19, 220)
-            console.log(common_config.subtype)
-        } else {
-            ctx.fillText('Attack', 19, 220)
-            console.log(common_config.subtype)
-        }
+    if (assets.aircreature) {
+        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.earthcreature) {
+        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.watercreature) {
+        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
+            0, 0, canvas.width, canvas.height);
+    }
+
+    /* Mugic Ability */
+    ctx.font = 'bold 15px Eurostile-BoldExtendedTwo';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';
+    if (type_config.mugic) {
+        ctx.fillText(type_config.mugic, 16, 333);
+    }
+
+    /* Energy */
+    ctx.font = '19px Arial black';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'center';
+
+    if (type_config.energy) {
+        ctx.fillText(type_config.energy, 222, 336);
+    }
+
+    /* Disciplines */
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'right';
+
+    if (type_config.courage) {
+        ctx.fillText(type_config.courage, 33, 232);
+    }   
+    if (type_config.power) {
+        ctx.fillText(type_config.power, 33, 257);
+    }
+    if (type_config.wisdom) {
+        ctx.fillText(type_config.wisdom, 33, 281);
+    }
+    if (type_config.speed) {
+        ctx.fillText(type_config.speed, 33, 305);
+    }
+}
+
+function drawAttack() {
+    resetDropShadow();
+
+    if (assets.fireattack) {
+        ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.airattack) {
+        ctx.drawImage(assets.airattack, 0, 0, assets.airattack.width, assets.airattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.earthattack) {
+        ctx.drawImage(assets.earthattack, 0, 0, assets.earthattack.width, assets.earthattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+    if (assets.waterattack) {
+        ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
+            0, 0, canvas.width, canvas.height);
+    }
+
+    /* Build Points */
+    ctx.font = 'bold 18px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#000000';
+
+    if (type_config.bp) {
+        ctx.fillText(type_config.bp, 20, 25);    
+    }
+
+    /* Element damage values */
+    ctx.font = 'bold 14px Eurostile black';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';
+
+    if (type_config.firedamage) {
+        ctx.fillText(type_config.firedamage, 91, 242)
+    }
+
+    if (type_config.airdamage) {
+        ctx.fillText(type_config.airdamage, 133, 242)
+    }    
+
+    if (type_config.earthdamage) {
+        ctx.fillText(type_config.earthdamage, 175, 242)
+    }
+
+    if (type_config.waterdamage) {
+        ctx.fillText(type_config.waterdamage, 217, 242)
+    }
+
+    /* Base Damage */
+    ctx.font = 'bold 26px Eurostile black extended';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'center';
+
+    console.log(type_config)
+
+    if (type_config.basedamage) {
+        ctx.fillText(type_config.basedamage, 39, 247)
     }
 }
