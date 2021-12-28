@@ -390,7 +390,7 @@ function drawCreature(assets) {
     }
 
     /* Energy */
-    ctx.font = '19px Arial Black';
+    ctx.font = 'Bold 19px Arial Black';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
     
