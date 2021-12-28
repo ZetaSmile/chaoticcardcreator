@@ -1,5 +1,14 @@
+import { drawText } from './drawText.js';
+
 let common_config = {};
 let type_config = {};
+
+/* 
+This variable stores where the last text was drawn in the text area, so that text doesn't overlap 
+When using the drawText for card text area, update this value 
+(Note I'm only making this a global so I don't have to repeat this comment)
+*/
+let textOffset = 0;
 
 // Creates the canvas
 const canvas = document.getElementById("canvas");
@@ -143,24 +152,6 @@ function gatherAssets() {
     return assets;
 }
 
-const formatTextWrap = (text, maxLineLength) => {
-    // const words = text.replace(/[\r\n]+/g, ' ').split(' ');
-    console.log('in: ' + text)
-    const words = text.split(' ');
-    let lineLength = 0;
-    
-    // use functional reduce, instead of for loop 
-    return words.reduce((result, word) => {
-        if (lineLength + word.length >= maxLineLength) {
-            lineLength = word.length;
-            return result + `\n${word}`; // don't add spaces upfront
-        } else {
-            lineLength += word.length + (result ? 1 : 0);
-            return result ? result + ` ${word}` : `${word}`; // add space only when needed
-        }
-    }, '');
-}
-
 function resetDropShadow() {
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
@@ -191,46 +182,23 @@ function drawCard(assets) {
     }
 
     // Name and subname
-    if (common_config.name && common_config.subname) { 
-        ctx.font = '11px Eurostile-BoldExtendedTwo';
+    if (common_config.name) {
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
         ctx.shadowBlur = 1;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "black"
-        ctx.fillText(common_config.name, canvas.width/2 , 19)
-        ctx.font = '7px Eurostile-BoldExtendedTwo';
-        ctx.fillText(common_config.subname, canvas.width/2 , 28)
-    } else if (common_config.name) {  // just name
-        ctx.font = '11px Eurostile-BoldExtendedTwo';
-        ctx.fillStyle = '#ffffff';
-        ctx.textAlign = 'center';
-        ctx.shadowBlur = 1;
-        ctx.shadowOffsetX = 1;
-        ctx.shadowOffsetY = 1;
-        ctx.shadowColor = "black"
-        ctx.fillText(common_config.name, canvas.width/2 , 23)
+        if (common_config.subname) {
+            ctx.font = '11px Eurostile-BoldExtendedTwo';
+            ctx.fillText(common_config.name, canvas.width/2 , 19)
+            ctx.font = '7px Eurostile-BoldExtendedTwo';
+            ctx.fillText(common_config.subname, canvas.width/2 , 28)
+        } else {
+            ctx.font = '11px Eurostile-BoldExtendedTwo';
+            ctx.fillText(common_config.name, canvas.width/2 , 23)
+        }
     }
-
-    /* Ability */
-    if (common_config.ability) {
-        resetDropShadow();
-        
-        ctx.font = 'bold 10px Arial';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'left';
-        let abilityWrapped = formatTextWrap(common_config.ability,34).split("\n")
-        if (abilityWrapped.length > 7) {
-            abilityWrapped.length = 7;
-        }
-        for (var idx = 0; idx < abilityWrapped.length; idx++) {
-            ctx.fillText(abilityWrapped[idx], 45, 234+idx*12); 
-        }
-
-        console.log(common_config.ability);
-        console.log(abilityWrapped);
-    }   
 
     if (common_config.type == "attack") {
         drawAttack(assets);
@@ -242,6 +210,22 @@ function drawCard(assets) {
         drawCreature(assets);
     }
 
+}
+
+/** Ability 
+ * @param {string} text Text to draw in the card text area
+ * @param {number} offsetX Offset from left where to begin drawing text
+ * @param {number} offsetY Offset from top where to begin drawing text
+ * @param {number} maxX Maximum width of the text to be drawn
+ * @returns {number} The latest Y offset you can draw with
+ * */ 
+function textArea(text, offsetX, offsetY, maxX) {
+    resetDropShadow();
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';
+
+    return drawText(ctx, text, offsetX, offsetY, maxX);
 }
 
 /* Artist */
@@ -266,29 +250,30 @@ function typeLine(type, offsetX, offsetY) {
     ctx.shadowOffsetY = .5;
     ctx.shadowColor = "black";
 
-    if (common_config.past || common_config.subtype || type_config.tribe) {
+    const tribe = (() => {
+        if (!type_config.tribe) return "";
+        switch (type_config.tribe.toLowerCase()) {
+            case "danian": return " Danian";
+            case "overworld": return " OverWorld";
+            case "mipedian": return " Mipedian";
+            case "underworld": return "UnderWorld";
+            case "m'arrillian": return "M'arrillian";
+            default: return "";
+        }
+    })();
+
+    if (common_config.past || common_config.subtype || tribe) {
         type += " -";
     }
     if (common_config.past) {
         type += " Past";
     }
-    if (type_config.tribe) {
-        type += (() => {
-            switch (type_config.tribe.toLowerCase()) {
-                case "danian": return " Danian";
-                case "overworld": return " OverWorld";
-                case "mipedian": return " Mipedian";
-                case "underworld": return "UnderWorld";
-                case "m'arrillian": return "M'arrillian";
-                default: return "";
-            }
-        })();
+    if (tribe) {
+        type += tribe;
     }
     if (common_config.subtype) {
         type += ` ${common_config.subtype}`
     }
-
-    console.log(type);
     
     ctx.fillText(type, offsetX, offsetY);
 }
@@ -313,7 +298,6 @@ function drawAttack(assets) {
             0, 0, canvas.width, canvas.height);
     }
 
-    
     /* Build Points */
     ctx.font = 'bold 18px Arial';
     ctx.textAlign = 'center';
@@ -353,13 +337,25 @@ function drawAttack(assets) {
         ctx.fillText(type_config.basedamage, 39, 247)
     }
 
-    artistLine(60, 333);
+    if (common_config.ability) {
+        textOffset = textArea(common_config.ability, 45, 234, 150);
+    }
+
+    if (common_config.artist) {
+        artistLine(60, 333);
+    }
 
     typeLine("Attack", 19, 220);
 }
 
-function drawBattlegear(assets) {
-    artistLine(60, 333);
+function drawBattlegear(_assets) {
+    if (common_config.ability) {
+        textOffset = textArea(common_config.ability, 45, 234, 150);
+    }
+
+    if (common_config.artist) {
+        artistLine(60, 333);
+    }
 
     typeLine("Battlegear", 19, 220);
 }
@@ -420,7 +416,13 @@ function drawCreature(assets) {
         ctx.fillText(type_config.speed, 33, 305);
     }
 
-    artistLine(47, 332);
+    if (common_config.ability) {
+        textOffset = textArea(common_config.ability, 45, 234, 150);
+    }
+
+    if (common_config.artist) {
+        artistLine(47, 332);
+    }
 
     typeLine("Creature", 40, 219);
 }

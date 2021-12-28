@@ -20,7 +20,10 @@
             "MemberExpression": "off"
         }],
         "no-console": "warn",
-        "no-unused-vars": "warn",
+        "no-empty": "off",
+        "no-unused-vars": ["warn", {
+            "argsIgnorePattern": "^_"
+        }],
         "object-curly-spacing": ["warn", "always", {"objectsInObjects": false, "arraysInObjects": false}]
     }
 }
