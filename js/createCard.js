@@ -16,9 +16,12 @@ const ctx = canvas.getContext("2d");
     cardback.src = "img/cardback.png";
 })();
 
-// Access the name for download
-export function getName() {
-    return common_config.name || "myImage.jpg";
+// Converts the Canvas into a image data stream 
+// and sets the specified element to be a downloadable image
+export function setDownload(el) {
+    const image = canvas.toDataURL("image/jpg");
+    el.download = common_config.name || "myImage.jpg";
+    el.href = image;
 }
 
 // Allows external functions to update common config
@@ -85,55 +88,55 @@ function gatherAssets() {
     //console.log(common_config.type)
 
     if (common_config.art) {
-        assets.push({art: common_config.art});
+        assets.push({ art: common_config.art });
     }
     
     if (common_config.set) {
-        assets.push({symbol: `img/set/${common_config.set}${common_config.rarity}.png`});
+        assets.push({ symbol: `img/set/${common_config.set}${common_config.rarity}.png` });
     }
 
     if (common_config.type === "creature") {
         if (type_config.tribe) {
-            assets.push({card: `img/${type_config.tribe}.png`});
+            assets.push({ card: `img/${type_config.tribe}.png` });
         }  
         if (type_config.fire) {
-            assets.push({firecreature: "img/firecreature.png"});
+            assets.push({ firecreature: "img/firecreature.png" });
         }
 
         if (type_config.air) {
-            assets.push({aircreature: "img/aircreature.png"});
+            assets.push({ aircreature: "img/aircreature.png" });
         }
     
         if (type_config.earth) {
-            assets.push({earthcreature: "img/earthcreature.png"});
+            assets.push({ earthcreature: "img/earthcreature.png" });
         }
     
         if (type_config.water) {
-            assets.push({watercreature: "img/watercreature.png"});
+            assets.push({ watercreature: "img/watercreature.png" });
         }
     }
 
     if (common_config.type === "battlegear") {
-        assets.push({card: "img/battlegear.png"});
+        assets.push({ card: "img/battlegear.png" });
     }
 
     if (common_config.type === "attack") {
-        assets.push({card: "img/attack.png"});
+        assets.push({ card: "img/attack.png" });
 
         if (type_config.firedamage) {
-            assets.push({fireattack: "img/fireattack.png"});
+            assets.push({ fireattack: "img/fireattack.png" });
         }
     
         if (type_config.airdamage) {
-            assets.push({airattack: "img/airattack.png"});
+            assets.push({ airattack: "img/airattack.png" });
         }
     
         if (type_config.earthdamage) {
-            assets.push({earthattack: "img/earthattack.png"});
+            assets.push({ earthattack: "img/earthattack.png" });
         }
     
         if (type_config.waterdamage) {
-            assets.push({waterattack: "img/waterattack.png"});
+            assets.push({ waterattack: "img/waterattack.png" });
         } 
     }
 
@@ -148,13 +151,13 @@ const formatTextWrap = (text, maxLineLength) => {
     
     // use functional reduce, instead of for loop 
     return words.reduce((result, word) => {
-      if (lineLength + word.length >= maxLineLength) {
-        lineLength = word.length;
-        return result + `\n${word}`; // don't add spaces upfront
-      } else {
-        lineLength += word.length + (result ? 1 : 0);
-        return result ? result + ` ${word}` : `${word}`; // add space only when needed
-      }
+        if (lineLength + word.length >= maxLineLength) {
+            lineLength = word.length;
+            return result + `\n${word}`; // don't add spaces upfront
+        } else {
+            lineLength += word.length + (result ? 1 : 0);
+            return result ? result + ` ${word}` : `${word}`; // add space only when needed
+        }
     }, '');
 }
 

@@ -1,0 +1,26 @@
+{
+    "root": true,
+    "extends": [
+        "eslint:recommended"
+    ],
+    "env": {
+        "browser": true,
+        "es6": true 
+    },
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+    },
+    "ignorePatterns": [
+        "node_modules"
+    ],
+    "rules": {
+        "indent": ["error", 4, {
+            "SwitchCase": 1,
+            "MemberExpression": "off"
+        }],
+        "no-console": "warn",
+        "no-unused-vars": "warn",
+        "object-curly-spacing": ["warn", "always", {"objectsInObjects": false, "arraysInObjects": false}]
+    }
+}

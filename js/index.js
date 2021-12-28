@@ -1,4 +1,4 @@
-import { createCard, getName, updateCommonConfig } from "./createCard.js";
+import { createCard, setDownload, updateCommonConfig } from "./createCard.js";
 
 /* Event Listeners */
 // Disables the download button while image is not built
@@ -49,8 +49,6 @@ export function submit() {
 
 export function download (el) {
     if (!downloadbtn.classList.contains("isDisabled")) {
-        const image = canvas.toDataURL("image/jpg");
-        el.download = getName();
-        el.href = image;
+        setDownload(el);
     }
 }
