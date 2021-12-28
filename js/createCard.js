@@ -242,7 +242,7 @@ function artistLine(offsetX, offsetY) {
 
 /* Type Line */
 function typeLine(type, offsetX, offsetY) {
-    ctx.font = 'italic 7px Arial';
+    ctx.font = 'italic 7px Eurostile-Bold';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
     ctx.shadowBlur = .5;
@@ -386,11 +386,11 @@ function drawCreature(assets) {
     ctx.textAlign = 'left';
 
     if (type_config.mugic) {
-        ctx.fillText(type_config.mugic, 16, 333);
+        ctx.fillText(type_config.mugic, 17, 333);
     }
 
     /* Energy */
-    ctx.font = '19px Arial black';
+    ctx.font = '19px Arial Black';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
     
@@ -399,7 +399,7 @@ function drawCreature(assets) {
     }
 
     /* Disciplines */
-    ctx.font = 'bold 10px Arial';
+    ctx.font = '10px Arial Bold';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'right';
 
@@ -424,5 +424,5 @@ function drawCreature(assets) {
         artistLine(47, 332);
     }
 
-    typeLine("Creature", 40, 219);
+    typeLine("Creature", 45, 219);
 }
