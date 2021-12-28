@@ -29,8 +29,7 @@ export function drawText(ctx, text, offsetX, offsetY, maxX) {
             let line = words[words.length - remaining];
             let width = ctx.measureText(line).width;
 
-            do {
-                remaining--;
+            while (--remaining > 1) {
                 const next_word = words[words.length - remaining];
                 const new_width = width + ctx.measureText(next_word).width;
                 if (new_width > maxX) {
@@ -42,8 +41,8 @@ export function drawText(ctx, text, offsetX, offsetY, maxX) {
                     line += ` ${next_word}`;
                     width = new_width;
                 }
-            } while (remaining > 1);
-
+            }
+            
             ctx.fillText(line, offsetX, offsetY);
             offsetY += linespace;            
         }
