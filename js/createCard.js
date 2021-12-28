@@ -399,7 +399,7 @@ function drawCreature(assets) {
     }
 
     /* Disciplines */
-    ctx.font = '10px Arial Bold';
+    ctx.font = 'Bold 10px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'right';
 
