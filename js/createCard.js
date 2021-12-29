@@ -1,16 +1,11 @@
-import { drawText } from './drawText.js';
+import { parseTextArea } from './drawText.js';
 
 let common_config = {};
 let type_config = {};
 
-/* 
-This variable stores where the last text was drawn in the text area, so that text doesn't overlap 
-When using the drawText for card text area, update this value 
-(Note I'm only making this a global so I don't have to repeat this comment)
-*/
-let textOffset = 0;
-
-// Creates the canvas
+/** Create the Canvas
+ * @type {HTMLCanvasElement}
+ */
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -149,6 +144,8 @@ function gatherAssets() {
         } 
     }
 
+    // TODO parse text for icons to load
+
     return assets;
 }
 
@@ -212,30 +209,74 @@ function drawCard(assets) {
 
 }
 
+// This is the spacing of a new line
+const linespace = 12;
+
 /** Ability 
- * @param {string} text Text to draw in the card text area
  * @param {number} offsetX Offset from left where to begin drawing text
  * @param {number} offsetY Offset from top where to begin drawing text
- * @param {number} maxX Maximum width of the text to be drawn
- * @returns {number} The latest Y offset you can draw with
+ * @param {number} maxX Maximum width of the text area
+ * @param {number} maxY Maximum height of text area
  * */ 
-function textArea(text, offsetX, offsetY, maxX) {
+function drawTextArea(offsetX, offsetY, maxX, maxY) {
     resetDropShadow();
-    ctx.font = 'bold 10px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';
+     
+    // This variable storess where the text was drawn in the text area, so that text doesn't overlap 
+    // When using the drawText for card text area, update this value 
+    let flavorTop = 0;
+    let sections = [];
+    let ull = "";
 
-    return drawText(ctx, text, offsetX, offsetY, maxX);
+
+    if (common_config.flavor) {
+        ctx.font = 'italic 9px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+
+        const { lines } = parseTextArea(ctx, common_config.flavor, maxX)
+            .reduce((p, c) => ({ lines: [...p.lines, ...c.lines]}));
+
+        // Flavor text gets drawn at the bottom of the card
+        // Take the height of the text area and subtract the number of lines from the bottom
+        flavorTop = offsetY + maxY - ((lines.length - 1) * linespace);
+        lines.forEach((line, i) => {
+            ctx.fillText(line, offsetX, flavorTop + (i * linespace));
+        });
+    }
+
+    if (common_config.unique, common_config.loyal, common_config.legendary) {
+        // TODO
+    }
+
+    if (common_config.ability) {
+        sections = parseTextArea(ctx, common_config.ability, maxX);
+    }
+
+    if (sections.length > 0 || ull != "") {
+        // TODO centering text based on sections
+        // Sections include unique/loyal/legendary line
+        ctx.font = 'bold 10px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+
+        // temp no spacing
+        const { lines } = sections.reduce((p, c) => ({ lines: [...p.lines, ...c.lines]}));
+        lines.forEach((line, i) => {
+            if (line == "") return;
+            ctx.fillText(line, offsetX, offsetY + (i * linespace));
+        });
+    }
+
 }
 
 /* Artist */
 function artistLine(offsetX, offsetY) {
-    resetDropShadow();
-    ctx.font = 'bold 8px Arial';
-    ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';  
-
     if (common_config.artist) {
+        resetDropShadow();
+        ctx.font = 'bold 8px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';  
+
         ctx.fillText('Art:' + common_config.artist, offsetX, offsetY);
     }
 }
@@ -337,25 +378,17 @@ function drawAttack(assets) {
         ctx.fillText(type_config.basedamage, 39, 247)
     }
 
-    if (common_config.ability) {
-        textOffset = textArea(common_config.ability, 45, 234, 150);
-    }
+    drawTextArea(45, 234, 150, 150);
 
-    if (common_config.artist) {
-        artistLine(60, 333);
-    }
+    artistLine(60, 333);
 
     typeLine("Attack", 19, 220);
 }
 
 function drawBattlegear(_assets) {
-    if (common_config.ability) {
-        textOffset = textArea(common_config.ability, 45, 234, 150);
-    }
+    drawTextArea(21.2, 229.6, 234.4 - 21.2, 313 - 229.6);
 
-    if (common_config.artist) {
-        artistLine(60, 333);
-    }
+    artistLine(60, 333);
 
     typeLine("Battlegear", 19, 220);
 }
@@ -416,13 +449,9 @@ function drawCreature(assets) {
         ctx.fillText(type_config.speed, 33, 305);
     }
 
-    if (common_config.ability) {
-        textOffset = textArea(common_config.ability, 45, 234, 150);
-    }
+    drawTextArea(45, 234, 150, 150);
 
-    if (common_config.artist) {
-        artistLine(47, 332);
-    }
+    artistLine(47, 332);
 
     typeLine("Creature", 45, 219);
 }
