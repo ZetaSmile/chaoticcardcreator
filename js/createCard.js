@@ -381,16 +381,16 @@ function drawCreature(assets) {
     }
 
     /* Mugic Ability */
-    ctx.font = 'bold 14px Eurostile-BoldExtendedTwo';
+    ctx.font = 'Bold 17px Eurostile-Bold';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
     if (type_config.mugic) {
-        ctx.fillText(type_config.mugic, 17, 333);
+        ctx.fillText(type_config.mugic, 18, 333);
     }
 
     /* Energy */
-    ctx.font = 'Bold 19px Arial Black';
+    ctx.font = 'Bold 19px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
     
