@@ -29,7 +29,7 @@ export function drawText(ctx, text, offsetX, offsetY, maxX) {
             let line = words[words.length - remaining];
             let width = ctx.measureText(line).width;
 
-            while (--remaining > 1) {
+            while (--remaining > 0) {
                 const next_word = words[words.length - remaining];
                 const new_width = width + ctx.measureText(next_word).width;
                 if (new_width > maxX) {
