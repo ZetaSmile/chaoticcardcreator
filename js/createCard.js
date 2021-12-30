@@ -1,4 +1,4 @@
-import { parseTextArea } from './drawText.js';
+import { parseTextArea } from './parseTextArea.js';
 
 let common_config = {};
 let type_config = {};
@@ -35,11 +35,7 @@ export function updateCommonConfig(key, value) {
 
 // This function gathers the form data, loads the assets, and then draws the card
 export async function createCard() {
-
-    // Resets the canvas to prepare for redraw
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Delete the checkboxes
+    // Rest the old checkboxes values
     (["unique", "legendary", "loyal"]).forEach((value) => {
         delete common_config[value];
     });
@@ -94,7 +90,6 @@ async function loadAssets() {
 /* This function maps what images need to be loaded based on the configuration */
 function gatherAssets() {
     const assets = [];
-    //console.log(common_config.type)
 
     if (common_config.art) {
         assets.push({ art: common_config.art });
@@ -167,6 +162,9 @@ function resetDropShadow() {
 
 /* This function draws the card layer by layer, specify where images/text is drawn */
 function drawCard(assets) {
+    // Resets the canvas to prepare for redraw
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     resetDropShadow();
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
@@ -219,7 +217,7 @@ function drawCard(assets) {
 }
 
 // This is the spacing of a new line
-const linespace = 12;
+const linespace = 10;
 
 /** Ability 
  * @param {number} offsetX Offset from left where to begin drawing text
@@ -281,42 +279,50 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         ctx.font = 'bold 10px Arial';
         sections = parseTextArea(ctx, common_config.ability, maxX);
     }
-
+    
+    // Sections include unique/loyal/legendary line
     if (sections.length > 0 || ull != "") {
-        let length = 0;
+        let textSpace = 0;
         if (ull != "") {
-            length += 1;
+            // This +2 here and when its drawn is because the font is larger
+            // You can remove these if you want less linespace for unique/loyal
+            textSpace += linespace + 2;
         }
         if (sections.length > 0) {
             sections.forEach(({lines}) => {
-                length += lines.length;
+                textSpace += linespace * lines.length;
             });
         }
 
-        let len = sections.length + (ull != "" ? 1 : 0);
-        if (len < 3) len++;
-        const space = (((maxY - flavorHeight)) - (length * linespace)) / len; 
+        const total_sections = sections.length + (ull != "" ? 1 : 0);
+        // console.log(textSpace, maxY - textSpace - flavorHeight);
+        let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)) + (linespace / 2); 
+        if (space < 0) space = 0;
 
-        // TODO centering text based on sections
-        // Sections include unique/loyal/legendary line
+        // console.log(space);
+        const centerline = Boolean(linespace / 2 <= space);
+        let nextOffset = offsetY;
+
         ctx.font = 'bold 10px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        let nextOffset = offsetY;
         sections.forEach(({lines}, j) => {
             nextOffset += space;
+            if (centerline) { nextOffset -= (linespace / 2); }
             lines.forEach((line, i) => {
                 if (line == "") { return; }
                 ctx.fillText(line, offsetX, nextOffset);
                 nextOffset += linespace;
-            });
+            }); 
         });
 
+        ctx.font = 'bold 11px Arial';
+        ctx.fillStyle = '#000000';
+        ctx.textAlign = 'left';
+
         if (ull != "") {
-            ctx.font = 'bold 11px Arial';
-            ctx.fillStyle = '#000000';
-            ctx.textAlign = 'left';
+            if (centerline) { nextOffset -= ((linespace / 2) - 2); }
             ctx.fillText(ull, offsetX, nextOffset + space);
         }
     }
