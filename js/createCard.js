@@ -244,11 +244,11 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
 
         // Flavor text gets drawn at the bottom of the card
         // Take the height of the text area and subtract the number of lines from the bottom
-        flavorHeight = ((lines.length - 1) * linespace);
-        const flavorTop = offsetY + maxY - flavorHeight;
+        const flavorTop = (offsetY + maxY) - ((lines.length - 1) * linespace);
         lines.forEach((line, i) => {
             ctx.fillText(line, offsetX, flavorTop + (i * linespace));
         });
+        flavorHeight = ((lines.length) * linespace);
     }
 
     if (common_config.unique || common_config.loyal || common_config.legendary) {
@@ -300,7 +300,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         if (space < 0) space = 0;
 
         // console.log(space);
-        const centerline = Boolean(linespace / 2 <= space);
+
         let nextOffset = offsetY;
 
         ctx.font = 'bold 10px Arial';
@@ -309,7 +309,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
 
         sections.forEach(({lines}, j) => {
             nextOffset += space;
-            if (centerline) { nextOffset -= (linespace / 2); }
+            nextOffset -= (linespace / 2);
             lines.forEach((line, i) => {
                 if (line == "") { return; }
                 ctx.fillText(line, offsetX, nextOffset);
@@ -322,8 +322,9 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         ctx.textAlign = 'left';
 
         if (ull != "") {
-            if (centerline) { nextOffset -= ((linespace / 2) - 2); }
-            ctx.fillText(ull, offsetX, nextOffset + space);
+            nextOffset += space;
+            nextOffset -= ((linespace / 2) - 2);
+            ctx.fillText(ull, offsetX, nextOffset);
         }
     }
 
