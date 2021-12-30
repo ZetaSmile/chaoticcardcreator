@@ -39,6 +39,11 @@ export async function createCard() {
     // Resets the canvas to prepare for redraw
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Delete the checkboxes
+    (["unique", "legendary", "loyal"]).forEach((value) => {
+        delete common_config[value];
+    });
+
     // Gathers the form data and puts them into config
     const common_data = new FormData(document.getElementById('common-form'));
     for (const [key, value] of common_data.entries()) {
@@ -101,7 +106,11 @@ function gatherAssets() {
 
     if (common_config.type === "creature") {
         if (type_config.tribe) {
-            assets.push({ card: `img/${type_config.tribe}.png` });
+            if(common_config.subtype && common_config.subtype.toLowerCase().includes("minion")) {
+                assets.push({ card: `img/Minion/${type_config.tribe}bw.png` });
+            } else {
+                assets.push({ card: `img/${type_config.tribe}.png` });
+            }
         }  
         if (type_config.fire) {
             assets.push({ firecreature: "img/firecreature.png" });
@@ -223,10 +232,9 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
      
     // This variable storess where the text was drawn in the text area, so that text doesn't overlap 
     // When using the drawText for card text area, update this value 
-    let flavorTop = 0;
+    let flavorHeight = 0;
     let sections = [];
     let ull = "";
-
 
     if (common_config.flavor) {
         ctx.font = 'italic 9px Arial';
@@ -238,33 +246,79 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
 
         // Flavor text gets drawn at the bottom of the card
         // Take the height of the text area and subtract the number of lines from the bottom
-        flavorTop = offsetY + maxY - ((lines.length - 1) * linespace);
+        flavorHeight = ((lines.length - 1) * linespace);
+        const flavorTop = offsetY + maxY - flavorHeight;
         lines.forEach((line, i) => {
             ctx.fillText(line, offsetX, flavorTop + (i * linespace));
         });
     }
 
-    if (common_config.unique, common_config.loyal, common_config.legendary) {
-        // TODO
+    if (common_config.unique || common_config.loyal || common_config.legendary) {
+        const {unique, loyal, legendary, loyal_restrict} = common_config;
+        
+        if (legendary) {
+            ull = "Legendary";
+            if (loyal) {
+                ull += ", ";
+            }
+        }
+        else if (unique) {
+            ull = "Unique"
+            if (loyal) {
+                ull += ", ";
+            }
+        }
+
+        if (loyal) {
+            ull += "Loyal";
+            if (loyal_restrict) {
+                ull += ` - ${loyal_restrict}`
+            }
+        }
     }
 
     if (common_config.ability) {
+        ctx.font = 'bold 10px Arial';
         sections = parseTextArea(ctx, common_config.ability, maxX);
     }
 
     if (sections.length > 0 || ull != "") {
+        let length = 0;
+        if (ull != "") {
+            length += 1;
+        }
+        if (sections.length > 0) {
+            sections.forEach(({lines}) => {
+                length += lines.length;
+            });
+        }
+
+        let len = sections.length + (ull != "" ? 1 : 0);
+        if (len < 3) len++;
+        const space = (((maxY - flavorHeight)) - (length * linespace)) / len; 
+
         // TODO centering text based on sections
         // Sections include unique/loyal/legendary line
         ctx.font = 'bold 10px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        // temp no spacing
-        const { lines } = sections.reduce((p, c) => ({ lines: [...p.lines, ...c.lines]}));
-        lines.forEach((line, i) => {
-            if (line == "") return;
-            ctx.fillText(line, offsetX, offsetY + (i * linespace));
+        let nextOffset = offsetY;
+        sections.forEach(({lines}, j) => {
+            nextOffset += space;
+            lines.forEach((line, i) => {
+                if (line == "") { return; }
+                ctx.fillText(line, offsetX, nextOffset);
+                nextOffset += linespace;
+            });
         });
+
+        if (ull != "") {
+            ctx.font = 'bold 11px Arial';
+            ctx.fillStyle = '#000000';
+            ctx.textAlign = 'left';
+            ctx.fillText(ull, offsetX, nextOffset + space);
+        }
     }
 
 }
@@ -386,7 +440,7 @@ function drawAttack(assets) {
 }
 
 function drawBattlegear(_assets) {
-    drawTextArea(21.2, 229.6, 234.4 - 21.2, 313 - 229.6);
+    drawTextArea(21.2, 234, 234.4 - 21.2, 313 - 234);
 
     artistLine(60, 333);
 
