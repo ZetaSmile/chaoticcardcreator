@@ -83,9 +83,32 @@ async function loadAssets() {
     return loaded;
 }
 
-/**
-* The following two functions should be modified in accordance to the forms data
-*/
+
+
+/***
+* The following functions should be modified in accordance to the forms data
+**/
+
+
+const find_icons = /(:[^ ]*:)|({{[0-9x]*}})/g;
+/* Loads all the icons to be used in the card */
+function findIcons(assets) {
+    const icons = new Set();
+    const mc = new Set();
+
+    const parse = (text) => {
+        text.match(find_icons).forEach((icon) => {
+            if (icon.startsWith(":")) {
+                icons.push(icon.replace(":", ""));
+            }
+            else if (icon.startsWith("{")) {
+                mc.push(icon.replace("{{", "").replace("}}", ""));
+            }
+        })
+    }
+
+
+}
 
 /* This function maps what images need to be loaded based on the configuration */
 function gatherAssets() {
@@ -102,9 +125,9 @@ function gatherAssets() {
     if (common_config.type === "creature") {
         if (type_config.tribe) {
             if(common_config.subtype && common_config.subtype.toLowerCase().includes("minion")) {
-                assets.push({ card: `img/Minion/${type_config.tribe}bw.png` });
+                assets.push({ card: `img/template/${type_config.tribe}bw.png` });
             } else {
-                assets.push({ card: `img/${type_config.tribe}.png` });
+                assets.push({ card: `img/template/${type_config.tribe}.png` });
             }
         }  
         if (type_config.fire) {
@@ -125,11 +148,11 @@ function gatherAssets() {
     }
 
     if (common_config.type === "battlegear") {
-        assets.push({ card: "img/battlegear.png" });
+        assets.push({ card: "img/template/battlegear.png" });
     }
 
     if (common_config.type === "attack") {
-        assets.push({ card: "img/attack.png" });
+        assets.push({ card: "img/template/attack.png" });
 
         if (type_config.firedamage) {
             assets.push({ fireattack: "img/fireattack.png" });
@@ -147,8 +170,8 @@ function gatherAssets() {
             assets.push({ waterattack: "img/waterattack.png" });
         } 
     }
-
-    // TODO parse text for icons to load
+    
+    // findIcons(assets);
 
     return assets;
 }
@@ -252,7 +275,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
     }
 
     if (common_config.unique || common_config.loyal || common_config.legendary) {
-        const {unique, loyal, legendary, loyal_restrict} = common_config;
+        const { unique, loyal, legendary, loyal_restrict } = common_config;
         
         if (legendary) {
             ull = "Legendary";
@@ -289,7 +312,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
             textSpace += linespace + 2;
         }
         if (sections.length > 0) {
-            sections.forEach(({lines}) => {
+            sections.forEach(({ lines }) => {
                 textSpace += linespace * lines.length;
             });
         }
@@ -307,7 +330,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        sections.forEach(({lines}, j) => {
+        sections.forEach(({ lines }, j) => {
             nextOffset += space;
             nextOffset -= (linespace / 2);
             lines.forEach((line, i) => {
