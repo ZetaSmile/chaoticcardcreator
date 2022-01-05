@@ -24,6 +24,7 @@
         "no-unused-vars": ["warn", {
             "argsIgnorePattern": "^_"
         }],
-        "object-curly-spacing": ["warn", "always", {"objectsInObjects": false, "arraysInObjects": false}]
+        "object-curly-spacing": ["warn", "always", {"objectsInObjects": false, "arraysInObjects": true}],
+        "semi": ["warn", "always", { "omitLastInOneLineBlock": true }]
     }
 }
