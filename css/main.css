@@ -23,3 +23,16 @@ form > div {
 form > div.form-show {
     display: inherit;
 }
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+td {
+    display: inline-block;
+}
+
+tr td:first-child {
+    width: 70px;
+}
