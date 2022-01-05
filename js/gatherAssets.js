@@ -51,9 +51,9 @@ function gatherAssets(common_config, type_config) {
     if (common_config.type === "creature") {
         if (type_config.tribe) {
             if(common_config.subtype && common_config.subtype.toLowerCase().includes("minion")) {
-                assets.push({ card: `img/template/${type_config.tribe}bw.png` });
+                assets.push({ template: `img/template/${type_config.tribe}bw.png` });
             } else {
-                assets.push({ card: `img/template/${type_config.tribe}.png` });
+                assets.push({ template: `img/template/${type_config.tribe}.png` });
             }
         }  
         if (type_config.fire) {
@@ -74,11 +74,11 @@ function gatherAssets(common_config, type_config) {
     }
 
     if (common_config.type === "battlegear") {
-        assets.push({ card: "img/template/battlegear.png" });
+        assets.push({ template: "img/template/battlegear.png" });
     }
 
     if (common_config.type === "attack") {
-        assets.push({ card: "img/template/attack.png" });
+        assets.push({ template: "img/template/attack.png" });
 
         if (type_config.firedamage) {
             assets.push({ fireattack: "img/fireattack.png" });
@@ -97,7 +97,7 @@ function gatherAssets(common_config, type_config) {
         } 
     }
     
-    /* Loads all the icons to be used in the card */
+    /* Loads all the icons to be used in the card text */
     const icons = new Set();
     const mc = new Set();
 

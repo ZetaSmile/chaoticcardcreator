@@ -5,9 +5,14 @@
         <link rel="stylesheet" href="./font/fonts.css" />
     </head>
     <body>
-        <div style="margin: 0 auto; width:350px; background-color: rgba(114, 109, 109, .95);">
+        <div style="margin: 0 auto; width: 350px; background-color: rgba(114, 109, 109, .95);">
             <div style="margin: 0 auto;">
                 <canvas id="canvas" width=250 height=350 style="display: block; margin: auto;"></canvas>    
+            </div>
+            <p></p>
+            <div  style="margin: 0 auto;">
+                <button id="update" onclick="submit();">Update</button>
+                <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
             </div>
             <p></p>
             <div style="margin-left: 8px;">
@@ -172,11 +177,6 @@
                         </table>
                     </div>
                 </form>
-                <p></p>
-                <div>
-                    <button id="update" onclick="submit();">Update</button>
-                    <a id="download" class="isDisabled" download="" href="" onclick="download_img(this);"><button type="button">Download</button></a>
-                </div>
             </div>
         </div>
         <!-- Due to font loading missing the timing on first render, we load all of the fonts into empty elements-->

@@ -84,31 +84,40 @@ function resetDropShadow() {
 function drawCard(assets) {
     // Resets the canvas to prepare for redraw
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     resetDropShadow();
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
     // Because it requires changing the canvas dimensions among other things
 
-    /* Draws the parts of the cards that are common between everything besides locations */
+    if (common_config.type == "location") {
+        canvas.width = 350;
+        canvas.height = 250;
 
-    if (assets.art) {
-        ctx.drawImage(assets.art, 
-            0, 0, assets.art.width, assets.art.height,
-            10.26, 25.3, 228.94, 191.9
-        );
-    }
-    if (assets.card) {
-        ctx.drawImage(assets.card,
-            0, 0, assets.card.width, assets.card.height,
-            0, 0, canvas.width, canvas.height
-        );
-    }
-    if (assets.symbol) {
-        ctx.drawImage(assets.symbol,
-            0, 0, assets.symbol.width, assets.symbol.height,
-            0, 0, canvas.width, canvas.height
-        );
+        // TODO art, card, symbol
+    } else {
+        canvas.width = 250;
+        canvas.height = 350;
+
+
+        /* Draws the parts of the cards that are common between everything besides locations */
+        if (assets.art) {
+            ctx.drawImage(assets.art, 
+                0, 0, assets.art.width, assets.art.height,
+                10.26, 25.3, 228.94, 191.9
+            );
+        }
+        if (assets.template) {
+            ctx.drawImage(assets.template,
+                0, 0, assets.template.width, assets.template.height,
+                0, 0, canvas.width, canvas.height
+            );
+        }
+        if (assets.symbol) {
+            ctx.drawImage(assets.symbol,
+                0, 0, assets.symbol.width, assets.symbol.height,
+                0, 0, canvas.width, canvas.height
+            );
+        }
     }
 
     // Name and subname
