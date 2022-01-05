@@ -32,15 +32,22 @@ export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
 
             while (remaining > 0) {
                 let next_word = words[words.length - remaining];
+                let new_width = line_width;
                 let icon = null;
 
                 if (parseIcons && icon_regex.test(next_word)) {
-                    ({ icon, next_word } = parseIcon(next_word));
+                    icon = parseIcon(next_word);
+                    new_width += 12; // width of the icon
+                    next_word = " ".repeat(4);
                 }
-                if (!first_word) {
-                    next_word = ` ${next_word}`;
+                else {
+                    if (!first_word) {
+                        next_word = ` ${next_word}`;
+                    } else {
+                        first_word = false;
+                    }
+                    new_width += ctx.measureText(next_word).width;
                 }
-                const new_width = line_width + ctx.measureText(next_word).width;
 
                 if (new_width > maxWidth) {
                     lines.push(line_text);
@@ -73,7 +80,6 @@ export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
 
 function parseIcon(word) {
     let icon = word.match(icon_regex)[0];
-    let next_word = "  ";
 
     if (icon.startsWith(":")) {
         icon = icon.replaceAll(":", "").toLowerCase();
@@ -87,7 +93,7 @@ function parseIcon(word) {
         icon = `mc_${icon.replace("{{", "").replace("}}", "").toLowerCase()}`;    
     }
 
-    return { icon, next_word };
+    return icon;
 }
 
 // These are the list of usable icons, if the user provides a value out of these, it won't load

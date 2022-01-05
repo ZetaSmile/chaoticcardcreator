@@ -115,17 +115,18 @@ function drawCard(assets) {
     if (common_config.name) {
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.shadowBlur = 1;
+        ctx.shadowBlur = .8;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
-        ctx.shadowColor = "black";
+        ctx.shadowColor = "dim-grey";
+
         if (common_config.subname) {
-            ctx.font = '11px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.name, canvas.width/2 , 19);
+            ctx.font = '12px Eurostile-BoldExtendedTwo';
+            ctx.fillText(common_config.name, canvas.width/2 , 18);
             ctx.font = '7px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.subname, canvas.width/2 , 28);
+            ctx.fillText(common_config.subname, canvas.width/2 , 27);
         } else {
-            ctx.font = '11px Eurostile-BoldExtendedTwo';
+            ctx.font = '12px Eurostile-BoldExtendedTwo';
             ctx.fillText(common_config.name, canvas.width/2 , 23);
         }
     }
@@ -250,7 +251,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
                             const asset = assets[icon.icon];
                             ctx.drawImage(asset, 
                                 0, 0, asset.width, asset.height,
-                                offsetX + icon.offset, nextOffset, 12, 12
+                                offsetX + icon.offset, nextOffset - 1, 12, 12
                             );
                         }
                     });
@@ -287,13 +288,13 @@ function artistLine(offsetX, offsetY) {
 
 /* Type Line */
 function typeLine(type, offsetX, offsetY) {
-    ctx.font = 'italic 7px Eurostile-Bold';
+    ctx.font = 'italic 7.5px Eurostile-Bold';
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
-    ctx.shadowBlur = .5;
+    ctx.shadowBlur = .1;
     ctx.shadowOffsetX = .5;
     ctx.shadowOffsetY = .5;
-    ctx.shadowColor = "black";
+    ctx.shadowColor = "dim-grey";
 
     const tribe = (() => {
         if (!type_config.tribe) return "";
