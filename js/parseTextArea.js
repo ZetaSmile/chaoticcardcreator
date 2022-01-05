@@ -1,42 +1,5 @@
-export function parseLine(ctx, text, maxWidth) {
-    // These are all the lines that will be drawn;
-    const lines = [];
-    const icons = [];
-
-    // If user inputed a newline without text
-    if (text.trim() == '') {
-        return { lines, icons };
-    }
-
-    const words = text.split(" ");
-    let remaining = words.length;
-
-    // Recursive function that draws lines of text
-    // If the text is longer than the line, breaks on the next word
-    const drawLine = () => {
-        let line = words[words.length - remaining];
-        let width = ctx.measureText(line).width;
-
-        while (--remaining > 0) {
-            const next_word = ` ${words[words.length - remaining]}`;
-            const new_width = width + ctx.measureText(next_word).width;
-            if (new_width > maxWidth) {
-                lines.push(line);
-                return drawLine();
-            }
-            else {
-                line += next_word;
-                width = new_width;
-            }
-        }
-
-        lines.push(line);
-    }
-
-    drawLine();
-
-    return { lines, icons };
-}
+const split_regex = /(?:[ ]+)|(:[^ ]*:)|({{[^ }]*}})/;
+const icon_regex = /(:[^ ]*:)|({{[^ }]*}})/;
 
 /**
  * @param {CanvasRenderingContext2D} ctx The canvas context
@@ -44,14 +7,103 @@ export function parseLine(ctx, text, maxWidth) {
  * @param {number} maxWidth Maximum width of the text to be drawn
  * @returns { [{lines: string[], icons: *[]}] } Returns the lines and icons of the drawn text area
  */
-export function parseTextArea(ctx, text, maxWidth) {
+export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
     const sections = [];
 
     // preserve user lines
     const paragraphs = text.split(/\r\n|\n|\r/);
     for (const i in paragraphs) {
-        sections.push(parseLine(ctx, paragraphs[i], maxWidth))
+        const text = paragraphs[i];
+        // If user inputed a newline without text
+        if (text.trim() == '') {
+            sections.push({ lines: [], icons: [] });
+        }
+
+        // Filter out the undefined capture groups from the regex
+        const words = text.split(split_regex).filter(el => (el));
+        let remaining = words.length;
+
+        // Recursive function that draws lines of text
+        // If the text is longer than the line, breaks on the next word
+        const parseLine = (lines=[], icons=[]) => {
+            let line_text = "";
+            let line_width = 0;
+            let first_word = true;
+
+            while (remaining > 0) {
+                let next_word = words[words.length - remaining];
+                let icon = null;
+
+                if (parseIcons && icon_regex.test(next_word)) {
+                    ({ icon, next_word } = parseIcon(next_word));
+                }
+                if (!first_word) {
+                    next_word = ` ${next_word}`;
+                }
+                const new_width = line_width + ctx.measureText(next_word).width;
+
+                if (new_width > maxWidth) {
+                    lines.push(line_text);
+                    return parseLine(lines, icons);
+                }
+                else {
+                    if (icon !== null) {
+                        icons.push({
+                            icon,
+                            offset: line_width,
+                            line: lines.length
+                        });
+                    }
+                    line_text += next_word;
+                    line_width = new_width;
+                    remaining--;
+                }
+            }
+
+            lines.push(line_text);
+
+            return { lines, icons };
+        };
+
+        sections.push(parseLine());
     }
 
     return sections;
 }
+
+function parseIcon(word) {
+    let icon = word.match(icon_regex)[0];
+    let next_word = "  ";
+
+    if (icon.startsWith(":")) {
+        icon = icon.replaceAll(":", "").toLowerCase();
+        if (available_icons.includes(icon)) {
+            icon = `icon_${icon}`;
+        } else {
+            icon = null;
+        }
+    }
+    else if (icon.startsWith("{{")) {
+        icon = `mc_${icon.replace("{{", "").replace("}}", "").toLowerCase()}`;    
+    }
+
+    return { icon, next_word };
+}
+
+// These are the list of usable icons, if the user provides a value out of these, it won't load
+export const available_icons = [
+    "air",
+    "courage",
+    "danian",
+    "earth",
+    "fire",
+    "generic",
+    "m'arrillian",
+    "mipedian",
+    "overworld",
+    "power",
+    "speed",
+    "underworld",
+    "water",
+    "wisdom"
+];

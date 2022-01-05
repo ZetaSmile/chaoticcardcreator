@@ -1,4 +1,5 @@
 import { parseTextArea } from './parseTextArea.js';
+import { loadAssets } from './gatherAssets.js';
 
 let common_config = {};
 let type_config = {};
@@ -14,8 +15,10 @@ const ctx = canvas.getContext("2d");
 (() => {
     const cardback = new Image();
     cardback.onload = (() => {
-        ctx.drawImage(cardback, 0, 0, cardback.width, cardback.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(cardback, 
+            0, 0, cardback.width, cardback.height,
+            0, 0, canvas.width, canvas.height
+        );
     });
     cardback.src = "img/cardback.png";
 })();
@@ -56,7 +59,7 @@ export async function createCard() {
     }
 
     // Loads all the required images
-    const assets = await loadAssets();
+    const assets = await loadAssets(common_config, type_config);
 
     // After images are loaded, you can draw the card 
     drawCard(assets);
@@ -64,117 +67,6 @@ export async function createCard() {
     return Promise.resolve();
 }
 
-/* This function ensures that all images have been loaded before proceeding */
-async function loadAssets() {
-    const loaded = {};
-    const promises = gatherAssets().map((img) => {
-        return new Promise((resolve) => {
-            const [key, value] = Object.entries(img)[0];
-            const loadable = new Image();
-            loadable.onload = (() => {
-                loaded[key] = loadable;
-                resolve();
-            });
-            loadable.src = value;
-        });
-    });
-
-    await Promise.all(promises);
-    return loaded;
-}
-
-
-
-/***
-* The following functions should be modified in accordance to the forms data
-**/
-
-
-const find_icons = /(:[^ ]*:)|({{[0-9x]*}})/g;
-/* Loads all the icons to be used in the card */
-function findIcons(assets) {
-    const icons = new Set();
-    const mc = new Set();
-
-    const parse = (text) => {
-        text.match(find_icons).forEach((icon) => {
-            if (icon.startsWith(":")) {
-                icons.push(icon.replace(":", ""));
-            }
-            else if (icon.startsWith("{")) {
-                mc.push(icon.replace("{{", "").replace("}}", ""));
-            }
-        })
-    }
-
-
-}
-
-/* This function maps what images need to be loaded based on the configuration */
-function gatherAssets() {
-    const assets = [];
-
-    if (common_config.art) {
-        assets.push({ art: common_config.art });
-    }
-    
-    if (common_config.set) {
-        assets.push({ symbol: `img/set/${common_config.set}${common_config.rarity}.png` });
-    }
-
-    if (common_config.type === "creature") {
-        if (type_config.tribe) {
-            if(common_config.subtype && common_config.subtype.toLowerCase().includes("minion")) {
-                assets.push({ card: `img/template/${type_config.tribe}bw.png` });
-            } else {
-                assets.push({ card: `img/template/${type_config.tribe}.png` });
-            }
-        }  
-        if (type_config.fire) {
-            assets.push({ firecreature: "img/firecreature.png" });
-        }
-
-        if (type_config.air) {
-            assets.push({ aircreature: "img/aircreature.png" });
-        }
-    
-        if (type_config.earth) {
-            assets.push({ earthcreature: "img/earthcreature.png" });
-        }
-    
-        if (type_config.water) {
-            assets.push({ watercreature: "img/watercreature.png" });
-        }
-    }
-
-    if (common_config.type === "battlegear") {
-        assets.push({ card: "img/template/battlegear.png" });
-    }
-
-    if (common_config.type === "attack") {
-        assets.push({ card: "img/template/attack.png" });
-
-        if (type_config.firedamage) {
-            assets.push({ fireattack: "img/fireattack.png" });
-        }
-    
-        if (type_config.airdamage) {
-            assets.push({ airattack: "img/airattack.png" });
-        }
-    
-        if (type_config.earthdamage) {
-            assets.push({ earthattack: "img/earthattack.png" });
-        }
-    
-        if (type_config.waterdamage) {
-            assets.push({ waterattack: "img/waterattack.png" });
-        } 
-    }
-    
-    // findIcons(assets);
-
-    return assets;
-}
 
 function resetDropShadow() {
     ctx.shadowBlur = 0;
@@ -182,6 +74,11 @@ function resetDropShadow() {
     ctx.shadowOffsetY = 0;
     ctx.shadowColor = "black";
 }
+
+
+/***
+* The following functions should be modified in accordance to the forms data
+**/
 
 /* This function draws the card layer by layer, specify where images/text is drawn */
 function drawCard(assets) {
@@ -196,16 +93,22 @@ function drawCard(assets) {
     /* Draws the parts of the cards that are common between everything besides locations */
 
     if (assets.art) {
-        ctx.drawImage(assets.art, 0, 0, assets.art.width, assets.art.height,
-            10.26, 25.3, 228.94, 191.9);
+        ctx.drawImage(assets.art, 
+            0, 0, assets.art.width, assets.art.height,
+            10.26, 25.3, 228.94, 191.9
+        );
     }
     if (assets.card) {
-        ctx.drawImage(assets.card, 0, 0, assets.card.width, assets.card.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.card,
+            0, 0, assets.card.width, assets.card.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.symbol) {
-        ctx.drawImage(assets.symbol, 0, 0, assets.symbol.width, assets.symbol.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.symbol,
+            0, 0, assets.symbol.width, assets.symbol.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
 
     // Name and subname
@@ -215,15 +118,15 @@ function drawCard(assets) {
         ctx.shadowBlur = 1;
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
-        ctx.shadowColor = "black"
+        ctx.shadowColor = "black";
         if (common_config.subname) {
             ctx.font = '11px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.name, canvas.width/2 , 19)
+            ctx.fillText(common_config.name, canvas.width/2 , 19);
             ctx.font = '7px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.subname, canvas.width/2 , 28)
+            ctx.fillText(common_config.subname, canvas.width/2 , 28);
         } else {
             ctx.font = '11px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.name, canvas.width/2 , 23)
+            ctx.fillText(common_config.name, canvas.width/2 , 23);
         }
     }
 
@@ -243,12 +146,13 @@ function drawCard(assets) {
 const linespace = 10;
 
 /** Ability 
+ * @param {*} assets The list of drawable image assets
  * @param {number} offsetX Offset from left where to begin drawing text
  * @param {number} offsetY Offset from top where to begin drawing text
  * @param {number} maxX Maximum width of the text area
  * @param {number} maxY Maximum height of text area
  * */ 
-function drawTextArea(offsetX, offsetY, maxX, maxY) {
+function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     resetDropShadow();
      
     // This variable storess where the text was drawn in the text area, so that text doesn't overlap 
@@ -262,8 +166,8 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        const { lines } = parseTextArea(ctx, common_config.flavor, maxX)
-            .reduce((p, c) => ({ lines: [...p.lines, ...c.lines]}));
+        const { lines } = parseTextArea(ctx, common_config.flavor, maxX, false)
+            .reduce((p, c) => ({ lines: [...p.lines, ...c.lines] }));
 
         // Flavor text gets drawn at the bottom of the card
         // Take the height of the text area and subtract the number of lines from the bottom
@@ -273,6 +177,8 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         });
         flavorHeight = ((lines.length) * linespace);
     }
+
+    ctx.textBaseline = "top";
 
     if (common_config.unique || common_config.loyal || common_config.legendary) {
         const { unique, loyal, legendary, loyal_restrict } = common_config;
@@ -284,7 +190,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
             }
         }
         else if (unique) {
-            ull = "Unique"
+            ull = "Unique";
             if (loyal) {
                 ull += ", ";
             }
@@ -293,7 +199,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         if (loyal) {
             ull += "Loyal";
             if (loyal_restrict) {
-                ull += ` - ${loyal_restrict}`
+                ull += ` - ${loyal_restrict}`;
             }
         }
     }
@@ -318,11 +224,8 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         }
 
         const total_sections = sections.length + (ull != "" ? 1 : 0);
-        // console.log(textSpace, maxY - textSpace - flavorHeight);
-        let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)) + (linespace / 2); 
+        let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)); 
         if (space < 0) space = 0;
-
-        // console.log(space);
 
         let nextOffset = offsetY;
 
@@ -330,14 +233,30 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        sections.forEach(({ lines }, j) => {
+        sections.forEach(({ lines, icons }) => {
+            // console.log(icons, lines);
             nextOffset += space;
-            nextOffset -= (linespace / 2);
-            lines.forEach((line, i) => {
-                if (line == "") { return; }
-                ctx.fillText(line, offsetX, nextOffset);
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                let _icons = icons.filter(icon => (icon.line === i));
+                if (line == "" && _icons.length == 0) continue;
+                if (line != "") {
+                    ctx.fillText(line, offsetX, nextOffset);
+                }
+                if (_icons.length != 0) {
+                    icons.forEach((icon) => {
+                        // console.log(icon);
+                        if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
+                            const asset = assets[icon.icon];
+                            ctx.drawImage(asset, 
+                                0, 0, asset.width, asset.height,
+                                offsetX + icon.offset, nextOffset, 12, 12
+                            );
+                        }
+                    });
+                }
                 nextOffset += linespace;
-            }); 
+            }
         });
 
         ctx.font = 'bold 11px Arial';
@@ -351,6 +270,7 @@ function drawTextArea(offsetX, offsetY, maxX, maxY) {
         }
     }
 
+    ctx.textBaseline = "alphabetic";
 }
 
 /* Artist */
@@ -397,7 +317,7 @@ function typeLine(type, offsetX, offsetY) {
         type += tribe;
     }
     if (common_config.subtype) {
-        type += ` ${common_config.subtype}`
+        type += ` ${common_config.subtype}`;
     }
     
     ctx.fillText(type, offsetX, offsetY);
@@ -407,20 +327,28 @@ function drawAttack(assets) {
     resetDropShadow();
 
     if (assets.fireattack) {
-        ctx.drawImage(assets.fireattack, 0, 0, assets.fireattack.width, assets.fireattack.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.fireattack, 
+            0, 0, assets.fireattack.width, assets.fireattack.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.airattack) {
-        ctx.drawImage(assets.airattack, 0, 0, assets.airattack.width, assets.airattack.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.airattack, 
+            0, 0, assets.airattack.width, assets.airattack.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.earthattack) {
-        ctx.drawImage(assets.earthattack, 0, 0, assets.earthattack.width, assets.earthattack.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.earthattack, 
+            0, 0, assets.earthattack.width, assets.earthattack.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.waterattack) {
-        ctx.drawImage(assets.waterattack, 0, 0, assets.waterattack.width, assets.waterattack.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.waterattack, 
+            0, 0, assets.waterattack.width, assets.waterattack.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
 
     /* Build Points */
@@ -438,19 +366,19 @@ function drawAttack(assets) {
     ctx.textAlign = 'left';
 
     if (type_config.firedamage) {
-        ctx.fillText(type_config.firedamage, 91, 242)
+        ctx.fillText(type_config.firedamage, 91, 242);
     }
 
     if (type_config.airdamage) {
-        ctx.fillText(type_config.airdamage, 133, 242)
+        ctx.fillText(type_config.airdamage, 133, 242);
     }    
 
     if (type_config.earthdamage) {
-        ctx.fillText(type_config.earthdamage, 175, 242)
+        ctx.fillText(type_config.earthdamage, 175, 242);
     }
 
     if (type_config.waterdamage) {
-        ctx.fillText(type_config.waterdamage, 217, 242)
+        ctx.fillText(type_config.waterdamage, 217, 242);
     }
 
     /* Base Damage */
@@ -459,18 +387,18 @@ function drawAttack(assets) {
     ctx.textAlign = 'center';
 
     if (type_config.basedamage) {
-        ctx.fillText(type_config.basedamage, 39, 247)
+        ctx.fillText(type_config.basedamage, 39, 247);
     }
 
-    drawTextArea(45, 234, 150, 150);
+    drawTextArea(assets, 45, 234, 150, 150);
 
     artistLine(60, 333);
 
     typeLine("Attack", 19, 220);
 }
 
-function drawBattlegear(_assets) {
-    drawTextArea(21.2, 234, 234.4 - 21.2, 313 - 234);
+function drawBattlegear(assets) {
+    drawTextArea(assets, 21.2, 234, 234.4 - 21.2, 313 - 234);
 
     artistLine(60, 333);
 
@@ -481,20 +409,28 @@ function drawCreature(assets) {
     resetDropShadow();
 
     if (assets.firecreature) {
-        ctx.drawImage(assets.firecreature, 0, 0, assets.firecreature.width, assets.firecreature.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.firecreature, 
+            0, 0, assets.firecreature.width, assets.firecreature.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.aircreature) {
-        ctx.drawImage(assets.aircreature, 0, 0, assets.aircreature.width, assets.aircreature.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.aircreature,
+            0, 0, assets.aircreature.width, assets.aircreature.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.earthcreature) {
-        ctx.drawImage(assets.earthcreature, 0, 0, assets.earthcreature.width, assets.earthcreature.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.earthcreature,
+            0, 0, assets.earthcreature.width, assets.earthcreature.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
     if (assets.watercreature) {
-        ctx.drawImage(assets.watercreature, 0, 0, assets.watercreature.width, assets.watercreature.height,
-            0, 0, canvas.width, canvas.height);
+        ctx.drawImage(assets.watercreature,
+            0, 0, assets.watercreature.width, assets.watercreature.height,
+            0, 0, canvas.width, canvas.height
+        );
     }
 
     /* Mugic Ability */
@@ -533,7 +469,7 @@ function drawCreature(assets) {
         ctx.fillText(type_config.speed, 33, 305);
     }
 
-    drawTextArea(45, 234, 150, 150);
+    drawTextArea(assets, 45, 234, 150, 150);
 
     artistLine(47, 332);
 
