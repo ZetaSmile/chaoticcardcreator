@@ -265,7 +265,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 
         if (ull != "") {
             nextOffset += space;
-            nextOffset -= ((linespace / 2) - 2);
+            nextOffset -= 2;
             ctx.fillText(ull, offsetX, nextOffset);
         }
     }
