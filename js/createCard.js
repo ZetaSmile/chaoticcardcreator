@@ -357,7 +357,7 @@ function drawAttack(assets) {
     if (assets.waterattack) {
         ctx.drawImage(assets.waterattack, 
             0, 0, assets.waterattack.width, assets.waterattack.height,
-            0, 0, canvas.width, canvas.height
+            -1, -1, canvas.width, canvas.height
         );
     }
 

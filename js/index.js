@@ -34,17 +34,17 @@ uploadArt.addEventListener("change", function() {
         const reader = new FileReader();
         reader.onload = () => {
             updateCommonConfig("art", reader.result);
-        }
+        };
         reader.readAsDataURL(this.files[0]);
     }
-}, false)
+}, false);
 
 /* Exposed functions */
 
 export function submit() {
     createCard().then(() => {
         downloadbtn.classList.remove("isDisabled");
-    })
+    });
 }
 
 export function download (el) {
