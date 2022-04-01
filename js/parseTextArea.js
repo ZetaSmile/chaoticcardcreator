@@ -94,6 +94,7 @@ function parseIcon(word) {
     }
 
     return icon;
+    
 }
 
 // These are the list of usable icons, if the user provides a value out of these, it won't load

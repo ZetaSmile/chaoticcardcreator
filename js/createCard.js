@@ -371,28 +371,30 @@ function drawAttack(assets) {
     }
 
     /* Element damage values */
-    ctx.font = 'bold 14px Eurostile black';
+    ctx.font = 'bold 10px Eurostile-BoldExtendedTwo';
     ctx.fillStyle = '#000000';
-    ctx.textAlign = 'left';
+    ctx.textAlign = 'center';
+
 
     if (type_config.firedamage) {
-        ctx.fillText(type_config.firedamage, 91, 242);
+        ctx.fillText(type_config.firedamage, 96, 242);
     }
 
     if (type_config.airdamage) {
-        ctx.fillText(type_config.airdamage, 133, 242);
+        ctx.fillText(type_config.airdamage, 139, 242);
     }    
 
     if (type_config.earthdamage) {
-        ctx.fillText(type_config.earthdamage, 175, 242);
+        ctx.fillText(type_config.earthdamage, 181, 242);
     }
 
     if (type_config.waterdamage) {
-        ctx.fillText(type_config.waterdamage, 217, 242);
+        ctx.fillText(type_config.waterdamage, 224, 242);
     }
 
     /* Base Damage */
-    ctx.font = 'bold 26px Eurostile black extended';
+    ctx.font = 'bold 22px Eurostile-BoldExtendedTwo';
+    
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
@@ -400,7 +402,9 @@ function drawAttack(assets) {
         ctx.fillText(type_config.basedamage, 39, 247);
     }
 
-    drawTextArea(assets, 45, 234, 150, 150);
+    drawTextArea(assets, 20, 252, 219, 64);
+    // drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
+
 
     artistLine(60, 333);
 
@@ -478,8 +482,13 @@ function drawCreature(assets) {
     if (type_config.speed) {
         ctx.fillText(type_config.speed, 33, 305);
     }
+    console.log(common_config.offsetx);
+    console.log(common_config.offsety);
+    console.log(common_config.maxx);
+    console.log(common_config.maxy);
 
-    drawTextArea(assets, 45, 234, 150, 150);
+    //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
+    drawTextArea(assets, 45, 221, 172, 89);
 
     artistLine(47, 332);
 
