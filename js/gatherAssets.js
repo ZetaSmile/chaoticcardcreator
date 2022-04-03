@@ -96,6 +96,10 @@ function gatherAssets(common_config, type_config) {
             assets.push({ waterattack: "img/waterattack.png" });
         } 
     }
+
+    if (common_config.type === "location") {
+        assets.push({ template: "img/template/location.png" });
+    }
     
     /* Loads all the icons to be used in the card text */
     const icons = new Set();

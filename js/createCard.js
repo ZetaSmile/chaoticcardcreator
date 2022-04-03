@@ -1,4 +1,4 @@
-import { parseTextArea } from './parseTextArea.js';
+import { parseTextArea, parseLine } from './parseTextArea.js';
 import { loadAssets } from './gatherAssets.js';
 
 let common_config = {};
@@ -93,19 +93,47 @@ function drawCard(assets) {
         canvas.width = 350;
         canvas.height = 250;
 
-        // TODO art, card, symbol
+        // TODO figure out these values
+        if (assets.art) {
+            ctx.drawImage(assets.art,
+                0, 0, assets.art.width, assets.art.height,
+                10.26, 25.3, 191.9, 228.94
+            );
+        }
+
+        if (assets.template) {
+            ctx.drawImage(assets.template,
+                0, 0, assets.template.width, assets.template.height,
+                0, 0, canvas.width, canvas.height
+            );
+        }
+
+        // TODO figure out these values
+        // Real todo is upload proper icons not this full size hack
+        if (assets.symbol) {
+            ctx.drawImage(assets.symbol,
+                228, 21, assets.symbol.width - 31, 447,
+                162, 8, canvas.width, canvas.height
+            );
+        }
+
     } else {
         canvas.width = 250;
         canvas.height = 350;
 
-
         /* Draws the parts of the cards that are common between everything besides locations */
+
         if (assets.art) {
-            ctx.drawImage(assets.art, 
-                0, 0, assets.art.width, assets.art.height,
-                10.26, 25.3, 228.94, 191.9
-            );
+            if (common_config.type == "mugic") {
+                // TODO full image art for mugic
+            } else {
+                ctx.drawImage(assets.art, 
+                    0, 0, assets.art.width, assets.art.height,
+                    10.26, 25.3, 228.94, 191.9
+                );
+            }
         }
+
         if (assets.template) {
             ctx.drawImage(assets.template,
                 0, 0, assets.template.width, assets.template.height,
@@ -128,7 +156,7 @@ function drawCard(assets) {
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
         ctx.shadowColor = "dim-grey";
-
+    
         if (common_config.subname) {
             ctx.font = '12px Eurostile-BoldExtendedTwo';
             ctx.fillText(common_config.name, canvas.width/2 , 18);
@@ -140,14 +168,18 @@ function drawCard(assets) {
         }
     }
 
-    if (common_config.type == "attack") {
-        drawAttack(assets);
-    } 
-    else if (common_config.type == "battlegear") {
-        drawBattlegear(assets);
-    }
-    else if (common_config.type == "creature") {
-        drawCreature(assets);
+    switch (common_config.type) {
+        case 'attack':
+            drawAttack(assets);
+            break;
+        case 'battlegear':
+            drawBattlegear(assets);
+            break;
+        case 'creature':
+            drawCreature(assets);
+            break;
+        case 'location':
+            drawLocation(assets);
     }
 
 }
@@ -237,37 +269,11 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)); 
         if (space < 0) space = 0;
 
-        let nextOffset = offsetY;
-
         ctx.font = 'bold 10px Arial';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        sections.forEach(({ lines, icons }) => {
-            // console.log(icons, lines);
-            nextOffset += space;
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                let _icons = icons.filter(icon => (icon.line === i));
-                if (line == "" && _icons.length == 0) continue;
-                if (line != "") {
-                    ctx.fillText(line, offsetX, nextOffset);
-                }
-                if (_icons.length != 0) {
-                    icons.forEach((icon) => {
-                        // console.log(icon);
-                        if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
-                            const asset = assets[icon.icon];
-                            ctx.drawImage(asset, 
-                                0, 0, asset.width, asset.height,
-                                offsetX + icon.offset, nextOffset - 1, 12, 12
-                            );
-                        }
-                    });
-                }
-                nextOffset += linespace;
-            }
-        });
+        let nextOffset = drawIconText(assets, sections, offsetX, offsetY, space);
 
         ctx.font = 'bold 11px Arial';
         ctx.fillStyle = '#000000';
@@ -281,6 +287,38 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     }
 
     ctx.textBaseline = "alphabetic";
+}
+
+function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
+    let nextOffset = offsetY;
+
+    sections.forEach(({ lines, icons }) => {
+        // console.log(icons, lines);
+        nextOffset += space;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            let _icons = icons.filter(icon => (icon.line === i));
+            if (line == "" && _icons.length == 0) continue;
+            if (line != "") {
+                ctx.fillText(line, offsetX, nextOffset);
+            }
+            if (_icons.length != 0) {
+                icons.forEach((icon) => {
+                    // console.log(icon);
+                    if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
+                        const asset = assets[icon.icon];
+                        ctx.drawImage(asset, 
+                            0, 0, asset.width, asset.height,
+                            offsetX + icon.offset, nextOffset - 1, 12, 12
+                        );
+                    }
+                });
+            }
+            nextOffset += linespace;
+        }
+    });
+
+    return nextOffset;
 }
 
 /* Artist */
@@ -482,10 +520,10 @@ function drawCreature(assets) {
     if (type_config.speed) {
         ctx.fillText(type_config.speed, 33, 305);
     }
-    console.log(common_config.offsetx);
-    console.log(common_config.offsety);
-    console.log(common_config.maxx);
-    console.log(common_config.maxy);
+    // console.log(common_config.offsetx);
+    // console.log(common_config.offsety);
+    // console.log(common_config.maxx);
+    // console.log(common_config.maxy);
 
     //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
     drawTextArea(assets, 45, 221, 172, 89);
@@ -493,4 +531,27 @@ function drawCreature(assets) {
     artistLine(47, 332);
 
     typeLine("Creature", 45, 219);
+}
+
+function drawLocation(assets) {
+    resetDropShadow();
+
+    // TODO figure out these values
+
+    ctx.font = 'bold 10px Arial';
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'left';
+
+    // Inititive
+    ctx.fillText("Inititive: ", 50, 200);
+    const section = parseLine(ctx, type_config.initiative, 280);
+    drawIconText(assets, [section], 100, 200);
+
+    // Ability
+    drawTextArea(assets, 60, 120, 100, 200);
+
+    // TODO have to rethink artist line because is drawn horizontally.....
+    // artistLine(47, 230);
+
+    typeLine("Location", 23, 200);
 }
