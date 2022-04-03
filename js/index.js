@@ -9,6 +9,8 @@ downloadbtn.addEventListener("click", function(event) {
     }
 });
 
+const updatebtn = document.getElementById("update");
+
 // Toggles between showing type specific inputs
 // Clears values not shared between types
 const changeType = document.getElementById("type");
@@ -25,6 +27,7 @@ changeType.addEventListener("change", function() {
     if (type) {
         type.classList.add("form-show");
     }
+    updatebtn.classList.remove("isDisabled");
 });
 
 // Adds the uploaded art to the config
@@ -42,9 +45,11 @@ uploadArt.addEventListener("change", function() {
 /* Exposed functions */
 
 export function submit() {
-    createCard().then(() => {
-        downloadbtn.classList.remove("isDisabled");
-    });
+    if (!updatebtn.classList.contains("isDisabled")) {
+        createCard().then(() => {
+            downloadbtn.classList.remove("isDisabled");
+        });
+    }
 }
 
 export function download (el) {

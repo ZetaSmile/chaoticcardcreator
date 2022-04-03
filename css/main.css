@@ -6,13 +6,14 @@ body {
     background-size: cover;
 }
 
-#download.isDisabled {
+.isDisabled {
     color: currentColor;
-    cursor: not-allowed;
+    /* cursor: not-allowed; */
     opacity: 0.5;
+    pointer-events: none;
 }
 
-#download {
+#download, #update {
     text-decoration: none;
 }
 
