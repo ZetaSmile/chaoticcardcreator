@@ -67,7 +67,7 @@ export function parseLine (ctx, text, maxWidth, parseIcons = true) {
 
             if (new_width > maxWidth) {
                 lines.push(line_text);
-                return parseLine(lines, icons);
+                return parseWords(lines, icons);
             }
             else {
                 if (icon !== null) {
