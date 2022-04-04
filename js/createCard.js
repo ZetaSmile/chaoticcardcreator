@@ -11,7 +11,8 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false;
 
-const scale = 2; // use this for the standard 250 x 350 card size
+const scale = 2; // use 1 for the standard 250 x 350 card size
+let height = 0, width = 0;
 
 /**
  * This provides a device scaling wrapping to the context draw image 
@@ -30,10 +31,6 @@ function drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh) {
     );
 }
 
-function drawScaleImage(image, sx, sy, sw, sh, dx, dy, dw, dh) {
-    drawImage(image, sx * 2, sy * 2, sw * 2, sh * 2, dx, dy, dw, dh);
-}
-
 /**
  * @type {(text: string, x: number, y: number, maxWidth?: number) => void}
  */
@@ -50,7 +47,9 @@ function setFont(size, style, weight) {
     ctx.font = `${weight ? `${weight} ` : ''}${size * scale}px ${style}`;
 }
 
-function setCanvas(width, height) {
+function setCanvas(x, y) {
+    width = x;
+    height = y;
     canvas.width = width * scale;
     canvas.height = height * scale;
     canvas.style.width = width;
@@ -63,9 +62,9 @@ function setCanvas(width, height) {
     setCanvas(250, 350);
     const cardback = new Image();
     cardback.onload = (() => {
-        drawScaleImage(cardback,
+        drawImage(cardback,
             0, 0, cardback.width, cardback.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     });
     cardback.src = "img/cardback.png";
@@ -130,7 +129,7 @@ function resetDropShadow() {
 /* This function draws the card layer by layer, specify where images/text is drawn */
 function drawCard(assets) {
     // Resets the canvas to prepare for redraw
-    ctx.clearRect(0, 0, canvas.width * scale, canvas.height * scale);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     resetDropShadow();
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
@@ -148,16 +147,16 @@ function drawCard(assets) {
         }
 
         if (assets.template) {
-            drawScaleImage(assets.template,
+            drawImage(assets.template,
                 0, 0, assets.template.width, assets.template.height,
-                0, 0, canvas.width, canvas.height
+                0, 0, width, height
             );
         }
 
         if (assets.symbol) {
             drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                canvas.width / scale - 34, 8, 22, 22
+                width - 34, 8, 22, 22
             );
         }
 
@@ -176,17 +175,18 @@ function drawCard(assets) {
                 );
             }
         }
+        console.log(assets.template.width);
 
         if (assets.template) {
-            drawScaleImage(assets.template,
+            drawImage(assets.template,
                 0, 0, assets.template.width, assets.template.height,
-                0, 0, canvas.width, canvas.height
+                0, 0, width, height
             );
         }
         if (assets.symbol) {
             drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                canvas.width / scale - 36, 8, 22, 22
+                width - 36, 8, 22, 22
             );
         }
     }
@@ -202,12 +202,12 @@ function drawCard(assets) {
     
         if (common_config.subname) {
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
-            fillText(common_config.name, canvas.width / (2 * scale) , 18);
+            fillText(common_config.name, width / 2 , 18);
             setFont(7, 'Eurostile-BoldExtendedTwo');
-            fillText(common_config.subname, canvas.width / (2 * scale) , 27);
+            fillText(common_config.subname, width / 2 , 27);
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
-            fillText(common_config.name, canvas.width / (2 * scale), 23);
+            fillText(common_config.name, width / 2, 23);
         }
     }
 
@@ -422,25 +422,25 @@ function drawAttack(assets) {
     if (assets.fireattack) {
         drawImage(assets.fireattack, 
             0, 0, assets.fireattack.width, assets.fireattack.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.airattack) {
         drawImage(assets.airattack, 
             0, 0, assets.airattack.width, assets.airattack.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.earthattack) {
         drawImage(assets.earthattack, 
             0, 0, assets.earthattack.width, assets.earthattack.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.waterattack) {
         drawImage(assets.waterattack, 
             0, 0, assets.waterattack.width, assets.waterattack.height,
-            -1, -1, canvas.width, canvas.height
+            -1, -1, width, height
         );
     }
 
@@ -508,25 +508,25 @@ function drawCreature(assets) {
     if (assets.firecreature) {
         drawImage(assets.firecreature, 
             0, 0, assets.firecreature.width, assets.firecreature.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.aircreature) {
         drawImage(assets.aircreature,
             0, 0, assets.aircreature.width, assets.aircreature.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.earthcreature) {
         drawImage(assets.earthcreature,
             0, 0, assets.earthcreature.width, assets.earthcreature.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
     if (assets.watercreature) {
         drawImage(assets.watercreature,
             0, 0, assets.watercreature.width, assets.watercreature.height,
-            0, 0, canvas.width, canvas.height
+            0, 0, width, height
         );
     }
 
