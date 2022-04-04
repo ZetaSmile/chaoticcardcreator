@@ -74,7 +74,15 @@ function setCanvas(x, y) {
 // and sets the specified element to be a downloadable image
 export function setDownload(el) {
     const image = canvas.toDataURL("image/jpg");
-    el.download = common_config.name || "myImage.jpg";
+    let name = "chaotic_card.jpg";
+    if (common_config.name) {
+        name = common_config.name;
+        if (common_config.subname) {
+            name += ", " + common_config.subname;
+        }
+    }
+
+    el.download = name;
     el.href = image;
 }
 
@@ -175,7 +183,6 @@ function drawCard(assets) {
                 );
             }
         }
-        console.log(assets.template.width);
 
         if (assets.template) {
             drawImage(assets.template,
