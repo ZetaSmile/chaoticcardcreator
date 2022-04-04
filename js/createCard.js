@@ -108,12 +108,10 @@ function drawCard(assets) {
             );
         }
 
-        // TODO figure out these values
-        // Real todo is upload proper icons not this full size hack
         if (assets.symbol) {
             ctx.drawImage(assets.symbol,
-                228, 21, assets.symbol.width - 31, 447,
-                162, 8, canvas.width, canvas.height
+                0, 0, assets.symbol.width, assets.symbol.height,
+                canvas.width - 34, 6, 24, 24
             );
         }
 
@@ -143,7 +141,7 @@ function drawCard(assets) {
         if (assets.symbol) {
             ctx.drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                0, 0, canvas.width, canvas.height
+                canvas.width - 36, 6, 24, 24
             );
         }
     }

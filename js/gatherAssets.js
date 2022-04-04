@@ -45,7 +45,11 @@ function gatherAssets(common_config, type_config) {
     }
     
     if (common_config.set) {
-        assets.push({ symbol: `img/set/${common_config.set}${common_config.rarity}.png` });
+        let { rarity, set } = common_config;
+        if (rarity === "promo" && !hasPromo(rarity)) {
+            set = "dop";
+        }
+        assets.push({ symbol: `img/set/${set}/${rarity}.png` });
     }
 
     if (common_config.type === "creature") {
@@ -187,4 +191,20 @@ function preParseText (text, tribe) {
     }
 
     return text;
+}
+
+const promo_dict = {
+    "dop": true,
+    "zoth": false,
+    "ss": false,
+    "mi": true,
+    "roto": true,
+    "tott": true,
+    "fun": true,
+    "au": false,
+    "fas": false
+};
+
+function hasPromo (set) {
+    return promo_dict[set] || false;
 }
