@@ -203,6 +203,8 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     let sections = [];
     let ull = "";
 
+    ctx.textBaseline = "top";
+
     if (common_config.flavor) {
         ctx.font = 'italic 9px Arial';
         ctx.fillStyle = '#000000';
@@ -213,14 +215,13 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 
         // Flavor text gets drawn at the bottom of the card
         // Take the height of the text area and subtract the number of lines from the bottom
-        const flavorTop = (offsetY + maxY) - ((lines.length - 1) * linespace);
+        flavorHeight = ((lines.length) * linespace);
+
+        const flavorTop = (offsetY + maxY) - flavorHeight;
         lines.forEach((line, i) => {
             ctx.fillText(line, offsetX, flavorTop + (i * linespace));
         });
-        flavorHeight = ((lines.length) * linespace);
     }
-
-    ctx.textBaseline = "top";
 
     if (common_config.unique || common_config.loyal || common_config.legendary) {
         const { unique, loyal, legendary, loyal_restrict } = common_config;
@@ -257,6 +258,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         if (ull != "") {
             // This +2 here and when its drawn is because the font is larger
             // You can remove these if you want less linespace for unique/loyal
+            // textSpace += linespace + 2;
             textSpace += linespace + 2;
         }
         if (sections.length > 0) {
@@ -281,7 +283,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 
         if (ull != "") {
             nextOffset += space;
-            nextOffset -= 2;
+            // nextOffset -= 2;
             ctx.fillText(ull, offsetX, nextOffset);
         }
     }
