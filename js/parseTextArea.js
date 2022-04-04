@@ -1,12 +1,14 @@
 const split_regex = /(?:[ ]+)|(:[^ ]*:)|({{[^ }]*}})/;
 const icon_regex = /(:[^ ]*:)|({{[^ }]*}})/;
 
+/** @typedef {{icon: string, offset: number, line: number}} Icon*/ 
+
 /**
  * @param {CanvasRenderingContext2D} ctx The canvas context
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
  * @param {boolean=true} parseIcons Whether to parse icons (default true)
- * @returns { [{lines: string[], icons: *[]}] } Returns the lines and icons of the drawn text area
+ * @returns { {lines: string[], icons: Icon[]}[] } Returns the lines and icons of the drawn text area
  */
 export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
     const sections = [];
@@ -31,8 +33,8 @@ export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
  * @param {CanvasRenderingContext2D} ctx The canvas context
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
- *  * @param {boolean=true} parseIcons Whether to parse icons (default true)
- * @returns { [{lines: string[], icons: *[]}] } Returns the parsed lines of the given text input
+ * @param {boolean=true} parseIcons Whether to parse icons (default true)
+ * @returns { {lines: string[], icons: Icon[]} } Returns the parsed lines of the given text input
  */
 export function parseLine (ctx, text, maxWidth, parseIcons = true) {
     // Filter out the undefined capture groups from the regex
@@ -91,6 +93,7 @@ export function parseLine (ctx, text, maxWidth, parseIcons = true) {
     return parseWords();
 }
 
+/** @type {(word: string) => string | null} */
 function parseIcon(word) {
     let icon = word.match(icon_regex)[0];
 
@@ -107,7 +110,6 @@ function parseIcon(word) {
     }
 
     return icon;
-    
 }
 
 // These are the list of usable icons, if the user provides a value out of these, it won't load

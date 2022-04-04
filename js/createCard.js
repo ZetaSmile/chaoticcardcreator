@@ -9,13 +9,61 @@ let type_config = {};
  */
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+ctx.imageSmoothingEnabled = false;
+
+const scale = 2; // use this for the standard 250 x 350 card size
+
+/**
+ * This provides a device scaling wrapping to the context draw image 
+ * @type {(image: CanvasImageSource, sx: number, sy: number, sw: number, sh: number, dx: number, dy: number, dw: number, dh: number) => void} 
+ */
+function drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh) {
+    ctx.drawImage(image, 
+        sx, 
+        sy, 
+        sw,  
+        sh,  
+        dx * scale, 
+        dy * scale, 
+        dw * scale, 
+        dh * scale
+    );
+}
+
+function drawScaleImage(image, sx, sy, sw, sh, dx, dy, dw, dh) {
+    drawImage(image, sx * 2, sy * 2, sw * 2, sh * 2, dx, dy, dw, dh);
+}
+
+/**
+ * @type {(text: string, x: number, y: number, maxWidth?: number) => void}
+ */
+function fillText(text, x, y, maxWidth) {
+    if (maxWidth !== undefined) {
+        ctx.fillText(text, x * scale, y * scale, maxWidth * scale);
+    }
+    else {
+        ctx.fillText(text, x * scale, y * scale);
+    }
+}
+
+function setFont(size, style, weight) {
+    ctx.font = `${weight ? `${weight} ` : ''}${size * scale}px ${style}`;
+}
+
+function setCanvas(width, height) {
+    canvas.width = width * scale;
+    canvas.height = height * scale;
+    canvas.style.width = width;
+    canvas.style.height = height;
+}
 
 // Placeholder cardback to show that canvas has been drawn
 // This function runs when page is initially loaded
 (() => {
+    setCanvas(250, 350);
     const cardback = new Image();
     cardback.onload = (() => {
-        ctx.drawImage(cardback, 
+        drawScaleImage(cardback,
             0, 0, cardback.width, cardback.height,
             0, 0, canvas.width, canvas.height
         );
@@ -75,7 +123,6 @@ function resetDropShadow() {
     ctx.shadowColor = "black";
 }
 
-
 /***
 * The following functions should be modified in accordance to the forms data
 **/
@@ -83,41 +130,39 @@ function resetDropShadow() {
 /* This function draws the card layer by layer, specify where images/text is drawn */
 function drawCard(assets) {
     // Resets the canvas to prepare for redraw
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width * scale, canvas.height * scale);
     resetDropShadow();
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
     // Because it requires changing the canvas dimensions among other things
 
     if (common_config.type == "location") {
-        canvas.width = 350;
-        canvas.height = 250;
+        setCanvas(350, 250);
 
         // TODO figure out these values
         if (assets.art) {
-            ctx.drawImage(assets.art,
+            drawImage(assets.art,
                 0, 0, assets.art.width, assets.art.height,
                 10.26, 25.3, 191.9, 228.94
             );
         }
 
         if (assets.template) {
-            ctx.drawImage(assets.template,
+            drawScaleImage(assets.template,
                 0, 0, assets.template.width, assets.template.height,
                 0, 0, canvas.width, canvas.height
             );
         }
 
         if (assets.symbol) {
-            ctx.drawImage(assets.symbol,
+            drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                canvas.width - 34, 6, 24, 24
+                canvas.width / scale - 34, 8, 22, 22
             );
         }
 
     } else {
-        canvas.width = 250;
-        canvas.height = 350;
+        setCanvas(250, 350);
 
         /* Draws the parts of the cards that are common between everything besides locations */
 
@@ -125,7 +170,7 @@ function drawCard(assets) {
             if (common_config.type == "mugic") {
                 // TODO full image art for mugic
             } else {
-                ctx.drawImage(assets.art, 
+                drawImage(assets.art, 
                     0, 0, assets.art.width, assets.art.height,
                     10.26, 25.3, 228.94, 191.9
                 );
@@ -133,15 +178,15 @@ function drawCard(assets) {
         }
 
         if (assets.template) {
-            ctx.drawImage(assets.template,
+            drawScaleImage(assets.template,
                 0, 0, assets.template.width, assets.template.height,
                 0, 0, canvas.width, canvas.height
             );
         }
         if (assets.symbol) {
-            ctx.drawImage(assets.symbol,
+            drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                canvas.width - 36, 6, 24, 24
+                canvas.width / scale - 36, 8, 22, 22
             );
         }
     }
@@ -156,13 +201,13 @@ function drawCard(assets) {
         ctx.shadowColor = "dim-grey";
     
         if (common_config.subname) {
-            ctx.font = '12px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.name, canvas.width/2 , 18);
-            ctx.font = '7px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.subname, canvas.width/2 , 27);
+            setFont(11.5, 'Eurostile-BoldExtendedTwo');
+            fillText(common_config.name, canvas.width / (2 * scale) , 18);
+            setFont(7, 'Eurostile-BoldExtendedTwo');
+            fillText(common_config.subname, canvas.width / (2 * scale) , 27);
         } else {
-            ctx.font = '12px Eurostile-BoldExtendedTwo';
-            ctx.fillText(common_config.name, canvas.width/2 , 23);
+            setFont(11.5, 'Eurostile-BoldExtendedTwo');
+            fillText(common_config.name, canvas.width / (2 * scale), 23);
         }
     }
 
@@ -204,7 +249,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     ctx.textBaseline = "top";
 
     if (common_config.flavor) {
-        ctx.font = 'italic 9px Arial';
+        setFont(9, 'Arial', 'italic');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
@@ -217,7 +262,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 
         const flavorTop = (offsetY + maxY) - flavorHeight;
         lines.forEach((line, i) => {
-            ctx.fillText(line, offsetX, flavorTop + (i * linespace));
+            fillText(line, offsetX, flavorTop + (i * linespace));
         });
     }
 
@@ -246,7 +291,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     }
 
     if (common_config.ability) {
-        ctx.font = 'bold 10px Arial';
+        setFont(10, 'Arial', 'bold');
         sections = parseTextArea(ctx, common_config.ability, maxX);
     }
     
@@ -269,20 +314,20 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)); 
         if (space < 0) space = 0;
 
-        ctx.font = 'bold 10px Arial';
+        setFont(10, 'Arial', 'bold');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
         let nextOffset = drawIconText(assets, sections, offsetX, offsetY, space);
 
-        ctx.font = 'bold 11px Arial';
+        setFont(11, 'Arial', 'bold');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
         if (ull != "") {
             nextOffset += space;
             // nextOffset -= 2;
-            ctx.fillText(ull, offsetX, nextOffset);
+            fillText(ull, offsetX, nextOffset);
         }
     }
 
@@ -300,14 +345,14 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
             let _icons = icons.filter(icon => (icon.line === i));
             if (line == "" && _icons.length == 0) continue;
             if (line != "") {
-                ctx.fillText(line, offsetX, nextOffset);
+                fillText(line, offsetX, nextOffset);
             }
             if (_icons.length != 0) {
                 icons.forEach((icon) => {
                     // console.log(icon);
                     if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
                         const asset = assets[icon.icon];
-                        ctx.drawImage(asset, 
+                        drawImage(asset, 
                             0, 0, asset.width, asset.height,
                             offsetX + icon.offset, nextOffset - 1, 12, 12
                         );
@@ -325,17 +370,17 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
 function artistLine(offsetX, offsetY) {
     if (common_config.artist) {
         resetDropShadow();
-        ctx.font = 'bold 8px Arial';
+        setFont(8, 'Arial', 'bold');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';  
 
-        ctx.fillText('Art:' + common_config.artist, offsetX, offsetY);
+        fillText('Art:' + common_config.artist, offsetX, offsetY);
     }
 }
 
 /* Type Line */
 function typeLine(type, offsetX, offsetY) {
-    ctx.font = 'italic 7.5px Eurostile-Bold';
+    setFont(7.5, 'Eurostile-Bold', 'italic');
     ctx.fillStyle = '#ffffff';
     ctx.textAlign = 'left';
     ctx.shadowBlur = .1;
@@ -368,76 +413,76 @@ function typeLine(type, offsetX, offsetY) {
         type += ` ${common_config.subtype}`;
     }
     
-    ctx.fillText(type, offsetX, offsetY);
+    fillText(type, offsetX, offsetY);
 }
 
 function drawAttack(assets) {
     resetDropShadow();
 
     if (assets.fireattack) {
-        ctx.drawImage(assets.fireattack, 
+        drawImage(assets.fireattack, 
             0, 0, assets.fireattack.width, assets.fireattack.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.airattack) {
-        ctx.drawImage(assets.airattack, 
+        drawImage(assets.airattack, 
             0, 0, assets.airattack.width, assets.airattack.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.earthattack) {
-        ctx.drawImage(assets.earthattack, 
+        drawImage(assets.earthattack, 
             0, 0, assets.earthattack.width, assets.earthattack.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.waterattack) {
-        ctx.drawImage(assets.waterattack, 
+        drawImage(assets.waterattack, 
             0, 0, assets.waterattack.width, assets.waterattack.height,
             -1, -1, canvas.width, canvas.height
         );
     }
 
     /* Build Points */
-    ctx.font = 'bold 18px Arial';
+    setFont(18, 'Arial', 'bold');
     ctx.textAlign = 'center';
     ctx.fillStyle = '#000000';
 
     if (type_config.bp) {
-        ctx.fillText(type_config.bp, 20, 25);    
+        fillText(type_config.bp, 20, 25);    
     }
 
     /* Element damage values */
-    ctx.font = 'bold 10px Eurostile-BoldExtendedTwo';
+    setFont(10, 'Eurostile-BoldExtendedTwo', 'bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
 
     if (type_config.firedamage) {
-        ctx.fillText(type_config.firedamage, 96, 242);
+        fillText(type_config.firedamage, 96, 242);
     }
 
     if (type_config.airdamage) {
-        ctx.fillText(type_config.airdamage, 139, 242);
+        fillText(type_config.airdamage, 139, 242);
     }    
 
     if (type_config.earthdamage) {
-        ctx.fillText(type_config.earthdamage, 181, 242);
+        fillText(type_config.earthdamage, 181, 242);
     }
 
     if (type_config.waterdamage) {
-        ctx.fillText(type_config.waterdamage, 224, 242);
+        fillText(type_config.waterdamage, 224, 242);
     }
 
     /* Base Damage */
-    ctx.font = 'bold 22px Eurostile-BoldExtendedTwo';
+    setFont(22, 'Eurostile-BoldExtendedTwo', 'bold');
     
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
     if (type_config.basedamage) {
-        ctx.fillText(type_config.basedamage, 39, 247);
+        fillText(type_config.basedamage, 39, 247);
     }
 
     drawTextArea(assets, 20, 252, 219, 64);
@@ -461,64 +506,64 @@ function drawCreature(assets) {
     resetDropShadow();
 
     if (assets.firecreature) {
-        ctx.drawImage(assets.firecreature, 
+        drawImage(assets.firecreature, 
             0, 0, assets.firecreature.width, assets.firecreature.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.aircreature) {
-        ctx.drawImage(assets.aircreature,
+        drawImage(assets.aircreature,
             0, 0, assets.aircreature.width, assets.aircreature.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.earthcreature) {
-        ctx.drawImage(assets.earthcreature,
+        drawImage(assets.earthcreature,
             0, 0, assets.earthcreature.width, assets.earthcreature.height,
             0, 0, canvas.width, canvas.height
         );
     }
     if (assets.watercreature) {
-        ctx.drawImage(assets.watercreature,
+        drawImage(assets.watercreature,
             0, 0, assets.watercreature.width, assets.watercreature.height,
             0, 0, canvas.width, canvas.height
         );
     }
 
     /* Mugic Ability */
-    ctx.font = 'Bold 17px Eurostile-Bold';
+    setFont(17, 'Eurostile-Bold', 'Bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
     if (type_config.mugic) {
-        ctx.fillText(type_config.mugic, 18, 333);
+        fillText(type_config.mugic, 18, 333);
     }
 
     /* Energy */
-    ctx.font = 'Bold 19px Arial';
+    setFont(19, 'Arial', 'Bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
     
     if (type_config.energy) {
-        ctx.fillText(type_config.energy, 216, 336);
+        fillText(type_config.energy, 216, 336);
     }
 
     /* Disciplines */
-    ctx.font = 'Bold 10px Arial';
+    setFont(10, 'Arial', 'Bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'right';
 
     if (type_config.courage) {
-        ctx.fillText(type_config.courage, 33, 232);
+        fillText(type_config.courage, 33, 232);
     }   
     if (type_config.power) {
-        ctx.fillText(type_config.power, 33, 257);
+        fillText(type_config.power, 33, 257);
     }
     if (type_config.wisdom) {
-        ctx.fillText(type_config.wisdom, 33, 281);
+        fillText(type_config.wisdom, 33, 281);
     }
     if (type_config.speed) {
-        ctx.fillText(type_config.speed, 33, 305);
+        fillText(type_config.speed, 33, 305);
     }
     // console.log(common_config.offsetx);
     // console.log(common_config.offsety);
@@ -538,12 +583,12 @@ function drawLocation(assets) {
 
     // TODO figure out these values
 
-    ctx.font = 'bold 10px Arial';
+    setFont(10, 'Arial', 'bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
     // Inititive
-    ctx.fillText("Inititive: ", 50, 200);
+    fillText("Inititive: ", 50, 200);
     const section = parseLine(ctx, type_config.initiative, 280);
     drawIconText(assets, [section], 100, 200);
 
