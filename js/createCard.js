@@ -253,7 +253,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        const { lines } = parseTextArea(ctx, common_config.flavor, maxX, false)
+        const { lines } = parseTextArea(ctx, common_config.flavor, maxX, scale, false)
             .reduce((p, c) => ({ lines: [...p.lines, ...c.lines] }));
 
         // Flavor text gets drawn at the bottom of the card
@@ -292,7 +292,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 
     if (common_config.ability) {
         setFont(10, 'Arial', 'bold');
-        sections = parseTextArea(ctx, common_config.ability, maxX);
+        sections = parseTextArea(ctx, common_config.ability, maxX, scale);
     }
     
     // Sections include unique/loyal/legendary line
@@ -589,7 +589,7 @@ function drawLocation(assets) {
 
     // Inititive
     fillText("Inititive: ", 50, 200);
-    const section = parseLine(ctx, type_config.initiative, 280);
+    const section = parseLine(ctx, type_config.initiative, 280, scale);
     drawIconText(assets, [section], 100, 200);
 
     // Ability

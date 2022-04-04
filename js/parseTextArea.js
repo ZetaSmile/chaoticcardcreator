@@ -7,10 +7,11 @@ const icon_regex = /(:[^ ]*:)|({{[^ }]*}})/;
  * @param {CanvasRenderingContext2D} ctx The canvas context
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
+ * @param {number} scale The card scaling used
  * @param {boolean=true} parseIcons Whether to parse icons (default true)
  * @returns { {lines: string[], icons: Icon[]}[] } Returns the lines and icons of the drawn text area
  */
-export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
+export function parseTextArea(ctx, text, maxWidth, scale, parseIcons = true) {
     const sections = [];
 
     // preserve user lines
@@ -23,7 +24,7 @@ export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
             continue;
         }
 
-        sections.push(parseLine(ctx, text, maxWidth, parseIcons));
+        sections.push(parseLine(ctx, text, maxWidth, scale, parseIcons));
     }
 
     return sections;
@@ -33,10 +34,11 @@ export function parseTextArea(ctx, text, maxWidth, parseIcons = true) {
  * @param {CanvasRenderingContext2D} ctx The canvas context
  * @param {string} text Text to draw
  * @param {number} maxWidth Maximum width of the text to be drawn
+ * @param {number} scale The card scaling used
  * @param {boolean=true} parseIcons Whether to parse icons (default true)
  * @returns { {lines: string[], icons: Icon[]} } Returns the parsed lines of the given text input
  */
-export function parseLine (ctx, text, maxWidth, parseIcons = true) {
+export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
     // Filter out the undefined capture groups from the regex
     const words = text.split(split_regex).filter(el => (el));
     let remaining = words.length;
@@ -55,7 +57,7 @@ export function parseLine (ctx, text, maxWidth, parseIcons = true) {
 
             if (parseIcons && icon_regex.test(next_word)) {
                 icon = parseIcon(next_word);
-                new_width += 12; // width of the icon
+                new_width += 12 * scale; // width of the icon
                 next_word = " ".repeat(4);
             }
             else {
@@ -67,7 +69,7 @@ export function parseLine (ctx, text, maxWidth, parseIcons = true) {
                 new_width += ctx.measureText(next_word).width;
             }
 
-            if (new_width > maxWidth) {
+            if (new_width > maxWidth * scale) {
                 lines.push(line_text);
                 return parseWords(lines, icons);
             }
@@ -75,7 +77,7 @@ export function parseLine (ctx, text, maxWidth, parseIcons = true) {
                 if (icon !== null) {
                     icons.push({
                         icon,
-                        offset: line_width,
+                        offset: line_width / scale,
                         line: lines.length
                     });
                 }
