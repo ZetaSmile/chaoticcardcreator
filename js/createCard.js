@@ -595,15 +595,17 @@ function drawLocation(assets) {
     ctx.textAlign = 'left';
 
     // Inititive
-    fillText("Inititive: ", 50, 200);
-    const section = parseLine(ctx, type_config.initiative, 280, scale);
-    drawIconText(assets, [section], 100, 200);
+    //fillText("Initiative: ", 43, 198);
+    const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
+    drawIconText(assets, [section], 43, 198);
+
 
     // Ability
-    drawTextArea(assets, 60, 120, 100, 200);
+    //drawTextArea(assets, 60, 120, 100, 200);
+    drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
 
     // TODO have to rethink artist line because is drawn horizontally.....
     // artistLine(47, 230);
 
-    typeLine("Location", 23, 200);
+    typeLine("Location", 39, 183);
 }
