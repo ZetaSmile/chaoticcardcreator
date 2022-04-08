@@ -145,12 +145,11 @@ function drawCard(assets) {
 
     if (common_config.type == "location") {
         setCanvas(350, 250);
-
-        // TODO figure out these values
+        
         if (assets.art) {
             drawImage(assets.art,
                 0, 0, assets.art.width, assets.art.height,
-                10.26, 25.3, 191.9, 228.94
+                35, 34, 306, 137
             );
         }
 
@@ -298,7 +297,13 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
     }
 
     if (common_config.ability) {
-        setFont(10, 'Arial', 'bold');
+        if (common_config.type == "location") {
+            //setFont(parseFloat(common_config.font), 'Arial', 'bold');
+            setFont(8.5, 'Arial', 'bold');
+        }
+        else {
+            setFont(10, 'Arial', 'bold');
+        }
         sections = parseTextArea(ctx, common_config.ability, maxX, scale);
     }
     
@@ -321,7 +326,13 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         let space = (((maxY - flavorHeight) - textSpace) / ( 1 + total_sections)); 
         if (space < 0) space = 0;
 
-        setFont(10, 'Arial', 'bold');
+        if (common_config.type == "location") {
+            // setFont(parseFloat(common_config.font), 'Arial', 'bold');
+            setFont(8.5, 'Arial', 'bold');
+        }
+        else {
+            setFont(10, 'Arial', 'bold');
+        }
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
@@ -377,7 +388,13 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
 function artistLine(offsetX, offsetY) {
     if (common_config.artist) {
         resetDropShadow();
-        setFont(8, 'Arial', 'bold');
+        if (common_config.type == "location") {
+            setFont(parseFloat(common_config.font), 'Arial', 'bold');
+            setFont(6.75, 'Arial', 'bold');
+        }
+        else {
+            setFont(8, 'Arial', 'bold');
+        }
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';  
 
@@ -590,22 +607,25 @@ function drawLocation(assets) {
 
     // TODO figure out these values
 
-    setFont(10, 'Arial', 'bold');
+    setFont(8.5, 'Arial', 'bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
     // Inititive
     //fillText("Initiative: ", 43, 198);
+    ctx.textBaseline = "top";
+    //const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
     const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
-    drawIconText(assets, [section], 43, 198);
+    drawIconText(assets, [section], 41, 187);
 
 
     // Ability
-    //drawTextArea(assets, 60, 120, 100, 200);
-    drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
+    //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
+    drawTextArea(assets, 41, 132, 300, 170);
 
     // TODO have to rethink artist line because is drawn horizontally.....
     // artistLine(47, 230);
+    artistLine(parseInt(common_config.offsetx), parseInt(common_config.offsety));
 
     typeLine("Location", 39, 183);
 }
