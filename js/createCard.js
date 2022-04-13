@@ -519,7 +519,7 @@ function drawAttack(assets) {
 }
 
 function drawBattlegear(assets) {
-    drawTextArea(assets, 21.2, 234, 234.4 - 21.2, 313 - 234);
+    drawTextArea(assets, 21.2, 225, 234.4 - 21.2, 316 - 225);
 
     artistLine(60, 333);
 
