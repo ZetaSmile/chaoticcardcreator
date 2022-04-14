@@ -360,23 +360,21 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
         nextOffset += space;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
-            let _icons = icons.filter(icon => (icon.line === i));
-            if (line == "" && _icons.length == 0) continue;
+            let line_icons = icons.filter(icon => (icon.line === i));
+            if (line == "" && line_icons.length == 0) continue;
+
             if (line != "") {
                 fillText(line, offsetX, nextOffset);
             }
-            if (_icons.length != 0) {
-                icons.forEach((icon) => {
-                    // console.log(icon);
-                    if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
-                        const asset = assets[icon.icon];
-                        drawImage(asset, 
-                            0, 0, asset.width, asset.height,
-                            offsetX + icon.offset, nextOffset - 1, 12, 12
-                        );
-                    }
-                });
-            }
+            line_icons.forEach((icon) => {
+                if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
+                    const asset = assets[icon.icon];
+                    drawImage(asset, 
+                        0, 0, asset.width, asset.height,
+                        offsetX + icon.offset, nextOffset - 1, 12, 12
+                    );
+                }
+            });
             nextOffset += linespace;
         }
     });
@@ -418,8 +416,8 @@ function typeLine(type, offsetX, offsetY) {
             case "danian": return " Danian";
             case "overworld": return " OverWorld";
             case "mipedian": return " Mipedian";
-            case "underworld": return "UnderWorld";
-            case "m'arrillian": return "M'arrillian";
+            case "underworld": return " UnderWorld";
+            case "m'arrillian": return " M'arrillian";
             default: return "";
         }
     })();
