@@ -356,7 +356,6 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
     let nextOffset = offsetY;
 
     sections.forEach(({ lines, icons }) => {
-        // console.log(icons, lines);
         nextOffset += space;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
@@ -614,12 +613,12 @@ function drawLocation(assets) {
     ctx.textBaseline = "top";
     //const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
     const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
-    drawIconText(assets, [section], 41, 187);
+    drawIconText(assets, [section], 41, 188);
 
 
     // Ability
     //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
-    drawTextArea(assets, 41, 132, 300, 170);
+    drawTextArea(assets, 41, 196, 300, 47);
 
     // TODO have to rethink artist line because is drawn horizontally.....
     // artistLine(47, 230);
