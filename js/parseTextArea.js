@@ -58,7 +58,7 @@ export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
             if (parseIcons && icon_regex.test(next_word)) {
                 icon = parseIcon(next_word);
                 new_width += 12 * scale; // width of the icon
-                next_word = " ".repeat(4);
+                next_word = " ".repeat(5);
             }
             else {
                 if (!first_word) {

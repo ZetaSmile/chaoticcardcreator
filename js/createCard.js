@@ -370,7 +370,7 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
                     const asset = assets[icon.icon];
                     drawImage(asset, 
                         0, 0, asset.width, asset.height,
-                        offsetX + icon.offset, nextOffset - 1, 12, 12
+                        offsetX + icon.offset + .25, nextOffset - 1, 12, 12
                     );
                 }
             });
@@ -602,19 +602,14 @@ function drawCreature(assets) {
 function drawLocation(assets) {
     resetDropShadow();
 
-    // TODO figure out these values
-
+    // Inititive
     setFont(8.5, 'Arial', 'bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
-
-    // Inititive
-    //fillText("Initiative: ", 43, 198);
     ctx.textBaseline = "top";
-    //const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
+
     const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
     drawIconText(assets, [section], 41, 188);
-
 
     // Ability
     //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
