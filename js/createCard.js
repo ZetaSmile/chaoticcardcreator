@@ -173,8 +173,10 @@ function drawCard(assets) {
         /* Draws the parts of the cards that are common between everything besides locations */
 
         if (assets.art) {
-            if (common_config.type == "mugic") {
-                // TODO full image art for mugic
+            if (common_config.type == "mugic-card") {
+                drawImage(assets.art, 
+                    0, 0, assets.art.width, assets.art.height,
+                    0 , 0, 250, 350);
             } else {
                 drawImage(assets.art, 
                     0, 0, assets.art.width, assets.art.height,
@@ -229,6 +231,8 @@ function drawCard(assets) {
             break;
         case 'location':
             drawLocation(assets);
+        case 'mugic-card':
+            drawMugic(assets);
     }
 
 }
@@ -620,4 +624,13 @@ function drawLocation(assets) {
     artistLine(parseInt(common_config.offsetx), parseInt(common_config.offsety));
 
     typeLine("Location", 39, 183);
+}
+
+function drawMugic(assets) {
+    drawTextArea(assets, 21.2, 225, 234.4 - 21.2, 316 - 225);
+
+    // drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
+
+    artistLine(60, 333);
+    typeLine("Mugic", 13, 225);
 }

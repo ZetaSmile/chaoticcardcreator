@@ -30,33 +30,34 @@
                                 <option disabled selected value style="display:none"></option>
                                 <option value="attack">Attack</option>
                                 <option value="battlegear">Battlegear</option>
-                                <option value="creature">Creature</option>   
-                                <option value="location">Location</option>                       
+                                <option value="creature">Creature</option>
+                                <option value="location">Location</option>                  
+                                <option value="mugic-card">Mugic</option>
                             </select></td>
                         </tr>
-                       <!-- For tweaking the offsets in real time
+                       <!-- For tweaking the offsets in real time -->
                        <tr>
                             <td><label for="font">Font</label></td>
                             <td><input id="font" name="font" type="text" value="60"></td>
                         </tr>
                         <tr>
                             <td><label for="offsetx">OffsetX</label></td>
-                            <td><input id="offsetx" name="offsetx" type="text" value="60"></td>
+                            <td><input id="offsetx" name="offsetx" type="text" value="10.26"></td>
                         </tr>
                         <tr>
                             <td><label for="offsety">OffsetY</label></td>
-                            <td><input id="offsety" name="offsety" type="text" value="120"></td>
+                            <td><input id="offsety" name="offsety" type="text" value="25.3"></td>
                         </tr>
                         <tr>
                             <td><label for="maxx">MaxX</label></td>
-                            <td><input id="maxx" name="maxx" type="text" value="100"></td>
+                            <td><input id="maxx" name="maxx" type="text" value="228.94"></td>
                         </tr>
                         <tr>
                             <td><label for="maxy">MaxY</label></td>
-                            <td><input id="maxy" name="maxy" type="text" value="200"></td>
+                            <td><input id="maxy" name="maxy" type="text" value="191.9"></td>
                         </tr>
                         <tr>
-                        -->
+                        <!-- -->
                             <td><label for="name">Name</label></td>
                             <td><input id="name" name="name" type="text"></td>
                         </tr>
@@ -210,6 +211,18 @@
                                 <td><input id="initiative" name="initiative" type="text"></td>
                             </tr>
                         </table>
+                    </div>
+                    <div id="mugic-card">
+                        <label for="tribe">Tribe:</label>
+                        <select id="tribe" name="tribe">
+                            <option disabled value style="display:none"></option>
+                            <option selected value="tribeless">Tribeless</option>
+                            <option value="overworld">OverWorld</option>
+                            <option value="underworld">UnderWorld</option>
+                            <option value="mipedian">Mipedian</option>
+                            <option value="danian">Danian</option>
+                            <option value="m'arrillian">M'arrillian</option>
+                        </select>
                     </div>
                 </form>
             </div>

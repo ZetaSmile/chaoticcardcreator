@@ -76,6 +76,12 @@ function gatherAssets(common_config, type_config) {
             assets.push({ watercreature: "img/watercreature.png" });
         }
     }
+    
+    if (common_config.type === "mugic-card") {
+        if (type_config.tribe) {
+            assets.push({ template: `img/template/mugic/${type_config.tribe}.png` });
+        }
+    }
 
     if (common_config.type === "battlegear") {
         assets.push({ template: "img/template/battlegear.png" });
