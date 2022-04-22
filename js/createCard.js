@@ -78,7 +78,7 @@ export function setDownload(el) {
     if (common_config.name) {
         name = common_config.name;
         if (common_config.subname) {
-            name += ", " + common_config.subname;
+            name += `, ${common_config.subname}`;
         }
     }
 
@@ -106,7 +106,7 @@ export async function createCard() {
 
     // Resets card type specific properties between redraws
     // to prevent old data from persisting after form changes
-    type_config= {};
+    type_config = {};
 
     const type_data = new FormData(document.getElementById('type-form'));
     for (const [key, value] of type_data.entries()) {
@@ -163,7 +163,7 @@ function drawCard(assets) {
         if (assets.symbol) {
             drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                width - 34, 8, 22, 22
+                width - 30, 8, 20, 20
             );
         }
 
@@ -194,7 +194,7 @@ function drawCard(assets) {
         if (assets.symbol) {
             drawImage(assets.symbol,
                 0, 0, assets.symbol.width, assets.symbol.height,
-                width - 36, 8, 22, 22
+                width - 34, 10, 20, 20
             );
         }
     }
@@ -232,7 +232,7 @@ function drawCard(assets) {
         case 'location':
             drawLocation(assets);
             break;
-        case 'mugic-card':
+        case 'mugic':
             drawMugic(assets);
     }
 
@@ -400,7 +400,7 @@ function artistLine(offsetX, offsetY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';  
 
-        fillText('Art:' + common_config.artist, offsetX, offsetY);
+        fillText(`Art: ${common_config.artist}`, offsetX, offsetY);
     }
 }
 
@@ -561,8 +561,8 @@ function drawCreature(assets) {
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
-    if (type_config.mugic) {
-        fillText(type_config.mugic, 18, 333);
+    if (type_config.mc) {
+        fillText(type_config.mc, 18, 333);
     }
 
     /* Energy */
@@ -613,7 +613,7 @@ function drawLocation(assets) {
     ctx.textAlign = 'left';
     ctx.textBaseline = "top";
 
-    const section = parseLine(ctx, "Initiative: " + type_config.initiative, 280, scale);
+    const section = parseLine(ctx, `Initiative: ${type_config.initiative}`, 280, scale);
     drawIconText(assets, [section], 41, 188);
 
     // Ability

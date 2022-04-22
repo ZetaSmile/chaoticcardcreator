@@ -77,7 +77,7 @@ function gatherAssets(common_config, type_config) {
         }
     }
     
-    if (common_config.type === "mugic-card") {
+    if (common_config.type === "mugic") {
         if (type_config.tribe) {
             assets.push({ template: `img/template/mugic/${type_config.tribe}.png` });
         }

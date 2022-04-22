@@ -32,7 +32,7 @@
                                 <option value="battlegear">Battlegear</option>
                                 <option value="creature">Creature</option>
                                 <option value="location">Location</option>                  
-                                <option value="mugic-card">Mugic</option>
+                                <option value="mugic">Mugic</option>
                             </select></td>
                         </tr>
                        <!-- For tweaking the offsets in real time
@@ -128,7 +128,7 @@
                     </table>
                 </form>
                 <form id="type-form">
-                    <div id="creature">
+                    <div class="creature mugic">
                         <label for="tribe">Tribe:</label>
                         <select id="tribe" name="tribe">
                             <option disabled value style="display:none"></option>
@@ -139,6 +139,8 @@
                             <option value="danian">Danian</option>
                             <option value="m'arrillian">M'arrillian</option>
                         </select>
+                    </div>
+                    <div class="creature">
                         <p></p>
                         <span>Elements:</label>
                         <table>
@@ -175,14 +177,14 @@
                                 <td><input id="speed" name="speed" type="text" maxlength="4" size="4"></td>
                             </tr>
                             <tr>
-                                <td><label for="mugic">Mugic</label></td>
-                                <td><input id="mugic" name="mugic" type="text" maxlength="1" size="4"></td>
+                                <td><label for="mc">Mugic Ability</label></td>
+                                <td><input id="mc" name="mc" type="text" maxlength="1" size="4"></td>
                                 <td><label for="energy">Energy</label></td>
                                 <td><input id="energy" name="energy" type="text" maxlength="4" size="4"></td>
                             </tr>
                         </table>
                     </div>
-                    <div id="attack">
+                    <div class="attack">
                         <table>
                             <tr>
                                 <td><label for="basedamage">Base</label></td>
@@ -204,25 +206,13 @@
                             </tr>
                         </table>
                     </div>
-                    <div id="location">
+                    <div class="location">
                         <table>
                             <tr>
                                 <td><label for="initiative">Initiative</label></td>
                                 <td><input id="initiative" name="initiative" type="text"></td>
                             </tr>
                         </table>
-                    </div>
-                    <div id="mugic-card">
-                        <label for="tribe">Tribe:</label>
-                        <select id="tribe" name="tribe">
-                            <option disabled value style="display:none"></option>
-                            <option selected value="tribeless">Tribeless</option>
-                            <option value="overworld">OverWorld</option>
-                            <option value="underworld">UnderWorld</option>
-                            <option value="mipedian">Mipedian</option>
-                            <option value="danian">Danian</option>
-                            <option value="m'arrillian">M'arrillian</option>
-                        </select>
                     </div>
                 </form>
             </div>

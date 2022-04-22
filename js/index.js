@@ -16,17 +16,20 @@ const updatebtn = document.getElementById("update");
 const changeType = document.getElementById("type");
 changeType.addEventListener("change", function() {
     const prevType = document.getElementsByClassName("form-show");
+    Array.from(prevType).forEach(el => {
+        el.classList.remove("form-show");
+    });
     if (prevType.length > 0) {
-        prevType[0].classList.remove("form-show");
         document.getElementById("type-form").reset();
         downloadbtn.classList.add("isDisabled");
     }
 
     updateCommonConfig("type", this.value);
-    const type = document.getElementById(this.value);
-    if (type) {
+
+    const types = document.querySelectorAll(`#type-form > .${this.value}`);
+    Array.from(types).forEach(type => {
         type.classList.add("form-show");
-    }
+    });
     updatebtn.classList.remove("isDisabled");
 });
 
