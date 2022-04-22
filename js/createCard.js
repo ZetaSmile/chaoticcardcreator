@@ -173,7 +173,7 @@ function drawCard(assets) {
         /* Draws the parts of the cards that are common between everything besides locations */
 
         if (assets.art) {
-            if (common_config.type == "mugic-card") {
+            if (common_config.type == "mugic") {
                 drawImage(assets.art, 
                     0, 0, assets.art.width, assets.art.height,
                     0 , 0, 250, 350);
