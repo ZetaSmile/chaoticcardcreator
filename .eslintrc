@@ -25,6 +25,7 @@
             "argsIgnorePattern": "^_"
         }],
         "object-curly-spacing": ["warn", "always", {"objectsInObjects": false, "arraysInObjects": true}],
-        "semi": ["warn", "always", { "omitLastInOneLineBlock": true }]
+        "semi": ["warn", "always", { "omitLastInOneLineBlock": true }],
+        "prefer-template": "warn"
     }
 }
