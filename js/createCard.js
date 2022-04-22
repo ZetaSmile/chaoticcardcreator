@@ -231,6 +231,7 @@ function drawCard(assets) {
             break;
         case 'location':
             drawLocation(assets);
+            break;
         case 'mugic-card':
             drawMugic(assets);
     }
