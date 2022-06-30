@@ -43,6 +43,18 @@ function fillText(text, x, y, maxWidth) {
     }
 }
 
+/**
+ * @type {(text: string, x: number, y: number, maxWidth?: number) => void}
+ */
+function strokeText(text, x, y, maxWidth) {
+    if (maxWidth !== undefined) {
+        ctx.strokeText(text, x * scale, y * scale, maxWidth * scale);
+    }
+    else {
+        ctx.strokeText(text, x * scale, y * scale);
+    }
+}
+
 function setFont(size, style, weight) {
     ctx.font = `${weight ? `${weight} ` : ''}${size * scale}px ${style}`;
 }
@@ -123,11 +135,11 @@ export async function createCard() {
 }
 
 
-function resetDropShadow() {
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    ctx.shadowColor = "black";
+function setDropShadow(blur = 0, offsetX = 0, offsetY = 0, color = "black") {
+    ctx.shadowBlur = blur;
+    ctx.shadowOffsetX = offsetX;
+    ctx.shadowOffsetY = offsetY;
+    ctx.shadowColor = color;
 }
 
 /***
@@ -138,7 +150,7 @@ function resetDropShadow() {
 function drawCard(assets) {
     // Resets the canvas to prepare for redraw
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    resetDropShadow();
+    setDropShadow();
 
     // Eventually we'll need to differentiate between location orientation, but save that for later
     // Because it requires changing the canvas dimensions among other things
@@ -200,23 +212,39 @@ function drawCard(assets) {
     }
 
     // Name and subname
-    if (common_config.name) {
-        ctx.fillStyle = '#ffffff';
+    if (common_config.name) { 
+        // ctx.fillStyle = '#f3f3f3';
+        ctx.fillStyle = "#fff";
         ctx.textAlign = 'center';
-        ctx.shadowBlur = .8;
-        ctx.shadowOffsetX = 1;
-        ctx.shadowOffsetY = 1;
-        ctx.shadowColor = "dim-grey";
-    
+
+        // Uses a combination of drawing a "stroke" around the text
+        // and drawing a dropshadow
+
+        ctx.strokeStyle = "#696969";
+        ctx.lineWidth = .5;
+
         if (common_config.subname) {
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
+            setDropShadow(3, 2, 2);
             fillText(common_config.name, width / 2 , 18);
+            setDropShadow();
+            strokeText(common_config.name, width / 2 , 18);
+            
             setFont(7, 'Eurostile-BoldExtendedTwo');
+            setDropShadow(2, 1, 1);
             fillText(common_config.subname, width / 2 , 27);
+            setDropShadow();
+            strokeText(common_config.subname, width / 2 , 27);
         } else {
-            setFont(11.5, 'Eurostile-BoldExtendedTwo');
+            setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
+            setDropShadow(3, 2, 2);
             fillText(common_config.name, width / 2, 23);
+            setDropShadow();
+            strokeText(common_config.name, width / 2, 23);
         }
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "#fff";
     }
 
     switch (common_config.type) {
@@ -249,7 +277,7 @@ const linespace = 10;
  * @param {number} maxY Maximum height of text area
  * */ 
 function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
-    resetDropShadow();
+    setDropShadow();
      
     // This variable storess where the text was drawn in the text area, so that text doesn't overlap 
     // When using the drawText for card text area, update this value 
@@ -389,7 +417,7 @@ function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
 /* Artist */
 function artistLine(offsetX, offsetY) {
     if (common_config.artist) {
-        resetDropShadow();
+        setDropShadow();
         if (common_config.type == "location") {
             setFont(parseFloat(common_config.font), 'Arial', 'bold');
             setFont(6.75, 'Arial', 'bold');
@@ -412,7 +440,7 @@ function typeLine(type, offsetX, offsetY) {
     ctx.shadowBlur = .1;
     ctx.shadowOffsetX = .5;
     ctx.shadowOffsetY = .5;
-    ctx.shadowColor = "dim-grey";
+    ctx.shadowColor = "#696969";
 
     const tribe = (() => {
         if (!type_config.tribe) return "";
@@ -443,7 +471,7 @@ function typeLine(type, offsetX, offsetY) {
 }
 
 function drawAttack(assets) {
-    resetDropShadow();
+    setDropShadow();
 
     if (assets.fireattack) {
         drawImage(assets.fireattack, 
@@ -529,7 +557,7 @@ function drawBattlegear(assets) {
 }
 
 function drawCreature(assets) {
-    resetDropShadow();
+    setDropShadow();
 
     if (assets.firecreature) {
         drawImage(assets.firecreature, 
@@ -605,7 +633,7 @@ function drawCreature(assets) {
 }
 
 function drawLocation(assets) {
-    resetDropShadow();
+    setDropShadow();
 
     // Inititive
     setFont(8.5, 'Arial', 'bold');
