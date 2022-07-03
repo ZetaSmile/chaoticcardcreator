@@ -1,5 +1,5 @@
 import { parseTextArea, parseLine } from './parseTextArea.js';
-import { loadAssets } from './gatherAssets.js';
+import { loadAssets, mc_regex } from './gatherAssets.js';
 
 let common_config = {};
 let type_config = {};
@@ -369,16 +369,16 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
-        let nextOffset = drawIconText(assets, sections, offsetX, offsetY, space);
+        let lineOffset = drawIconText(assets, sections, offsetX, offsetY, space);
 
         setFont(11, 'Arial', 'bold');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
         if (ull != "") {
-            nextOffset += space;
-            // nextOffset -= 2;
-            fillText(ull, offsetX, nextOffset);
+            lineOffset += space;
+            // lineOffset -= 2;
+            fillText(ull, offsetX, lineOffset);
         }
     }
 
@@ -386,32 +386,32 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
 }
 
 function drawIconText (assets, sections, offsetX, offsetY, space = 0) {
-    let nextOffset = offsetY;
+    let lineOffset = offsetY;
 
     sections.forEach(({ lines, icons }) => {
-        nextOffset += space;
+        lineOffset += space;
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
             let line_icons = icons.filter(icon => (icon.line === i));
             if (line == "" && line_icons.length == 0) continue;
 
             if (line != "") {
-                fillText(line, offsetX, nextOffset);
+                fillText(line, offsetX, lineOffset);
             }
             line_icons.forEach((icon) => {
                 if (Object.prototype.hasOwnProperty.call(assets, icon.icon)) {
                     const asset = assets[icon.icon];
                     drawImage(asset, 
                         0, 0, asset.width, asset.height,
-                        offsetX + icon.offset + .25, nextOffset - 1, 12, 12
+                        offsetX + icon.offset + .5, lineOffset - 1, 12, 12
                     );
                 }
             });
-            nextOffset += linespace;
+            lineOffset += linespace;
         }
     });
 
-    return nextOffset;
+    return lineOffset;
 }
 
 /* Artist */
@@ -619,12 +619,7 @@ function drawCreature(assets) {
     if (type_config.speed) {
         fillText(type_config.speed, 33, 305);
     }
-    // console.log(common_config.offsetx);
-    // console.log(common_config.offsety);
-    // console.log(common_config.maxx);
-    // console.log(common_config.maxy);
 
-    //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
     drawTextArea(assets, 45, 221, 172, 89);
 
     artistLine(47, 332);
@@ -641,8 +636,8 @@ function drawLocation(assets) {
     ctx.textAlign = 'left';
     ctx.textBaseline = "top";
 
-    const section = parseLine(ctx, `Initiative: ${type_config.initiative}`, 280, scale);
-    drawIconText(assets, [section], 41, 188);
+    const init = parseLine(ctx, `Initiative: ${type_config.initiative}`, 280, scale);
+    drawIconText(assets, [init], 41, 188);
 
     // Ability
     //drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
@@ -650,13 +645,37 @@ function drawLocation(assets) {
 
     // TODO have to rethink artist line because is drawn horizontally.....
     // artistLine(47, 230);
-    artistLine(parseInt(common_config.offsetx), parseInt(common_config.offsety));
+    // artistLine(parseInt(common_config.offsetx), parseInt(common_config.offsety));
 
     typeLine("Location", 39, 183);
 }
 
 function drawMugic(assets) {
-    drawTextArea(assets, 21.2, 225, 234.4 - 21.2, 316 - 225);
+
+    // Mugic cost
+    if (type_config.mc) {
+        let offsetX = 18; 
+        let offsetY = 230;
+
+        ctx.textAlign = 'left';
+        ctx.textBaseline = "top";
+        const icons = type_config.mc.replaceAll(mc_regex, "mc_$1 ").trim().split(" ");
+
+        icons.forEach((icon) => {
+            if (Object.prototype.hasOwnProperty.call(assets, icon)) {
+                const asset = assets[icon];
+                drawImage(asset, 
+                    0, 0, asset.width, asset.height,
+                    offsetX, offsetY, 15, 15
+                );
+                offsetX += 15;
+            }
+        });
+
+    }
+
+
+    drawTextArea(assets, 18, 245, 234.4 - 12, 316 - 245);
 
     // drawTextArea(assets, parseInt(common_config.offsetx), parseInt(common_config.offsety),parseInt(common_config.maxx),parseInt(common_config.maxy));
 

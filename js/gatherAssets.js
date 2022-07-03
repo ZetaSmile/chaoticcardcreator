@@ -152,6 +152,11 @@ function gatherAssets(common_config, type_config) {
         parse(type_config.initiative);
     }
 
+    if (common_config.type == "mugic" && type_config.mc) {
+        type_config.mc = parseMCTribe(type_config.mc, tribe);
+        parse(type_config.mc);
+    }
+
     icons.forEach((icon) => {
         assets.push({ [`icon_${icon}`]: `img/icons/${icon}.png` });
     });
@@ -165,7 +170,8 @@ function gatherAssets(common_config, type_config) {
     return assets;
 }
 
-const mc_regex = /({{[0-9x]*}})/g;
+// parses anything that attempts to be a mc
+export const mc_regex = /{{([^ }]*)}}/g;
 /**
  * This is a preparser to deal with how annoying Mugic counters are in text area
  * @param {string} text 
@@ -174,29 +180,37 @@ const mc_regex = /({{[0-9x]*}})/g;
  */
 function preParseText (text, tribe) {
     if (mc_regex.test(text)) {
-        text = text.replaceAll(mc_regex, (amount) => {
-            amount = amount.replace("{{", "").replace("}}", "").toLowerCase();
-            if (amount == "x") {
-                return `{{${tribe}_x}}`;
-            }
-            else if (amount == '0') {
-                return `{{${tribe}_0}}`;
-            }
-            else {
-                if (amount.trim() == "" || isNaN(amount)) {
-                    return `{{${tribe}}}`;
-                }
-                else if (tribe == "m'arrillian" && (amount == 6 || amount == 10)) {
-                    return `{{${tribe}_${amount}}}`;
-                } 
-                else {
-                    return `{{${tribe}}}`.repeat(amount);
-                }
-            }
-        });
+        text = text.replaceAll(mc_regex, (_, amount) => 
+            parseMCTribe(amount, tribe)
+        );
     }
 
     return text;
+}
+
+/**
+ * This is a parser that turns an amount + tribe into the required mc text format
+ * @param {string} amount 
+ * @param {string} tribe
+ */
+function parseMCTribe (amount, tribe) {
+    if (amount.toLowerCase() == "x") {
+        return `{{${tribe}_x}}`;
+    }
+    else if (amount == '0') {
+        return `{{${tribe}_0}}`;
+    }
+    else {
+        if (amount.trim() == "" || isNaN(amount)) {
+            return `{{${tribe}}}`;
+        }
+        else if (tribe == "m'arrillian" && (amount == '6' || amount == '10')) {
+            return `{{${tribe}_${amount}}}`;
+        } 
+        else {
+            return `{{${tribe}}}`.repeat(amount);
+        }
+    }
 }
 
 const promo_dict = {

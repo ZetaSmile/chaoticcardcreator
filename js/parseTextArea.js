@@ -58,7 +58,7 @@ export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
             if (parseIcons && icon_regex.test(next_word)) {
                 icon = parseIcon(next_word);
                 new_width += 12 * scale; // width of the icon
-                next_word = " ".repeat(5);
+                next_word = " ".repeat(4); // equivalent width of placeholding spaces
             }
             else {
                 if (!first_word) {
@@ -95,6 +95,7 @@ export function parseLine (ctx, text, maxWidth, scale, parseIcons = true) {
     return parseWords();
 }
 
+const mc_regex = /{{([^ {}]*)}}/;
 /** @type {(word: string) => string | null} */
 function parseIcon(word) {
     let icon = word.match(icon_regex)[0];
@@ -108,7 +109,8 @@ function parseIcon(word) {
         }
     }
     else if (icon.startsWith("{{")) {
-        icon = `mc_${icon.replace("{{", "").replace("}}", "").toLowerCase()}`;    
+        // don't need to lowercase(), since done in preparser
+        icon = icon.replace(mc_regex, "mc_$1");
     }
 
     return icon;
