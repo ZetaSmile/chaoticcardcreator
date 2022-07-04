@@ -653,13 +653,13 @@ function drawLocation(assets) {
 function drawMugic(assets) {
 
     // Mugic cost
-    if (type_config.mc) {
+    if (type_config.cost) {
         let offsetX = 18; 
         let offsetY = 230;
 
         ctx.textAlign = 'left';
         ctx.textBaseline = "top";
-        const icons = type_config.mc.replaceAll(mc_regex, "mc_$1 ").trim().split(" ");
+        const icons = type_config.cost.replaceAll(mc_regex, "mc_$1 ").trim().split(" ");
 
         icons.forEach((icon) => {
             if (Object.prototype.hasOwnProperty.call(assets, icon)) {

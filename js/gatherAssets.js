@@ -152,9 +152,9 @@ function gatherAssets(common_config, type_config) {
         parse(type_config.initiative);
     }
 
-    if (common_config.type == "mugic" && type_config.mc) {
-        type_config.mc = parseMCTribe(type_config.mc, tribe);
-        parse(type_config.mc);
+    if (common_config.type == "mugic" && type_config.cost) {
+        type_config.cost = parseMCTribe(type_config.cost, tribe);
+        parse(type_config.cost);
     }
 
     icons.forEach((icon) => {
