@@ -335,7 +335,7 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
             setFont(8.5, 'Arial', 'bold');
         }
         else {
-            setFont(10, 'Arial', 'bold');
+            setFont(10.3, 'Arial');
         }
         sections = parseTextArea(ctx, common_config.ability, maxX, scale);
     }
@@ -364,14 +364,14 @@ function drawTextArea(assets, offsetX, offsetY, maxX, maxY) {
             setFont(8.5, 'Arial', 'bold');
         }
         else {
-            setFont(10, 'Arial', 'bold');
+            setFont(10.3, 'Arial');
         }
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
         let lineOffset = drawIconText(assets, sections, offsetX, offsetY, space);
 
-        setFont(11, 'Arial', 'bold');
+        setFont(10, 'Arial', 'bold');
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'left';
 
@@ -585,7 +585,7 @@ function drawCreature(assets) {
     }
 
     /* Mugic Ability */
-    setFont(17, 'Eurostile-Bold', 'Bold');
+    setFont(18, 'Eurostile-Bold', 'Bold');
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'left';
 
@@ -620,7 +620,7 @@ function drawCreature(assets) {
         fillText(type_config.speed, 33, 305);
     }
 
-    drawTextArea(assets, 45, 221, 172, 89);
+    drawTextArea(assets, 43, 221, 172, 89);
 
     artistLine(47, 332);
 
