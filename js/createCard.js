@@ -238,9 +238,9 @@ function drawCard(assets) {
             
             setFont(7, 'Eurostile-BoldExtendedTwo');
             setDropShadow(2, 1, 1);
-            fillText(subnameCaps, offset, 27);
+            fillText(subnameCaps, offset, 27, maxWidth);
             setDropShadow();
-            strokeText(subnameCaps, offset, 27);
+            strokeText(subnameCaps, offset, 27, maxWidth);
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
             setDropShadow(3, 2, 2);
