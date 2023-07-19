@@ -226,6 +226,7 @@ function drawCard(assets) {
 
         if (common_config.subname) {
             let subnameCaps = common_config.subname.upper();
+            console.log(subnameCaps);
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
             setDropShadow(3, 2, 2);
             fillText(nameCaps, width / 2 , 18);
