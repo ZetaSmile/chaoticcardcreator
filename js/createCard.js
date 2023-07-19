@@ -214,7 +214,7 @@ function drawCard(assets) {
     // Name and subname
     if (common_config.name) {
         let nameCaps = common_config.name.toUpperCase();
-        let maxWidth = common_config.type == "location" ? 300 : 172;
+        let maxWidth = common_config.type === "location" ? 300 : 172;
         // ctx.fillStyle = '#f3f3f3';
         ctx.fillStyle = "#fff";
         ctx.textAlign = 'center';
@@ -241,9 +241,9 @@ function drawCard(assets) {
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
             setDropShadow(3, 2, 2);
-            fillText(nameCaps, width / 2, 23, maxWidth);
+            fillText(nameCaps+maxWidth, width / 2, 23, maxWidth);
             setDropShadow();
-            strokeText(nameCaps, width / 2, 23, maxWidth);
+            strokeText(nameCaps+maxWidth, width / 2, 23, maxWidth);
         }
 
         ctx.lineWidth = 1;
