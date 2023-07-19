@@ -228,9 +228,9 @@ function drawCard(assets) {
             let subnameCaps = common_config.subname.toUpperCase();
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
             setDropShadow(3, 2, 2);
-            fillText(nameCaps, width / 2 , 18);
+            fillText(nameCaps, width / 2 , 18, 345);
             setDropShadow();
-            strokeText(nameCaps, width / 2 , 18);
+            strokeText(nameCaps, width / 2 , 18, 345);
             
             setFont(7, 'Eurostile-BoldExtendedTwo');
             setDropShadow(2, 1, 1);
@@ -240,9 +240,9 @@ function drawCard(assets) {
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
             setDropShadow(3, 2, 2);
-            fillText(nameCaps, width / 2, 23);
+            fillText(nameCaps, width / 2, 23, 345);
             setDropShadow();
-            strokeText(nameCaps, width / 2, 23);
+            strokeText(nameCaps, width / 2, 23, 345);
         }
 
         ctx.lineWidth = 1;
