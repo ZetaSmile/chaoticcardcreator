@@ -213,8 +213,11 @@ function drawCard(assets) {
 
     // Name and subname
     if (common_config.name) {
+        // set X offset and width of name / subname // TODO location values
         let nameCaps = common_config.name.toUpperCase();
+        let offset = common_config.type === "location" ? width / 2 : width / 2 + 2;
         let maxWidth = common_config.type === "location" ? 300 : 172;
+
         // ctx.fillStyle = '#f3f3f3';
         ctx.fillStyle = "#fff";
         ctx.textAlign = 'center';
@@ -229,21 +232,21 @@ function drawCard(assets) {
             let subnameCaps = common_config.subname.toUpperCase();
             setFont(11.5, 'Eurostile-BoldExtendedTwo');
             setDropShadow(3, 2, 2);
-            fillText(nameCaps, width / 2 + 1, 18, maxWidth);
+            fillText(nameCaps, offset, 18, maxWidth);
             setDropShadow();
-            strokeText(nameCaps, width / 2 + 1, 18, maxWidth);
+            strokeText(nameCaps, offset, 18, maxWidth);
             
             setFont(7, 'Eurostile-BoldExtendedTwo');
             setDropShadow(2, 1, 1);
-            fillText(subnameCaps, width / 2 + 1, 27);
+            fillText(subnameCaps, offset, 27);
             setDropShadow();
-            strokeText(subnameCaps, width / 2 + 1, 27);
+            strokeText(subnameCaps, offset, 27);
         } else {
             setFont(11.5, 'Eurostile-BoldExtendedTwo', "Bold");
             setDropShadow(3, 2, 2);
-            fillText(nameCaps, width / 2 + 1, 23, maxWidth);
+            fillText(nameCaps, offset, 23, maxWidth);
             setDropShadow();
-            strokeText(nameCaps, width / 2 + 1, 23, maxWidth);
+            strokeText(nameCaps, offset, 23, maxWidth);
         }
 
         ctx.lineWidth = 1;
