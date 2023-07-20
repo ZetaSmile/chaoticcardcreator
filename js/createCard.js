@@ -216,7 +216,7 @@ function drawCard(assets) {
         // set X offset and width of name / subname // TODO location values
         let nameCaps = common_config.name.toUpperCase();
         let offset = width / 2 + (common_config.type === "location" ? 4 : 2);
-        let maxWidth = common_config.type === "location" ? 276 : 172;
+        let maxWidth = common_config.type === "location" ? 272 : 170;
 
         // ctx.fillStyle = '#f3f3f3';
         ctx.fillStyle = "#fff";
